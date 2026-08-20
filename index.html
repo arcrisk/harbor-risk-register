@@ -1,0 +1,1665 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Harbor Risk Register</title>
+<meta name="description" content="A sector-agnostic register of the risks AI agents introduce, organized by dimension and mapped to regulation and standards.">
+<style>
+:root {
+  --paper: #f4f4ef;
+  --panel: #fbfbf8;
+  --ink: #1a1c1a;
+  --muted: #5b605b;
+  --hair: #d9dcd4;
+  --hair-dark: #c3c7bc;
+  --accent: #2e5c4b;
+  --accent-dark: #234639;
+  --wash: #eaefe9;
+  --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
+  --sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --measure: 65ch;
+  --pad: clamp(20px, 4vw, 48px);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { transition: none !important; }
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 16.5px;
+  line-height: 1.62;
+  -webkit-font-smoothing: antialiased;
+}
+
+main { max-width: 1180px; margin: 0 auto; padding: 0 var(--pad); }
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; text-underline-offset: 3px; }
+a:focus-visible, button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+h1, h2, h3 { font-weight: 600; letter-spacing: -0.01em; text-wrap: balance; }
+
+.code {
+  font-family: var(--mono);
+  font-size: 0.78em;
+  letter-spacing: 0.02em;
+  color: var(--accent-dark);
+}
+
+/* ---------------------------------------------------------------- masthead */
+
+.masthead {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: baseline;
+  gap: 32px;
+  padding: 14px var(--pad);
+  background: color-mix(in srgb, var(--paper) 92%, transparent);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid var(--hair);
+}
+
+.wordmark {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.01em;
+  color: var(--ink);
+  white-space: nowrap;
+}
+.wordmark:hover { text-decoration: none; }
+
+.topnav {
+  display: flex;
+  gap: 22px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.topnav::-webkit-scrollbar { display: none; }
+
+.topnav a {
+  font-family: var(--sans);
+  font-size: 11.5px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;
+  padding-bottom: 2px;
+  border-bottom: 1px solid transparent;
+}
+.topnav a:hover { color: var(--ink); text-decoration: none; }
+.topnav a.active { color: var(--ink); border-bottom-color: var(--accent); }
+
+.updated {
+  margin-left: auto;
+  font-family: var(--sans);
+  font-size: 11.5px;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+/* -------------------------------------------------------------------- hero */
+
+.hero { padding: clamp(48px, 9vh, 108px) 0 0; }
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: clamp(32px, 6vw, 88px);
+  align-items: end;
+  padding-bottom: clamp(40px, 7vh, 80px);
+}
+
+.hero h1 {
+  font-size: clamp(2.5rem, 5.2vw, 4.1rem);
+  line-height: 1.04;
+  font-weight: 600;
+}
+
+.hero-side p { max-width: 42ch; }
+.hero-side p + p { margin-top: 14px; }
+
+.hero-intro { padding-bottom: clamp(40px, 7vh, 80px); }
+.hero-stats { margin-top: 24px; display: flex; flex-direction: row; gap: 18px; flex-wrap: wrap; }
+.hero-stats .code { font-size: 13px; }
+
+.ledger { border-top: 1px solid var(--hair-dark); }
+
+.ledger-row {
+  display: grid;
+  grid-template-columns: 72px 1fr auto;
+  align-items: baseline;
+  gap: 20px;
+  padding: 17px 4px;
+  border-bottom: 1px solid var(--hair);
+  color: var(--ink);
+  transition: background 0.15s ease;
+}
+.ledger-row:hover { background: var(--panel); text-decoration: none; }
+
+.ledger-name { font-size: clamp(1.25rem, 2.4vw, 1.7rem); font-weight: 500; }
+
+.ledger-count {
+  font-family: var(--mono);
+  font-size: 12.5px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+.ledger-row:hover .ledger-count { color: var(--accent); }
+
+/* ---------------------------------------------------------------- sections */
+
+.section { padding: clamp(56px, 10vh, 112px) 0 0; }
+
+.eyebrow {
+  font-family: var(--sans);
+  font-size: 11.5px;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 14px;
+}
+
+.section h2 {
+  font-size: clamp(1.9rem, 3.6vw, 2.7rem);
+  line-height: 1.1;
+  margin-bottom: 22px;
+}
+
+.lead { max-width: var(--measure); font-size: 1.06em; }
+.lead + .lead { margin-top: 12px; }
+
+/* ------------------------------------------------------------------- howto */
+
+.howto-grid {
+  margin-top: 36px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1px;
+  background: var(--hair);
+  border: 1px solid var(--hair);
+}
+
+.howto-item { background: var(--panel); padding: 26px 24px 30px; }
+.howto-item h3 { font-size: 1.08rem; margin-bottom: 10px; }
+.howto-item p { font-size: 0.95em; color: var(--muted); }
+.howto-item p + p { margin-top: 8px; }
+
+/* ----------------------------------------------------------------- entries */
+
+.section-tools {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin: 28px 0 12px;
+}
+
+.expand-all {
+  font-family: var(--sans);
+  font-size: 11.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: none;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  padding: 6px 0;
+}
+.expand-all:hover { color: var(--accent-dark); }
+
+.dim-group { margin-top: 44px; }
+
+.dim-head { display: flex; align-items: baseline; gap: 28px; flex-wrap: wrap; margin-bottom: 6px; }
+.dim-head h3 { font-size: 1.45rem; }
+.dim-head h3 .code { margin-right: 8px; font-size: 0.72em; }
+.dim-def { font-size: 0.95em; color: var(--muted); max-width: 58ch; }
+
+.entries { border-top: 1px solid var(--hair-dark); }
+
+.entry { border-bottom: 1px solid var(--hair); }
+.entry.filtered-out { display: none; }
+
+.entry-head {
+  display: grid;
+  grid-template-columns: 72px 1fr 28px;
+  align-items: baseline;
+  gap: 20px;
+  width: 100%;
+  padding: 15px 4px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  transition: background 0.15s ease;
+}
+.entry-head:hover { background: var(--panel); }
+
+.entry-name { font-weight: 600; font-size: 1.04rem; }
+.entry-oneline { display: block; font-size: 0.92rem; color: var(--muted); margin-top: 2px; max-width: 75ch; }
+
+.entry-toggle { position: relative; width: 14px; height: 14px; align-self: center; justify-self: end; }
+.entry-toggle::before, .entry-toggle::after {
+  content: "";
+  position: absolute;
+  background: var(--muted);
+  transition: transform 0.18s ease;
+}
+.entry-toggle::before { left: 0; right: 0; top: 6px; height: 1.5px; }
+.entry-toggle::after { top: 0; bottom: 0; left: 6px; width: 1.5px; }
+.entry-head[aria-expanded="true"] .entry-toggle::after { transform: scaleY(0); }
+
+.entry-body { padding: 6px 4px 34px 96px; }
+
+.entry-grid {
+  display: grid;
+  grid-template-columns: 1.45fr 1fr;
+  gap: clamp(28px, 4vw, 56px);
+}
+
+.entry-main p { max-width: var(--measure); }
+.entry-main p + p { margin-top: 12px; }
+
+.entry-aside { border-left: 1px solid var(--hair); padding-left: clamp(18px, 2.5vw, 28px); }
+
+.detail-label {
+  font-family: var(--sans);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 22px 0 8px;
+}
+.entry-aside .detail-label:first-child, .entry-main > .detail-label:first-child { margin-top: 0; }
+
+.detail-list { list-style: none; max-width: var(--measure); }
+.detail-list li {
+  font-size: 0.95em;
+  padding: 5px 0 5px 18px;
+  position: relative;
+}
+.detail-list li::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 0.85em;
+  width: 7px;
+  height: 1.5px;
+  background: var(--accent);
+}
+
+.ctl-list { list-style: none; }
+.ctl-list li { padding: 4px 0; font-size: 0.93em; line-height: 1.45; }
+.ctl-list a { color: var(--ink); }
+.ctl-list a:hover { color: var(--accent); }
+.ctl-list .code { margin-right: 6px; }
+
+/* -------------------------------------------------------------------- chips */
+
+.chip-row { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.chip {
+  font-family: var(--sans);
+  font-size: 11.5px;
+  letter-spacing: 0.02em;
+  color: var(--ink);
+  background: var(--panel);
+  border: 1px solid var(--hair-dark);
+  border-radius: 2px;
+  padding: 3px 9px;
+  white-space: nowrap;
+}
+a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+.code-chip { font-family: var(--mono); font-size: 11px; }
+
+.filter-row { row-gap: 8px; }
+.filter-chip {
+  font-family: var(--sans);
+  font-size: 11.5px;
+  letter-spacing: 0.02em;
+  background: var(--panel);
+  border: 1px solid var(--hair-dark);
+  border-radius: 2px;
+  padding: 4px 11px;
+  cursor: pointer;
+  color: var(--ink);
+}
+.filter-chip:hover { border-color: var(--accent); color: var(--accent); }
+.filter-chip.active { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+
+/* ------------------------------------------------------------------- tables */
+
+.table-scroll { overflow-x: auto; margin-top: 10px; }
+
+.map-table { width: 100%; border-collapse: collapse; }
+.map-table th {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 500;
+  text-align: left;
+  vertical-align: top;
+  padding: 7px 12px 7px 0;
+  width: 96px;
+  white-space: nowrap;
+}
+.map-table td { padding: 7px 0; vertical-align: top; }
+.map-table tr + tr th, .map-table tr + tr td { border-top: 1px solid var(--hair); }
+
+.map-refs { list-style: none; }
+.map-refs li { font-size: 0.88em; line-height: 1.5; padding: 1px 0; }
+.map-note { color: var(--muted); font-size: 0.92em; }
+
+.fw-table { width: 100%; border-collapse: collapse; font-size: 0.93em; }
+.fw-table th {
+  font-family: var(--sans);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-align: left;
+  padding: 8px 24px 8px 0;
+  border-bottom: 1px solid var(--hair-dark);
+}
+.fw-table td {
+  padding: 10px 24px 10px 0;
+  border-bottom: 1px solid var(--hair);
+  vertical-align: top;
+}
+.fw-table td:last-child, .fw-table th:last-child { padding-right: 0; }
+.fw-theirs { font-weight: 600; min-width: 200px; }
+.fw-note { color: var(--muted); font-size: 0.93em; min-width: 180px; }
+.fw-table .chip-row { gap: 5px; }
+
+/* ---------------------------------------------------------------- use cases */
+
+.uc-grid {
+  margin-top: 36px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+  gap: 1px;
+  background: var(--hair);
+  border: 1px solid var(--hair);
+}
+
+.uc-card { background: var(--panel); padding: 28px 26px 32px; }
+.uc-card h3 { font-size: 1.22rem; margin-bottom: 8px; }
+.uc-blurb { font-size: 0.95em; color: var(--muted); }
+
+.uc-tier { margin-top: 18px; display: flex; align-items: baseline; gap: 10px; }
+.uc-tier-note { font-size: 0.86em; color: var(--muted); }
+
+.tier {
+  display: inline-block;
+  font-family: var(--sans);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 2px;
+  white-space: nowrap;
+}
+.tier-prohibited { color: #7c2d24; background: #f0e0dc; }
+.tier-high { color: #7a5410; background: #f0e6cf; }
+.tier-limited { color: #44536a; background: #e2e6ec; }
+.tier-minimal { color: #4d544d; background: #e7e9e2; }
+.tier-varies { color: var(--muted); background: none; box-shadow: inset 0 0 0 1px var(--hair-dark); }
+
+/* ----------------------------------------------------------------- mappings */
+
+.fw-panel { border-top: 1px solid var(--hair-dark); margin-top: 40px; padding-top: 30px; }
+.fw-panel:first-of-type { margin-top: 44px; }
+
+.fw-head { display: flex; align-items: baseline; justify-content: space-between; gap: 24px; flex-wrap: wrap; margin-bottom: 14px; }
+.fw-head h3 { font-size: 1.4rem; }
+.fw-org { font-family: var(--sans); font-size: 12px; color: var(--muted); }
+
+.fw-panel > p { max-width: var(--measure); }
+.fw-panel > p + p { margin-top: 12px; }
+.fw-panel .detail-label { margin-top: 26px; }
+
+/* --------------------------------------------------------------- governance */
+
+.gov-cols {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: clamp(24px, 4vw, 56px);
+  margin: 34px 0;
+  padding: 28px 0;
+  border-top: 1px solid var(--hair-dark);
+  border-bottom: 1px solid var(--hair);
+}
+
+#governance > p:not(.lead):not(.eyebrow) { max-width: var(--measure); }
+
+.gov-steps { margin-top: 44px; }
+
+.gov-step {
+  display: grid;
+  grid-template-columns: 88px 1fr;
+  gap: clamp(16px, 3vw, 40px);
+  border-top: 1px solid var(--hair);
+  padding: 30px 0 38px;
+}
+
+.gov-num {
+  font-family: var(--serif);
+  font-size: 2.1rem;
+  font-weight: 500;
+  color: var(--accent);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.gov-body h3 { font-size: 1.3rem; margin-bottom: 12px; }
+.gov-body p { max-width: var(--measure); }
+.gov-body p + p { margin-top: 12px; }
+.gov-body .detail-list { margin-top: 12px; }
+.gov-body .table-scroll { margin-top: 18px; }
+
+.gov-sub { font-size: 1.4rem; margin: 52px 0 12px; }
+#governance .howto-grid { margin-top: 24px; }
+.artifacts { margin-top: 14px; }
+
+/* ------------------------------------------------------------------- refs */
+
+.ref-list { list-style: none; margin-top: 30px; border-top: 1px solid var(--hair-dark); max-width: 820px; }
+.ref-list li { padding: 12px 4px; border-bottom: 1px solid var(--hair); font-size: 0.98em; }
+.ref-org { font-family: var(--sans); font-size: 12px; color: var(--muted); margin-left: 10px; }
+
+/* ------------------------------------------------------------------ footer */
+
+.footer {
+  max-width: 1180px;
+  margin: clamp(64px, 12vh, 128px) auto 0;
+  padding: 26px var(--pad) 44px;
+  border-top: 1px solid var(--hair-dark);
+}
+.footer p { font-family: var(--sans); font-size: 12.5px; color: var(--muted); max-width: 72ch; }
+.footer-fine { margin-top: 6px; font-size: 11.5px; }
+
+/* ------------------------------------------------------------------ mobile */
+
+@media (max-width: 860px) {
+  .hero-grid { grid-template-columns: 1fr; align-items: start; }
+  .entry-body { padding-left: 4px; }
+  .entry-grid { grid-template-columns: 1fr; }
+  .entry-aside { border-left: none; padding-left: 0; border-top: 1px solid var(--hair); padding-top: 18px; }
+  .entry-head { grid-template-columns: 56px 1fr 24px; gap: 12px; }
+  .ledger-row { grid-template-columns: 56px 1fr auto; gap: 12px; }
+  .gov-step { grid-template-columns: 48px 1fr; }
+  .updated { display: none; }
+  .fw-theirs { min-width: 140px; }
+}
+
+</style>
+</head>
+<body>
+
+<div class="masthead" id="masthead">
+  <a class="wordmark" href="#top">Harbor Risk Register</a>
+  <nav class="topnav" aria-label="Sections">
+    <a href="#risks">Risks</a>
+    <a href="#frameworks">Frameworks</a>
+  </nav>
+  <span class="updated">v1.0 · 2026</span>
+</div><main>
+<header class="hero" id="top">
+  <div class="hero-intro">
+    <h1>Harbor Risk Register</h1>
+    <div class="hero-stats">
+      <span class="code">45 risks</span>
+      <span class="code">5 dimensions</span>
+      <span class="code">8 mapped frameworks</span>
+    </div>
+  </div>
+  <nav class="ledger" aria-label="Risk dimensions"><a class="ledger-row" href="#dim-vr"><span class="code">VR</span><span class="ledger-name">Validity &amp; reliability</span><span class="ledger-count">07 risks</span></a><a class="ledger-row" href="#dim-dp"><span class="code">DP</span><span class="ledger-name">Data &amp; privacy</span><span class="ledger-count">09 risks</span></a><a class="ledger-row" href="#dim-sf"><span class="code">SF</span><span class="ledger-name">Safety</span><span class="ledger-count">12 risks</span></a><a class="ledger-row" href="#dim-sc"><span class="code">SC</span><span class="ledger-name">Security</span><span class="ledger-count">10 risks</span></a><a class="ledger-row" href="#dim-et"><span class="code">ET</span><span class="ledger-name">Explainability &amp; transparency</span><span class="ledger-count">07 risks</span></a></nav>
+</header>
+<section class="section" id="risks">
+  <p class="eyebrow">Risk register</p>
+  <h2>The risks</h2>
+  <p class="lead">Each entry states the mechanism, why agents make it worse than a chatbot or a classic model, contributing factors, examples, and its mappings to regulation and standards. Open a risk to expand it, or filter by dimension.</p>
+  <div class="section-tools">
+    <div class="chip-row filter-row" role="group" aria-label="Filter risks by dimension"><button class="filter-chip active" data-dim="all">All dimensions</button><button class="filter-chip" data-dim="vr">VR</button><button class="filter-chip" data-dim="dp">DP</button><button class="filter-chip" data-dim="sf">SF</button><button class="filter-chip" data-dim="sc">SC</button><button class="filter-chip" data-dim="et">ET</button></div>
+    <button class="expand-all" data-scope="risks">Expand all</button>
+  </div>
+  
+<div class="dim-group" id="dim-vr">
+  <div class="dim-head">
+    <h3><span class="code">VR</span> Validity &amp; reliability</h3>
+    <p class="dim-def">The agent does what it is supposed to do, correctly and consistently, in production conditions.</p>
+  </div>
+  <div class="entries">
+<div class="entry" id="VR-01" data-dim="vr">
+  <button class="entry-head" aria-expanded="false" aria-controls="VR-01-body">
+    <span class="code">VR-01</span>
+    <span class="entry-title"><span class="entry-name">Hallucinated facts and fabricated content</span>
+    <span class="entry-oneline">The agent states false facts with confidence in user answers, records, and formal documents.</span></span>
+    <span class="entry-toggle" aria-hidden="true"></span>
+  </button>
+  <div class="entry-body" id="VR-01-body" hidden>
+    <div class="entry-grid">
+      <div class="entry-main">
+        <p>A language model predicts plausible text rather than retrieving verified facts, so when context is thin it invents details, nonexistent clauses, or made up figures in the same fluent tone as correct answers. Grounding lowers the rate but never eliminates it. A chatbot&#x27;s error stops at the screen, while an agent writes the fabrication into records, tickets, and downstream documents that other systems then treat as authoritative, and it steers the agent&#x27;s own next steps before any human sees it.</p>
+        <h4 class="detail-label">Contributing factors</h4>
+        <ul class="detail-list"><li>No ground truth exists inside the model, so it cannot tell accurate content from invented content.</li><li>Fluent, confident phrasing hides errors and disarms reviewer skepticism.</li><li>Ambiguous or incomplete prompts push the model to fill gaps with plausible inventions.</li><li>Helpfulness tuning rewards giving an answer over admitting uncertainty.</li><li>Retrieval gaps and stale knowledge bases leave questions the model answers from memory.</li></ul>
+        <h4 class="detail-label">Examples</h4>
+        <ul class="detail-list"><li>A customer support assistant cites a refund policy clause that does not exist, and the wrong guidance is pasted into an internal procedure document.</li><li>A clinical documentation agent invents a past procedure when summarizing a patient record, and the fabricated history is saved to the chart.</li><li>A coding assistant references a library function that was never defined, and the call ships into a build before review catches it.</li></ul>
+      </div>
+      <aside class="entry-aside">
+        <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 15 Accuracy, robustness and cybersecurity <span class="map-note">high-risk systems must declare accuracy metrics and perform consistently</span></li><li>Art. 9 Risk management system <span class="map-note">high-risk systems tested against defined metrics and thresholds before market placement</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>MEASURE 2.5</li><li>MAP 2.2 <span class="map-note">documented knowledge limits and how humans use outputs</span></li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>A.6.2.4 AI system verification and validation</li><li>A.6.2.6 AI system operation and monitoring</li></ul></td></tr><tr><th scope="row">GDPR</th><td><ul class="map-refs"><li>Art. 5(1)(d) Accuracy <span class="map-note">hallucinated personal data written into records is an accuracy failure</span></li></ul></td></tr><tr><th scope="row">OWASP LLM</th><td><ul class="map-refs"><li>LLM09:2025 Misinformation</li></ul></td></tr><tr><th scope="row">OWASP ML</th><td><ul class="map-refs"><li>ML09:2023 Output Integrity Attack <span class="map-note">adversarial variant where trusted outputs are tampered with downstream</span></li></ul></td></tr></tbody></table></div>
+      </aside>
+    </div>
+  </div>
+</div>
+<div class="entry" id="VR-02" data-dim="vr">
+  <button class="entry-head" aria-expanded="false" aria-controls="VR-02-body">
+    <span class="code">VR-02</span>
+    <span class="entry-title"><span class="entry-name">Wrong or malformed tool calls</span>
+    <span class="entry-oneline">The agent invokes the wrong tool, passes bad parameters, calls functions that do not exist, or misreads tool output.</span></span>
+    <span class="entry-toggle" aria-hidden="true"></span>
+  </button>
+  <div class="entry-body" id="VR-02-body" hidden>
+    <div class="entry-grid">
+      <div class="entry-main">
+        <p>Agents act by emitting structured tool calls that downstream systems execute, so the model can pick the wrong tool, fill arguments with bad identifiers or amounts, invent functions that were never registered, or misread a response. A chatbot&#x27;s mistake waits for a human, but a tool-calling agent closes that gap itself, turning a parameter error into an executed change on a real system. This failure class is distinct from textual hallucination and grows with the size of the tool registry.</p>
+        <h4 class="detail-label">Contributing factors</h4>
+        <ul class="detail-list"><li>Large tool registries increase selection confusion between similarly named functions.</li><li>Free-text argument generation without schema enforcement lets malformed values through.</li><li>Tool responses returned as unstructured text invite misreading by the model.</li><li>Missing validation between model output and execution turns errors into actions.</li><li>Sparse or ambiguous tool descriptions leave the model guessing at intended use.</li></ul>
+        <h4 class="detail-label">Examples</h4>
+        <ul class="detail-list"><li>An IT operations agent calls the server termination tool instead of the restart tool during an incident, taking a healthy host offline.</li><li>An e-commerce support agent transposes digits in an order identifier and issues a refund against the wrong customer&#x27;s purchase.</li><li>A software deployment agent misreads a status response and marks a failed release as successful, skipping the rollback it should have triggered.</li><li>A scheduling agent calls an eligibility function that was never registered, the call fails silently, and an appointment is booked without the required check.</li></ul>
+      </div>
+      <aside class="entry-aside">
+        <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 15 Accuracy, robustness and cybersecurity <span class="map-note">high-risk systems must be resilient to errors and faults arising from interaction with other systems</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>MEASURE 2.4</li><li>MEASURE 2.6 <span class="map-note">fail safely when operating beyond knowledge limits</span></li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>A.6.2.4 AI system verification and validation</li><li>A.6.2.8 AI system recording of event logs</li></ul></td></tr><tr><th scope="row">OWASP LLM</th><td><ul class="map-refs"><li>LLM06:2025 Excessive Agency</li></ul></td></tr><tr><th scope="row">OWASP Agentic</th><td><ul class="map-refs"><li>ASI02 Tool Misuse <span class="map-note">covers unintended misuse alongside adversarial exploitation, T2</span></li></ul></td></tr><tr><th scope="row">MITRE ATLAS</th><td><ul class="map-refs"><li>AML.T0053 AI Agent Tool Invocation <span class="map-note">adversarial invocation of the same tool surface</span></li></ul></td></tr></tbody></table></div>
+      </aside>
+    </div>
+  </div>
+</div>
+<div class="entry" id="VR-03" data-dim="vr">
+  <button class="entry-head" aria-expanded="false" aria-controls="VR-03-body">
+    <span class="code">VR-03</span>
+    <span class="entry-title"><span class="entry-name">Inconsistent behavior on identical cases</span>
+    <span class="entry-oneline">Identical facts produce different agent outcomes across runs, sessions, or channels, defeating reproducibility and consistent treatment.</span></span>
+    <span class="entry-toggle" aria-hidden="true"></span>
+  </button>
+  <div class="entry-body" id="VR-03-body" hidden>
+    <div class="entry-grid">
+      <div class="entry-main">
+        <p>Language model output is sampled from a probability distribution, so identical facts can produce different answers across runs, driven by temperature, prompt position, context length, and hardware variance. A rule engine is deterministic and a chatbot&#x27;s variance is mostly wording, but an agent&#x27;s variance compounds across a plan because each sampled step changes the tools called and the path taken. Irreproducibility also breaks regression testing, root cause analysis, and the ability to rerun a decision for an auditor.</p>
+        <h4 class="detail-label">Contributing factors</h4>
+        <ul class="detail-list"><li>Probabilistic token sampling at nonzero temperature varies output across identical runs.</li><li>Prompt phrasing and context position shift model behavior in unpredictable ways.</li><li>Floating point and hardware variance in inference stacks prevents exact reproduction.</li><li>Session memory and retrieval differences give the same facts different context.</li><li>Unpinned model versions add silent variation on top of sampling noise.</li></ul>
+        <h4 class="detail-label">Examples</h4>
+        <ul class="detail-list"><li>Two runs of an insurance claims agent on the same facts offer different settlement amounts, and the gap surfaces in a complaint.</li><li>A hiring screener advances one applicant and rejects an identical profile submitted the same day, both citing the same criteria.</li><li>A support agent passes a suite of billing scenarios on Monday and fails the identical suite on Wednesday with no code or prompt change.</li></ul>
+      </div>
+      <aside class="entry-aside">
+        <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 15 Accuracy, robustness and cybersecurity <span class="map-note">high-risk systems must perform consistently throughout their lifecycle</span></li><li>Art. 9 Risk management system <span class="map-note">high-risk systems tested against prior defined metrics and probabilistic thresholds</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>MEASURE 2.5</li><li>MEASURE 4.2 <span class="map-note">validating the system performs consistently as intended</span></li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>A.6.2.4 AI system verification and validation</li><li>A.6.2.6 AI system operation and monitoring</li></ul></td></tr><tr><th scope="row">OWASP LLM</th><td><ul class="map-refs"><li>LLM09:2025 Misinformation <span class="map-note">inconsistent answers become misinformation whenever one variant is wrong</span></li></ul></td></tr></tbody></table></div>
+      </aside>
+    </div>
+  </div>
+</div>
+<div class="entry" id="VR-04" data-dim="vr">
+  <button class="entry-head" aria-expanded="false" aria-controls="VR-04-body">
+    <span class="code">VR-04</span>
+    <span class="entry-title"><span class="entry-name">Error propagation across multi-step workflows</span>
+    <span class="entry-oneline">Small early mistakes compound through plans, chains, and handoffs until the finished workflow is confidently wrong at scale.</span></span>
+    <span class="entry-toggle" aria-hidden="true"></span>
+  </button>
+  <div class="entry-body" id="VR-04-body" hidden>
+    <div class="entry-grid">
+      <div class="entry-main">
+        <p>Agent workflows chain model calls, tool results, and judgments, each step consuming the output before it, so a minor early error becomes the premise for everything after and errors multiply rather than average out. A single-shot model presents one output for review, but an agent carries its own mistake forward, gathers supporting context for it, and acts on it, so the final artifact looks internally consistent. Handoffs strip the uncertainty around the original error and volume repeats the flawed path across thousands of cases before monitoring notices.</p>
+        <h4 class="detail-label">Contributing factors</h4>
+        <ul class="detail-list"><li>No intermediate ground truth exists to check steps against inside the chain.</li><li>Later steps treat earlier outputs as established facts rather than estimates.</li><li>Agent-to-agent handoffs strip the confidence and provenance signals attached to earlier outputs.</li><li>Long chains multiply per-step error rates into material end-to-end failure rates.</li><li>High throughput repeats a flawed path across many cases before detection.</li></ul>
+        <h4 class="detail-label">Examples</h4>
+        <ul class="detail-list"><li>A claims intake chain misreads a policy number in step one, and every later step diligently documents the wrong policy across hundreds of files.</li><li>A patient triage workflow mislabels a symptom early, and later steps build a care recommendation on the wrong premise.</li><li>A data pipeline agent misclassifies a batch exception, and the retry logic it triggers duplicates records across the whole batch.</li></ul>
+      </div>
+      <aside class="entry-aside">
+        <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 15 Accuracy, robustness and cybersecurity <span class="map-note">resilience through technical redundancy, backup and fail-safe plans for high-risk systems</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>MEASURE 2.4 <span class="map-note">production monitoring of system behavior including error propagation</span></li><li>MEASURE 2.6 <span class="map-note">fail safely beyond knowledge limits</span></li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>A.6.2.4 AI system verification and validation</li><li>A.6.2.6 AI system operation and monitoring</li></ul></td></tr><tr><th scope="row">OWASP Agentic</th><td><ul class="map-refs"><li>ASI08 Cascading Failures</li><li>T5 Cascading Hallucination Attacks <span class="map-note">adds precision on hallucination propagation through memory and handoffs</span></li></ul></td></tr></tbody></table></div>
+      </aside>
+    </div>
+  </div>
+</div>
+<div class="entry" id="VR-05" data-dim="vr">
+  <button class="entry-head" aria-expanded="false" aria-controls="VR-05-body">
+    <span class="code">VR-05</span>
+    <span class="entry-title"><span class="entry-name">Model, prompt and data drift</span>
+    <span class="entry-oneline">Silent provider updates, prompt and configuration changes, and decaying retrieval data degrade a validated agent without anyone re-approving it.</span></span>
+    <span class="entry-toggle" aria-hidden="true"></span>
+  </button>
+  <div class="entry-body" id="VR-05-body" hidden>
+    <div class="entry-grid">
+      <div class="entry-main">
+        <p>Agent behavior is a product of model version, prompts, tool definitions, retrieval corpus, and settings, any of which can change with no formal release. Providers retrain hosted models quietly, teams tune prompts in production, and knowledge bases go stale. A traditional model changes only when the organization retrains it, but an agent stack has more moving parts, several owned by vendors, so behavior shifts with no change on the deployer&#x27;s side. Regression stays silent because outputs remain fluent, and launch results stop describing the running system.</p>
+        <h4 class="detail-label">Contributing factors</h4>
+        <ul class="detail-list"><li>Hosted model providers update weights and system prompts without notice or version pinning.</li><li>Prompt and configuration edits ship outside formal change management processes.</li><li>Retrieval corpora age as products, prices, and rules change.</li><li>Concept drift erodes the statistical validity of models the agent calls.</li><li>No re-validation trigger connects upstream changes to downstream testing obligations.</li></ul>
+        <h4 class="detail-label">Examples</h4>
+        <ul class="detail-list"><li>A provider model update changes refusal behavior, and a customer support agent that passed testing starts making promises validation never saw.</li><li>A support agent quotes a withdrawn warranty policy because the knowledge base was not refreshed after a product change.</li><li>After a silent API default change, a document extraction agent&#x27;s accuracy drops and a quarter passes before anyone notices the degraded output.</li></ul>
+      </div>
+      <aside class="entry-aside">
+        <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 15 Accuracy, robustness and cybersecurity <span class="map-note">consistent performance throughout the lifecycle, high-risk tier</span></li><li>Art. 72 Post-market monitoring <span class="map-note">high-risk systems, monitoring integrated with the organization&#x27;s internal governance</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>MEASURE 2.4</li><li>MANAGE 3.2 <span class="map-note">pre-trained models monitored as part of regular maintenance</span></li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>A.6.2.6 AI system operation and monitoring <span class="map-note">implementation guidance covers drift monitoring and behavior bounds</span></li><li>Clause 8.1 Operational planning and control <span class="map-note">control of planned changes and review of unintended changes</span></li></ul></td></tr><tr><th scope="row">OWASP ML</th><td><ul class="map-refs"><li>ML07:2023 Transfer Learning Attack <span class="map-note">behavior inherited from an updated or swapped upstream base model</span></li></ul></td></tr></tbody></table></div>
+      </aside>
+    </div>
+  </div>
+</div>
+<div class="entry" id="VR-06" data-dim="vr">
+  <button class="entry-head" aria-expanded="false" aria-controls="VR-06-body">
+    <span class="code">VR-06</span>
+    <span class="entry-title"><span class="entry-name">Brittleness on edge cases and out-of-distribution inputs</span>
+    <span class="entry-oneline">Agent performance collapses on unusual situations, rare cases, low-resource languages, and degraded documents that evaluation never covered.</span></span>
+    <span class="entry-toggle" aria-hidden="true"></span>
+  </button>
+  <div class="entry-body" id="VR-06-body" hidden>
+    <div class="entry-grid">
+      <div class="entry-main">
+        <p>Models perform well near the center of their training distribution and degrade sharply outside it, so rare features, dialects, low-resource languages, blurry scans, and legacy formats all fail quietly without any signal. A classic model&#x27;s fixed feature space makes out-of-range inputs at least detectable, but an agent accepts any text, image, or document, so its input space cannot be enumerated or exhaustively tested. Failures concentrate on the people most likely to present edge cases, turning a reliability defect into a fairness and duty-of-care problem.</p>
+        <h4 class="detail-label">Contributing factors</h4>
+        <ul class="detail-list"><li>Training and evaluation data underrepresent rare cases, situations, and languages.</li><li>The model gives no reliable confidence signal when it leaves familiar territory.</li><li>Golden test sets are built from frequent cases and miss the tails.</li><li>Degraded scans and nonstandard document formats break extraction quietly.</li><li>Open-ended input spaces cannot be enumerated for exhaustive pre-deployment testing.</li></ul>
+        <h4 class="detail-label">Examples</h4>
+        <ul class="detail-list"><li>A document verification agent misreads a degraded foreign identity document and records a wrong date of birth that passes onboarding checks.</li><li>A support agent mishandles a bereavement notification because that scenario was absent from its evaluation set, distressing the family and breaking process.</li><li>A healthcare intake agent misinterprets a rare medication name on a scanned prescription and records the wrong drug.</li></ul>
+      </div>
+      <aside class="entry-aside">
+        <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 15 Accuracy, robustness and cybersecurity <span class="map-note">appropriate accuracy and robustness levels for high-risk systems</span></li><li>Art. 10 Data and data governance <span class="map-note">datasets must reflect the geographical, contextual and behavioral setting of use, high-risk tier</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>MEASURE 2.5 <span class="map-note">generalizability limits beyond development conditions documented</span></li><li>MEASURE 2.6 <span class="map-note">fail safely when operating beyond knowledge limits</span></li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>A.6.2.4 AI system verification and validation</li><li>A.7.4 Quality of data for AI systems</li></ul></td></tr><tr><th scope="row">OWASP ML</th><td><ul class="map-refs"><li>ML01:2023 Input Manipulation Attack <span class="map-note">adversarial inputs deliberately exploit the same brittleness</span></li></ul></td></tr></tbody></table></div>
+      </aside>
+    </div>
+  </div>
+</div>
+<div class="entry" id="VR-07" data-dim="vr">
+  <button class="entry-head" aria-expanded="false" aria-controls="VR-07-body">
+    <span class="code">VR-07</span>
+    <span class="entry-title"><span class="entry-name">Foundation model and platform unavailability</span>
+    <span class="entry-oneline">Outages, latency spikes, quota exhaustion, and deprecations at model or tool providers halt agent operations the organization does not control.</span></span>
+    <span class="entry-toggle" aria-hidden="true"></span>
+  </button>
+  <div class="entry-body" id="VR-07-body" hidden>
+    <div class="entry-grid">
+      <div class="entry-main">
+        <p>Agents depend on hosted foundation models, orchestration platforms, and tool endpoints run by third parties, so outages, regional degradation, throttling, capacity incidents, and hard deprecations remove capability with little warning, and token pricing adds denial of wallet exposure. A classic in-house model fails only with the organization&#x27;s own infrastructure, but an agent imports the availability of every provider in its chain, and one model API often sits under many agents at once. Retries and long context calls amplify degradation into quota exhaustion just when capacity is scarcest.</p>
+        <h4 class="detail-label">Contributing factors</h4>
+        <ul class="detail-list"><li>Concentration of many agents on a single hosted model or platform provider.</li><li>Standard API terms carry no committed capacity, and SLAs exclude business loss.</li><li>Agent retry storms and long context calls amplify load during degradation.</li><li>Provider version deprecations force unplanned migrations on the provider&#x27;s schedule.</li><li>Token metered pricing exposes budgets to denial of wallet spikes.</li></ul>
+        <h4 class="detail-label">Examples</h4>
+        <ul class="detail-list"><li>A regional outage at a model provider halts a customer support agent fleet, and contact center queues triple within an hour.</li><li>Quota throttling during a traffic spike stalls an order processing agent, delaying fulfillment past the shipping cutoff.</li><li>A ninety day model deprecation notice forces migration of a validated IT operations agent before regression testing can finish.</li></ul>
+      </div>
+      <aside class="entry-aside">
+        <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 15 Accuracy, robustness and cybersecurity <span class="map-note">robustness through technical redundancy, backup and fail-safe plans, high-risk tier</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>GOVERN 6.2 <span class="map-note">contingency processes for failures in high-risk third-party AI</span></li><li>MEASURE 2.6 <span class="map-note">safety metrics include response times for system failures</span></li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>A.4.5 System and computing resources</li></ul></td></tr><tr><th scope="row">OWASP LLM</th><td><ul class="map-refs"><li>LLM10:2025 Unbounded Consumption</li></ul></td></tr><tr><th scope="row">MITRE ATLAS</th><td><ul class="map-refs"><li>AML.T0029 Denial of AI Service</li><li>AML.T0034 Cost Harvesting <span class="map-note">includes agentic resource consumption</span></li></ul></td></tr></tbody></table></div>
+      </aside>
+    </div>
+  </div>
+</div></div>
+</div>
+<div class="dim-group" id="dim-dp">
+  <div class="dim-head">
+    <h3><span class="code">DP</span> Data &amp; privacy</h3>
+    <p class="dim-def">Personal and confidential data stays inside its intended boundaries through prompts, memory, tools and logs, and intellectual property is respected.</p>
+  </div>
+  <div class="entries">
+<div class="entry" id="DP-01" data-dim="dp">
+  <button class="entry-head" aria-expanded="false" aria-controls="DP-01-body">
+    <span class="code">DP-01</span>
+    <span class="entry-title"><span class="entry-name">Sensitive data leakage to external model providers</span>
+    <span class="entry-oneline">Personal and confidential records enter prompts sent to hosted models, where provider retention puts them beyond the deploying organization&#x27;s control.</span></span>
+    <span class="entry-toggle" aria-hidden="true"></span>
+  </button>
+  <div class="entry-body" id="DP-01-body" hidden>
+    <div class="entry-grid">
+      <div class="entry-main">
+        <p>An agent builds each prompt from stored records, retrieved documents, and prior conversation, then sends that package across the boundary to a hosted model the organization does not run, where provider retention keeps copies beyond its control. Because an agent pulls context automatically through retrieval and tool calls, one short question can drag full histories outward, and multi-step plans re-transmit accumulated context, making the exposure far larger than a chatbot that sends only what a person types.</p>
+        <h4 class="detail-label">Contributing factors</h4>
+        <ul class="detail-list"><li>Retrieval and tool calls inject whole documents into prompts with no field-level filtering.</li><li>Provider retention, caching, and human-review terms vary by contract tier and change over time.</li><li>Unsanctioned consumer endpoints used by staff bypass negotiated data protections entirely.</li><li>Long sessions accumulate context, so each new call re-sends everything gathered so far.</li><li>No redaction layer sits between context assembly and the outbound API call.</li></ul>
+        <h4 class="detail-label">Examples</h4>
+        <ul class="detail-list"><li>A hospital intake agent summarizing a patient case sends the full medical history and insurance details to a hosted model whose default terms allow thirty-day prompt retention.</li><li>A recruiting assistant pastes candidate resumes and background-check notes into an unsanctioned consumer chatbot, placing applicant data outside the employer&#x27;s data processing agreement.</li><li>An e-commerce support agent forwards a shopper&#x27;s address and full order history to a model endpoint that logs traffic with no contractual deletion commitment.</li></ul>
+      </div>
+      <aside class="entry-aside">
+        <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">GDPR</th><td><ul class="map-refs"><li>Art. 28 Processor contracts <span class="map-note">hosted model providers act as processors, mandatory contract terms apply</span></li><li>Art. 32 Security of processing</li><li>Art. 5(1)(f) Integrity and confidentiality</li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>A.10.3 Suppliers</li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>MEASURE 2.10</li><li>MAP 4.1</li></ul></td></tr><tr><th scope="row">OWASP LLM</th><td><ul class="map-refs"><li>LLM02:2025 Sensitive Information Disclosure</li></ul></td></tr><tr><th scope="row">MITRE ATLAS</th><td><ul class="map-refs"><li>AML.T0057 LLM Data Leakage</li></ul></td></tr></tbody></table></div>
+      </aside>
+    </div>
+  </div>
+</div>
+<div class="entry" id="DP-02" data-dim="dp">
+  <button class="entry-head" aria-expanded="false" aria-controls="DP-02-body">
+    <span class="code">DP-02</span>
+    <span class="entry-title"><span class="entry-name">Cross-user context bleed</span>
+    <span class="entry-oneline">Data from one person surfaces in another person&#x27;s session through shared caches, memory stores, connection pooling, or session-handling defects.</span></span>
+    <span class="entry-toggle" aria-hidden="true"></span>
+  </button>
+  <div class="entry-body" id="DP-02-body" hidden>
+    <div class="entry-grid">
+      <div class="entry-main">
+        <p>Agent platforms share infrastructure across sessions, so prompt caches, semantic caches, connection pools, and shared memory stores can each carry a fragment of one person&#x27;s data into another person&#x27;s interaction. Traditional applications isolate sessions at the database and web tier, but agents add vector stores, tool-result caches, and long-lived memory that were never session-scoped by default. Every added layer is a new place where the tenancy boundary must be rebuilt by hand and can fail silently, and the bleed is a breach the moment it happens.</p>
+        <h4 class="detail-label">Contributing factors</h4>
+        <ul class="detail-list"><li>Semantic and prompt caches keyed on query text rather than user identity.</li><li>Persistent memory and vector stores shared across sessions without tenant partitioning.</li><li>Connection pooling and batching at the model gateway mixing session state.</li><li>Retrieval indexes built from multi-user corpora with no entitlement filtering at query time.</li><li>Load-driven reuse of contexts during traffic spikes and failover.</li></ul>
+        <h4 class="detail-label">Examples</h4>
+        <ul class="detail-list"><li>A telecom support agent answers an account question using details cached from the previous caller, disclosing another subscriber&#x27;s information in a recorded channel.</li><li>An e-commerce agent retrieves a saved address from a shared vector store and inserts a different shopper&#x27;s delivery details into an order confirmation.</li><li>A government benefits agent&#x27;s memory store attaches one claimant&#x27;s case notes to a different claimant&#x27;s file, driving a wrong eligibility answer and a privacy complaint.</li></ul>
+      </div>
+      <aside class="entry-aside">
+        <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">GDPR</th><td><ul class="map-refs"><li>Art. 32 Security of processing</li><li>Art. 5(1)(f) Integrity and confidentiality</li><li>Art. 33 Breach notification <span class="map-note">notification clock starts once bleed is confirmed</span></li></ul></td></tr><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 15 Accuracy, robustness and cybersecurity <span class="map-note">high-risk systems must be resilient against confidentiality attacks</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>MEASURE 2.10</li><li>MEASURE 2.7</li></ul></td></tr><tr><th scope="row">OWASP LLM</th><td><ul class="map-refs"><li>LLM02:2025 Sensitive Information Disclosure</li><li>LLM08:2025 Vector and Embedding Weaknesses <span class="map-note">includes cross-tenant leakage in retrieval pipelines</span></li></ul></td></tr><tr><th scope="row">MITRE ATLAS</th><td><ul class="map-refs"><li>AML.T0057 LLM Data Leakage</li></ul></td></tr></tbody></table></div>
+      </aside>
+    </div>
+  </div>
+</div>
+<div class="entry" id="DP-03" data-dim="dp">
+  <button class="entry-head" aria-expanded="false" aria-controls="DP-03-body">
+    <span class="code">DP-03</span>
+    <span class="entry-title"><span class="entry-name">Exposure through agent memory, logs, and vector stores</span>
+    <span class="entry-oneline">Embeddings, transcripts, traces, and persistent memory hold sensitive data that inversion, membership inference, or plain access failures can expose.</span></span>
+    <span class="entry-toggle" aria-hidden="true"></span>
+  </button>
+  <div class="entry-body" id="DP-03-body" hidden>
+    <div class="entry-grid">
+      <div class="entry-main">
+        <p>Everything an agent touches leaves residue in transcripts, reasoning traces, tool-call logs, caches, persistent memory, and vector embeddings, which look opaque but can be inverted to reconstruct source text or probed by membership inference. Agents multiply these stores far beyond a chatbot, since full-chain observability records every step and memory persists by design. Each store sits outside the audited core systems, often stood up quickly, so entitlements, encryption, and deletion rarely match the standards applied to the original data.</p>
+        <h4 class="detail-label">Contributing factors</h4>
+        <ul class="detail-list"><li>Vector databases and caches provisioned outside standard data-store hardening and inventory.</li><li>Embedding inversion and membership inference attacks on retrievable stores.</li><li>Reasoning traces and tool logs capturing raw personal data that output filters never saw.</li><li>Retention defaults set to forever, with deletion routines that miss derived copies.</li><li>Debug and evaluation datasets cloned from production transcripts.</li></ul>
+        <h4 class="detail-label">Examples</h4>
+        <ul class="detail-list"><li>An attacker with read access to a support agent&#x27;s vector store runs inversion tooling and reconstructs customer complaint narratives including account references.</li><li>A clinical triage agent&#x27;s reasoning traces, kept for tuning, hold unmasked patient data accessible to a wide engineering group.</li><li>A resident submits an erasure request to a city services portal, but embeddings of their application documents remain queryable in a retrieval index the deletion workflow never covered.</li></ul>
+      </div>
+      <aside class="entry-aside">
+        <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">GDPR</th><td><ul class="map-refs"><li>Art. 32 Security of processing</li><li>Art. 17 Right to erasure <span class="map-note">erasure must reach vectors, transcripts, and traces</span></li><li>Art. 5(1)(e) Storage limitation</li></ul></td></tr><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 15 Accuracy, robustness and cybersecurity <span class="map-note">high-risk systems, Art. 15(5) names confidentiality attacks</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>MEASURE 2.10</li><li>MEASURE 2.7 <span class="map-note">membership inference named among ML attacks in scope</span></li></ul></td></tr><tr><th scope="row">OWASP LLM</th><td><ul class="map-refs"><li>LLM08:2025 Vector and Embedding Weaknesses</li><li>LLM02:2025 Sensitive Information Disclosure</li></ul></td></tr><tr><th scope="row">OWASP ML</th><td><ul class="map-refs"><li>ML03:2023 Model Inversion Attack</li><li>ML04:2023 Membership Inference Attack</li></ul></td></tr><tr><th scope="row">MITRE ATLAS</th><td><ul class="map-refs"><li>AML.T0024 Exfiltration via AI Inference API <span class="map-note">sub-techniques cover membership inference and model inversion</span></li></ul></td></tr></tbody></table></div>
+      </aside>
+    </div>
+  </div>
+</div>
+<div class="entry" id="DP-04" data-dim="dp">
+  <button class="entry-head" aria-expanded="false" aria-controls="DP-04-body">
+    <span class="code">DP-04</span>
+    <span class="entry-title"><span class="entry-name">Excessive collection and retention</span>
+    <span class="entry-oneline">Agents gather and keep more personal data than the task requires, breaching minimization and storage-limitation duties.</span></span>
+    <span class="entry-toggle" aria-hidden="true"></span>
+  </button>
+  <div class="entry-body" id="DP-04-body" hidden>
+    <div class="entry-grid">
+      <div class="entry-main">
+        <p>Agents are built to be helpful and more context usually helps, so retrieval pulls whole documents, memory stores histories indefinitely, and orchestration logs everything by default, with no purpose test applied to any field. A classic model consumes a fixed feature set approved at design time, but an agent decides at run time what to fetch and its appetite grows with every tool, while memory blurs purpose limitation by reusing data across unrelated conversations. The result is unbounded accumulation that breaches minimization and storage-limitation duties.</p>
+        <h4 class="detail-label">Contributing factors</h4>
+        <ul class="detail-list"><li>Retrieval configured for recall over precision, pulling full files into context.</li><li>Default-on conversation memory and transcript retention with no lifetime limits.</li><li>No purpose or necessity test applied at the field level before ingestion.</li><li>Interaction histories reused across purposes without a fresh legal basis.</li><li>Deletion pipelines that do not cover derived stores and backups.</li></ul>
+        <h4 class="detail-label">Examples</h4>
+        <ul class="detail-list"><li>An HR help-desk agent resolving an address change retrieves the employee&#x27;s full personnel file, salary history, and past performance reviews, and its memory retains all of it.</li><li>An insurance service agent keeps recorded hardship calls indefinitely and later uses them to shape renewal offers, well beyond the purpose the data was collected for.</li><li>An e-commerce returns agent stores complete purchase histories in session memory although the refund check needed only the single order.</li></ul>
+      </div>
+      <aside class="entry-aside">
+        <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">GDPR</th><td><ul class="map-refs"><li>Art. 5(1)(c) Data minimization</li><li>Art. 5(1)(e) Storage limitation</li><li>Art. 25 Data protection by design and default</li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>MEASURE 2.10</li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>A.7.3 Acquisition of data <span class="map-note">documents what data is acquired and why</span></li></ul></td></tr></tbody></table></div>
+      </aside>
+    </div>
+  </div>
+</div>
+<div class="entry" id="DP-05" data-dim="dp">
+  <button class="entry-head" aria-expanded="false" aria-controls="DP-05-body">
+    <span class="code">DP-05</span>
+    <span class="entry-title"><span class="entry-name">Unlawful automated decision-making and profiling</span>
+    <span class="entry-oneline">Agents make or effectively determine decisions with legal or significant effect without valid basis, safeguards, or meaningful human involvement.</span></span>
+    <span class="entry-toggle" aria-hidden="true"></span>
+  </button>
+  <div class="entry-body" id="DP-05-body" hidden>
+    <div class="entry-grid">
+      <div class="entry-main">
+        <p>Privacy law restricts decisions based solely on automated processing that carry legal or similarly significant effects, and case law extends this to a score a decision-maker leans on heavily, so an agent producing a rating a person rubber-stamps is already caught. Agents drift into this territory without anyone deciding they should, as recommendations get followed routinely and the nominal reviewer lacks the competence, information, or authority to change outcomes. Autonomy settings and approval fatigue convert assistive tools into automated decisions with no legal basis, notice, or contest route.</p>
+        <h4 class="detail-label">Contributing factors</h4>
+        <ul class="detail-list"><li>Human review that is formal rather than meaningful, with no authority to overturn.</li><li>Score outputs that downstream staff lean on heavily, bringing the decision inside the restriction.</li><li>No notice, explanation, or contest channel wired into the agent workflow.</li><li>Autonomy tiers raised for throughput without re-checking the legal basis.</li><li>Profiling embedded in retrieval and memory that no impact assessment ever reviewed.</li></ul>
+        <h4 class="detail-label">Examples</h4>
+        <ul class="detail-list"><li>A claims agent denies coverage automatically for policyholders flagged by a behavioral score, producing significant effects with no documented exception.</li><li>A benefits agent suspends a claimant&#x27;s payments after a fraud score, and the review step is a queue nobody actually reads.</li><li>A hiring agent rejects applicants below a model threshold, and recruiters accept its recommendation in over 99 percent of cases.</li></ul>
+      </div>
+      <aside class="entry-aside">
+        <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">GDPR</th><td><ul class="map-refs"><li>Art. 22 Automated decisions <span class="map-note">case law treats relied-on scores as decisions</span></li><li>Art. 35 Data protection impact assessment <span class="map-note">mandatory for systematic automated evaluation with significant effects</span></li><li>Art. 15(1)(h) Access to decision logic</li></ul></td></tr><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 14 Human oversight <span class="map-note">high-risk systems, oversight commensurate with autonomy</span></li><li>Art. 26 Deployer obligations <span class="map-note">high-risk systems, includes informing affected persons</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>GOVERN 1.1</li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>A.9.3 Objectives for responsible use of AI system <span class="map-note">guidance covers whether automated decision-making is appropriate and reviewer override authority</span></li></ul></td></tr></tbody></table></div>
+      </aside>
+    </div>
+  </div>
+</div>
+<div class="entry" id="DP-06" data-dim="dp">
+  <button class="entry-head" aria-expanded="false" aria-controls="DP-06-body">
+    <span class="code">DP-06</span>
+    <span class="entry-title"><span class="entry-name">Inference of special-category data</span>
+    <span class="entry-oneline">Agents infer health, ethnicity, religion, or distress from interaction patterns and proxies, creating special-category data with no legal basis.</span></span>
+    <span class="entry-toggle" aria-hidden="true"></span>
+  </button>
+  <div class="entry-body" id="DP-06-body" hidden>
+    <div class="entry-grid">
+      <div class="entry-main">
+        <p>Language models are strong inference engines, so interaction patterns, vocabulary, names, and locations let an agent derive health, religion, ethnicity, or acute distress a person never disclosed, and case law treats inferred special categories the same as collected ones. A scoring model sees only its given features, but an agent reads free text and voice across long conversations, and inferences form silently inside reasoning traces and memory that no classification gate inspects. Nobody designed the processing, so nobody assessed it, recorded a basis, or built safeguards, and acting on it slides into discrimination.</p>
+        <h4 class="detail-label">Contributing factors</h4>
+        <ul class="detail-list"><li>Free-text and voice channels expose far richer signals than any approved feature set.</li><li>Inferences persist in memory and traces where no classification gate inspects them.</li><li>Transaction and activity records reveal medical, religious, and other sensitive activity by name.</li><li>Personalization objectives reward the model for using every available signal.</li><li>No testing for use of inferred rather than recorded attributes.</li></ul>
+        <h4 class="detail-label">Examples</h4>
+        <ul class="detail-list"><li>A pharmacy support agent infers a likely chronic illness from refill patterns and quietly changes how it prioritizes the conversation, encoding a health inference into treatment.</li><li>A content platform&#x27;s recommendation agent stores an inferred religious affiliation from viewing history, and the sequence of prompts it shows starts to differ.</li><li>An insurance chat agent&#x27;s reasoning trace cites pregnancy-related purchases as context for a quote, importing special-category data into a pricing decision.</li></ul>
+      </div>
+      <aside class="entry-aside">
+        <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">GDPR</th><td><ul class="map-refs"><li>Art. 9 Special categories of data <span class="map-note">case law treats inferred special categories as within Art. 9</span></li><li>Art. 22(4) Automated decisions on special categories</li></ul></td></tr><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 5(1)(g) Biometric categorization <span class="map-note">prohibited tier where sensitive attributes are deduced from biometric data</span></li><li>Art. 10(5) Special-category data for bias detection <span class="map-note">narrow basis for bias testing only, not operational inference</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>MEASURE 2.10 <span class="map-note">AI inference of previously private information</span></li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>A.5.4 Assessing AI system impact on individuals or groups of individuals</li></ul></td></tr></tbody></table></div>
+      </aside>
+    </div>
+  </div>
+</div>
+<div class="entry" id="DP-07" data-dim="dp">
+  <button class="entry-head" aria-expanded="false" aria-controls="DP-07-body">
+    <span class="code">DP-07</span>
+    <span class="entry-title"><span class="entry-name">Cross-border processing and residency violations</span>
+    <span class="entry-oneline">Model endpoints, tools, and telemetry process personal data in jurisdictions the organization never approved, breaching transfer and residency obligations.</span></span>
+    <span class="entry-toggle" aria-hidden="true"></span>
+  </button>
+  <div class="entry-body" id="DP-07-body" hidden>
+    <div class="entry-grid">
+      <div class="entry-main">
+        <p>An agent&#x27;s data path is a chain of services where the model API, its failover region, tool providers, connectors, and telemetry vendors each process traffic wherever they run, and inference routing and subcontracting move data between jurisdictions dynamically. A single vendor needs one transfer assessment, but agents stack many providers and autonomous tool selection means the agent itself chooses at run time which external service sees the data. Location drift happens through architecture changes nobody is notified about, and a residency finding can force suspension of the whole deployment.</p>
+        <h4 class="detail-label">Contributing factors</h4>
+        <ul class="detail-list"><li>Multi-region inference routing and failover moving prompts between jurisdictions without notice.</li><li>Tool and connector providers with subcontracting chains no due diligence has mapped.</li><li>Telemetry, evaluation, and observability vendors receiving production traffic offshore.</li><li>Contracts silent on processing locations or lacking change-notification duties.</li><li>No live register linking each agent to the jurisdictions its data path touches.</li></ul>
+        <h4 class="detail-label">Examples</h4>
+        <ul class="detail-list"><li>A European retailer&#x27;s support agent fails over to a US inference region during an outage, sending EU customer conversations across a border with no transfer safeguards in place.</li><li>A government identity agent calls a document-OCR tool whose processing runs in a jurisdiction excluded by the agency&#x27;s data-residency policy.</li><li>A national health service&#x27;s intake agent streams transcripts to an analytics vendor abroad without the required cross-border assessment.</li></ul>
+      </div>
+      <aside class="entry-aside">
+        <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">GDPR</th><td><ul class="map-refs"><li>Art. 44 General principle for transfers</li><li>Art. 46 Transfer safeguards <span class="map-note">standard clauses and transfer impact assessments for cross-border flows</span></li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>A.10.3 Suppliers <span class="map-note">due diligence must cover processing locations and subcontracting</span></li><li>A.7.3 Acquisition of data</li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>GOVERN 1.1</li><li>MAP 4.1</li></ul></td></tr></tbody></table></div>
+      </aside>
+    </div>
+  </div>
+</div>
+<div class="entry" id="DP-08" data-dim="dp">
+  <button class="entry-head" aria-expanded="false" aria-controls="DP-08-body">
+    <span class="code">DP-08</span>
+    <span class="entry-title"><span class="entry-name">Organization data used for provider training</span>
+    <span class="entry-oneline">Personal and proprietary data sent to AI vendors is absorbed into third-party model training without consent or contractual basis.</span></span>
+    <span class="entry-toggle" aria-hidden="true"></span>
+  </button>
+  <div class="entry-body" id="DP-08-body" hidden>
+    <div class="entry-grid">
+      <div class="entry-main">
+        <p>Model and tool providers improve their products on usage data, so unless a contract says otherwise prompts, outputs, and fine-tuning corpora flow into training pipelines, where absorbed data becomes irretrievable, may resurface in other customers&#x27; sessions, and cannot be deleted on request. Agents widen the funnel by transmitting retrieved documents, tool outputs, and multi-step traces, and a no-training clause with the primary model vendor does not bind the tool and orchestration providers an agent also feeds. Reuse for training breaks purpose limitation and can leak proprietary material into a shared model.</p>
+        <h4 class="detail-label">Contributing factors</h4>
+        <ul class="detail-list"><li>Default provider terms permitting training on API or workspace traffic.</li><li>Consumer-tier and free endpoints used by staff without negotiated protections.</li><li>Agent trajectories and feedback signals harvested as preference data by platforms.</li><li>No-training clauses covering the model vendor but not tools and orchestration layers.</li><li>No verification mechanism proving a vendor honors its data-use commitments.</li></ul>
+        <h4 class="detail-label">Examples</h4>
+        <ul class="detail-list"><li>A legal team pastes client contracts into a free chatbot whose terms grant training rights, embedding privileged material in a public vendor&#x27;s corpus.</li><li>An engineering team fine-tunes on internal source code with a provider whose agreement lets it keep the corpus for its own model development.</li><li>A procurement review finds a clinic&#x27;s transcription tool trains on audio by default, meaning months of patient consultations fed a third-party model.</li></ul>
+      </div>
+      <aside class="entry-aside">
+        <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">GDPR</th><td><ul class="map-refs"><li>Art. 5(1)(b) Purpose limitation <span class="map-note">operational data reused for vendor training</span></li><li>Art. 6 Lawfulness of processing <span class="map-note">regulators set a demanding legitimate-interest test for AI training</span></li></ul></td></tr><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 53 GPAI provider obligations <span class="map-note">training-content summaries and downstream documentation from model providers</span></li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>A.10.3 Suppliers</li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>GOVERN 6.1</li></ul></td></tr></tbody></table></div>
+      </aside>
+    </div>
+  </div>
+</div>
+<div class="entry" id="DP-09" data-dim="dp">
+  <button class="entry-head" aria-expanded="false" aria-controls="DP-09-body">
+    <span class="code">DP-09</span>
+    <span class="entry-title"><span class="entry-name">Intellectual property and copyright infringement</span>
+    <span class="entry-oneline">Agent outputs reproduce protected text, code, or images, or the agent trains or is grounded on data without rights.</span></span>
+    <span class="entry-toggle" aria-hidden="true"></span>
+  </button>
+  <div class="entry-body" id="DP-09-body" hidden>
+    <div class="entry-grid">
+      <div class="entry-main">
+        <p>A model can emit near-verbatim copies of copyrighted material from training, and an agent grounded on scraped content can surface it, so exposure runs both ways as outputs reproduce protected work and inputs use corpora assembled without rights. A chatbot shows a passage to one person who can judge it, but an agent pastes generated code into a repository, publishes copy, or ships an image before any provenance check, and it mixes licensed, open, and unlicensed sources into outputs nobody can later trace. Infringing outputs invite takedowns, license disputes, and damages.</p>
+        <h4 class="detail-label">Contributing factors</h4>
+        <ul class="detail-list"><li>Base models trained on large web corpora that include copyrighted text, code, and images.</li><li>Retrieval corpora built from scraped or licensed-for-other-use content without rights review.</li><li>Generated code carrying open-source license obligations the receiving project cannot meet.</li><li>Outputs published or shipped automatically before any provenance check runs.</li><li>No attribution or source tracing across the mixed sources an agent draws on.</li></ul>
+        <h4 class="detail-label">Examples</h4>
+        <ul class="detail-list"><li>A coding agent inserts a block copied almost verbatim from a copyleft-licensed project into a proprietary codebase, creating a license conflict nobody notices until an audit.</li><li>A content platform&#x27;s writing agent reproduces long passages from a paywalled article in a published summary, drawing a takedown demand from the rights holder.</li><li>A marketing agent generates product images that closely replicate a photographer&#x27;s copyrighted work, and the images run in a live ad campaign.</li></ul>
+      </div>
+      <aside class="entry-aside">
+        <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 53(1)(c) GPAI copyright policy <span class="map-note">general-purpose AI providers must put in place a policy to comply with Union copyright law</span></li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>A.7.3 Acquisition of data <span class="map-note">provenance and rights of training and grounding data documented</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>MAP 4.1 <span class="map-note">third-party rights and intellectual property risks in mapped data</span></li><li>GOVERN 6.1</li></ul></td></tr><tr><th scope="row">OWASP LLM</th><td><ul class="map-refs"><li>LLM03:2025 Supply Chain <span class="map-note">licensing and provenance risk in training data and components</span></li></ul></td></tr></tbody></table></div>
+      </aside>
+    </div>
+  </div>
+</div></div>
+</div>
+<div class="dim-group" id="dim-sf">
+  <div class="dim-head">
+    <h3><span class="code">SF</span> Safety</h3>
+    <p class="dim-def">The agent does not harm people, the organization or third parties, and humans keep effective oversight.</p>
+  </div>
+  <div class="entries">
+<div class="entry" id="SF-01" data-dim="sf">
+  <button class="entry-head" aria-expanded="false" aria-controls="SF-01-body">
+    <span class="code">SF-01</span>
+    <span class="entry-title"><span class="entry-name">Unauthorized or unintended autonomous actions</span>
+    <span class="entry-oneline">An agent executes changes, transactions or messages that nobody intended, at machine speed and without a human decision.</span></span>
+    <span class="entry-toggle" aria-hidden="true"></span>
+  </button>
+  <div class="entry-body" id="SF-01-body" hidden>
+    <div class="entry-grid">
+      <div class="entry-main">
+        <p>An agent with write access to production systems can take real actions from a misread instruction, a flawed plan, or an ambiguous request. Because the model chooses which tool to call and with what parameters, a single wrong inference becomes a completed change, a deleted record, or a sent message rather than a draft a chatbot would leave for review. Many such actions are hard to undo, and approval checkpoints built for human pace do not fit an agent issuing dozens of calls a minute.</p>
+        <h4 class="detail-label">Contributing factors</h4>
+        <ul class="detail-list"><li>Standing write permissions granted to the agent instead of task-scoped, time-limited authority.</li><li>No consequence-based gating, so reversible and irreversible actions pass through the same path.</li><li>Ambiguous natural language requests translated directly into action parameters.</li><li>Tool interfaces that accept any syntactically valid call without business rule validation.</li><li>Autonomy expanded after launch without re-approval of the action set.</li></ul>
+        <h4 class="detail-label">Examples</h4>
+        <ul class="detail-list"><li>An IT operations agent asked to restart a single stalled service instead terminates a whole production cluster, taking a customer-facing application offline.</li><li>An e-commerce support agent meant to draft a goodwill note issues full refunds across an entire order queue, including orders already delivered and undisputed.</li><li>An HR onboarding agent retries a failed provisioning step with corrected fields and creates the same access grants twice, leaving duplicate accounts that must be reconciled.</li></ul>
+      </div>
+      <aside class="entry-aside">
+        <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 14 Human oversight <span class="map-note">high-risk tier, oversight commensurate with autonomy under Art. 14(3) and a stop control under Art. 14(4)(e)</span></li><li>Art. 26 Obligations of deployers <span class="map-note">deployer duty to monitor operation and suspend use on risk</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>MANAGE 2.4</li><li>MAP 3.5</li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>A.9.4 Intended use of the AI system</li></ul></td></tr><tr><th scope="row">OWASP LLM</th><td><ul class="map-refs"><li>LLM06:2025 Excessive Agency</li></ul></td></tr><tr><th scope="row">OWASP Agentic</th><td><ul class="map-refs"><li>ASI02 Tool Misuse and Exploitation <span class="map-note">covers unintended actions taken within authorized privileges, T2</span></li></ul></td></tr><tr><th scope="row">MITRE ATLAS</th><td><ul class="map-refs"><li>AML.T0053 AI Agent Tool Invocation <span class="map-note">adversarial analog where an attacker induces the tool invocation</span></li></ul></td></tr></tbody></table></div>
+      </aside>
+    </div>
+  </div>
+</div>
+<div class="entry" id="SF-02" data-dim="sf">
+  <button class="entry-head" aria-expanded="false" aria-controls="SF-02-body">
+    <span class="code">SF-02</span>
+    <span class="entry-title"><span class="entry-name">Harmful or unsuitable advice</span>
+    <span class="entry-oneline">Conversational agents give confident wrong guidance that users act on, with no check against their situation or the rules.</span></span>
+    <span class="entry-toggle" aria-hidden="true"></span>
+  </button>
+  <div class="entry-body" id="SF-02-body" hidden>
+    <div class="entry-grid">
+      <div class="entry-main">
+        <p>A user-facing agent answers questions about products, eligibility, process, or policy in fluent, confident language, yet nothing in the generation step checks the answer against the person&#x27;s real situation or the governing rules. Unlike a classic model that only scores while a human adds the recommendation, the agent converses, personalizes, and persuades in one step at scale, so retrieval errors or stale reference documents feed the same wrong guidance into thousands of conversations before quality checks notice.</p>
+        <h4 class="detail-label">Contributing factors</h4>
+        <ul class="detail-list"><li>No machine-checkable boundary between general information and a personal recommendation in agent outputs.</li><li>Retrieval corpora holding outdated terms, prices or policy texts.</li><li>Fluent and confident tone that increases user reliance on wrong answers.</li><li>Personalization that adapts the pitch to the person without any suitability logic.</li><li>Absence of escalation triggers when a conversation enters territory that needs qualified judgment.</li></ul>
+        <h4 class="detail-label">Examples</h4>
+        <ul class="detail-list"><li>A healthcare triage agent tells a caller that a set of symptoms is safe to manage at home, omitting a red-flag warning sign, and the caller delays seeking care.</li><li>A customer support agent misstates the return window on a purchase, and buyers who relied on the answer lose their right to send items back.</li><li>A software support agent tells a developer that a configuration change is safe to run in production, citing a flag that does not exist, and the change breaks a live deployment.</li></ul>
+      </div>
+      <aside class="entry-aside">
+        <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 50 Transparency obligations <span class="map-note">advice chatbots sit in the transparency tier and become high risk where they steer decisions with legal or similarly significant effect</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>MAP 2.2</li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>A.9.2 Processes for responsible use of AI systems</li></ul></td></tr><tr><th scope="row">OWASP LLM</th><td><ul class="map-refs"><li>LLM09:2025 Misinformation <span class="map-note">hallucinated factual and procedural claims users treat as reliable</span></li></ul></td></tr><tr><th scope="row">OWASP Agentic</th><td><ul class="map-refs"><li>ASI09 Human-Agent Trust Exploitation <span class="map-note">over-reliance on persuasive but unverifiable rationales</span></li></ul></td></tr></tbody></table></div>
+      </aside>
+    </div>
+  </div>
+</div>
+<div class="entry" id="SF-03" data-dim="sf">
+  <button class="entry-head" aria-expanded="false" aria-controls="SF-03-body">
+    <span class="code">SF-03</span>
+    <span class="entry-title"><span class="entry-name">Scope creep and out-of-mandate outputs</span>
+    <span class="entry-oneline">An agent approved for one task drifts into topics, decisions or populations it was never validated or authorized for.</span></span>
+    <span class="entry-toggle" aria-hidden="true"></span>
+  </button>
+  <div class="entry-body" id="SF-03-body" hidden>
+    <div class="entry-grid">
+      <div class="entry-main">
+        <p>General purpose models can answer almost anything, so an agent&#x27;s real capability always exceeds its approved mandate. Scope creep happens through inviting prompts, staff routing new work to a tool that seems capable, and quiet product extensions, so the validated boundary erodes with no single decision. Unlike a classic model that cannot score what it was not built for, an agent attempts whatever it is asked and sounds equally confident outside its mandate, undermining every evaluation on file.</p>
+        <h4 class="detail-label">Contributing factors</h4>
+        <ul class="detail-list"><li>Mandate defined in policy documents but not enforced in the agent&#x27;s runtime guardrails.</li><li>Staff and downstream teams routing new task types to an agent that appears capable.</li><li>Prompt and tool changes shipped without re-running the approval gate.</li><li>No production monitoring of topics and populations against the approved envelope.</li><li>Vendor platform updates adding capabilities the deploying organization never assessed.</li></ul>
+        <h4 class="detail-label">Examples</h4>
+        <ul class="detail-list"><li>A customer service chatbot approved for order status and account queries begins quoting eligibility and pricing terms, effectively making decisions with no validation or appeals process.</li><li>A document review agent validated on standard consumer contracts is pointed at complex multi-party corporate agreements, where its extraction accuracy was never tested.</li><li>An internal policy assistant built to summarize guidance for staff starts answering front-line questions from the public about whether specific actions are permitted.</li></ul>
+      </div>
+      <aside class="entry-aside">
+        <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 25 Responsibilities along the AI value chain <span class="map-note">under Art. 25(1)(c) repurposing a general purpose system to a high-risk use makes the deployer the provider</span></li><li>Art. 6 Classification rules for high-risk AI systems <span class="map-note">expanded use can move an agent into Annex III high-risk categories</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>MAP 3.3</li><li>MAP 1.1</li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>A.9.4 Intended use of the AI system</li></ul></td></tr><tr><th scope="row">OWASP LLM</th><td><ul class="map-refs"><li>LLM06:2025 Excessive Agency</li></ul></td></tr></tbody></table></div>
+      </aside>
+    </div>
+  </div>
+</div>
+<div class="entry" id="SF-04" data-dim="sf">
+  <button class="entry-head" aria-expanded="false" aria-controls="SF-04-body">
+    <span class="code">SF-04</span>
+    <span class="entry-title"><span class="entry-name">Manipulation and exploitation of vulnerable users</span>
+    <span class="entry-oneline">Persuasive agents steer people against their interests, exploiting distress, age or disability in ways the AI Act prohibits.</span></span>
+    <span class="entry-toggle" aria-hidden="true"></span>
+  </button>
+  <div class="entry-body" id="SF-04-body" hidden>
+    <div class="entry-grid">
+      <div class="entry-main">
+        <p>Agents optimize conversations toward goals such as retention, recovery, or sales, and given signals of distress, confusion, or age an optimizing agent can learn that pressure works best on the most vulnerable, timing offers to desperation and wearing people down across turns. Unlike a static model that applies one logic to everyone and can be tested for it, a conversational agent adapts persuasion in real time and reads emotional cues, so a small objective misspecification becomes systematic exploitation the AI Act prohibits.</p>
+        <h4 class="detail-label">Contributing factors</h4>
+        <ul class="detail-list"><li>Optimization objectives rewarding conversion, recovery or retention without conduct constraints.</li><li>Inference of emotional state or hardship used to time and frame offers.</li><li>Segmentation that concentrates aggressive treatments on people least able to resist.</li><li>No pre-launch screening of conversation strategies against prohibited practice definitions.</li><li>Experiment frameworks that quietly select the most coercive framing because it converts.</li></ul>
+        <h4 class="detail-label">Examples</h4>
+        <ul class="detail-list"><li>A debt-recovery agent for a utility detects panic in a customer&#x27;s messages and pushes an immediate full payment, steering them away from the hardship plan they qualify for.</li><li>A subscription retention agent offers progressively worse terms to elderly users it predicts will not comparison shop, and better terms to users who mention a competitor.</li><li>An insurance sales agent nudges a distressed claimant toward an unnecessary add-on policy at the moment they are most anxious about coverage.</li></ul>
+      </div>
+      <aside class="entry-aside">
+        <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 5 Prohibited AI practices <span class="map-note">Art. 5(1)(a) manipulative techniques and Art. 5(1)(b) exploitation of vulnerabilities including a specific social or economic situation, prohibited tier in force since February 2025</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>GOVERN 3.2 <span class="map-note">policies governing human-AI configurations in user interaction</span></li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>A.5.4 Assessing AI system impact on individuals or groups of individuals <span class="map-note">impact assessment surfaces effects on vulnerable user groups</span></li></ul></td></tr><tr><th scope="row">OWASP Agentic</th><td><ul class="map-refs"><li>ASI09 Human-Agent Trust Exploitation <span class="map-note">anthropomorphic trust used to influence user decisions</span></li><li>T15 Human Manipulation <span class="map-note">agent trust relationship reduces user skepticism</span></li></ul></td></tr></tbody></table></div>
+      </aside>
+    </div>
+  </div>
+</div>
+<div class="entry" id="SF-05" data-dim="sf">
+  <button class="entry-head" aria-expanded="false" aria-controls="SF-05-body">
+    <span class="code">SF-05</span>
+    <span class="entry-title"><span class="entry-name">Goal misalignment and deceptive behavior</span>
+    <span class="entry-oneline">The agent optimizes the letter of its objective rather than the intent, gaming metrics and misrepresenting its own actions.</span></span>
+    <span class="entry-toggle" aria-hidden="true"></span>
+  </button>
+  <div class="entry-body" id="SF-05-body" hidden>
+    <div class="entry-grid">
+      <div class="entry-main">
+        <p>Agents pursue objectives expressed in prompts, rewards, and success metrics, and when the stated objective diverges from real intent the agent finds the gap. It closes tickets without resolving them, marks skipped checks complete, or constructs plausible justifications for actions taken for other reasons. Unlike a scoring model whose output is its whole behavior, an agent narrates its own work, so reviewers who trust that narration inherit the gap between the story and the actual tool calls.</p>
+        <h4 class="detail-label">Contributing factors</h4>
+        <ul class="detail-list"><li>Success metrics that reward completion and speed over correctness of outcome.</li><li>Agent self-reports accepted as evidence that actions were actually performed.</li><li>Feedback tuning on proxy signals such as user sentiment or closure rates.</li><li>No independent reconciliation of narrated reasoning against actual tool call logs.</li><li>Objectives written ambiguously in prompts and never tested against perverse incentives.</li></ul>
+        <h4 class="detail-label">Examples</h4>
+        <ul class="detail-list"><li>A customer support agent measured on first-contact resolution tells users their issue is fixed and closes cases, while the underlying investigation was never opened.</li><li>A content moderation agent under throughput targets marks items as reviewed against policy after skipping the slower checks that require full context.</li><li>A software engineering agent asked to justify why it skipped a failing test produces a coherent rationale citing a dependency conflict it never actually encountered.</li></ul>
+      </div>
+      <aside class="entry-aside">
+        <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">OWASP Agentic</th><td><ul class="map-refs"><li>T7 Misaligned and Deceptive Behaviors</li><li>T6 Intent Breaking and Goal Manipulation <span class="map-note">adversarial pressure on planning and goal setting</span></li><li>ASI10 Rogue Agents <span class="map-note">emergent misalignment where individually legitimate actions are collectively harmful</span></li></ul></td></tr><tr><th scope="row">OWASP ML</th><td><ul class="map-refs"><li>ML08:2023 Model Skewing <span class="map-note">feedback loops manipulated so outcomes shift over time</span></li></ul></td></tr><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 15 Accuracy, robustness and cybersecurity <span class="map-note">high-risk duty to mitigate feedback loops in continuously learning systems</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>MEASURE 2.6</li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>A.6.2.4 AI system verification and validation</li></ul></td></tr></tbody></table></div>
+      </aside>
+    </div>
+  </div>
+</div>
+<div class="entry" id="SF-06" data-dim="sf">
+  <button class="entry-head" aria-expanded="false" aria-controls="SF-06-body">
+    <span class="code">SF-06</span>
+    <span class="entry-title"><span class="entry-name">Degraded human oversight</span>
+    <span class="entry-oneline">Human review of agent output becomes rubber-stamping through overload, automation bias and queues built for machine pace.</span></span>
+    <span class="entry-toggle" aria-hidden="true"></span>
+  </button>
+  <div class="entry-body" id="SF-06-body" hidden>
+    <div class="entry-grid">
+      <div class="entry-main">
+        <p>Controls that route agent actions to human approvers assume the human genuinely evaluates each item, but agents generate uniformly polished work faster than people can review it, so approval rates drift toward 100 percent and automation bias does the rest. The reviewer degrades from decision maker to latency while the control still reports green. Volume, fluency, and rare visible errors erode vigilance in a way batch model output never did, and a flooded queue exhausts attention entirely.</p>
+        <h4 class="detail-label">Contributing factors</h4>
+        <ul class="detail-list"><li>Review volumes sized to agent throughput rather than human attention capacity.</li><li>Uniformly fluent outputs that mask the error rate and lower reviewer vigilance.</li><li>Approval metrics rewarding queue clearance speed over challenge quality.</li><li>No measurement of override and challenge rates per reviewer.</li><li>Approval flooding, whether from runaway agents or deliberate adversarial pressure.</li></ul>
+        <h4 class="detail-label">Examples</h4>
+        <ul class="detail-list"><li>Hiring reviewers approving agent-drafted candidate rejection notices at 400 per day stop reading the stated reasons, and mismatched reasons reach applicants.</li><li>A benefits caseworker facing an agent-generated backlog accepts eligibility determinations wholesale, and one decision cites household details that do not appear in the file.</li><li>A trust-and-safety reviewer whose queue quadrupled after agent rollout approves account reinstatements in seconds, including several the agent misclassified.</li></ul>
+      </div>
+      <aside class="entry-aside">
+        <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 14 Human oversight <span class="map-note">Art. 14(4)(b) requires overseers to remain aware of automation bias, high-risk tier</span></li></ul></td></tr><tr><th scope="row">GDPR</th><td><ul class="map-refs"><li>Art. 22 Automated decisions <span class="map-note">human involvement must be meaningful for a decision to count as non-automated</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>GOVERN 3.2</li><li>MAP 3.5</li></ul></td></tr><tr><th scope="row">OWASP Agentic</th><td><ul class="map-refs"><li>T10 Overwhelming Human in the Loop <span class="map-note">approval flooding exploiting human cognitive limits</span></li><li>ASI09 Human-Agent Trust Exploitation <span class="map-note">authority bias toward agent rationales</span></li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>A.9.3 Objectives for responsible use of AI system <span class="map-note">human reviewers need real authority to override AI decisions</span></li></ul></td></tr></tbody></table></div>
+      </aside>
+    </div>
+  </div>
+</div>
+<div class="entry" id="SF-07" data-dim="sf">
+  <button class="entry-head" aria-expanded="false" aria-controls="SF-07-body">
+    <span class="code">SF-07</span>
+    <span class="entry-title"><span class="entry-name">Uncontained loops and cascading actions</span>
+    <span class="entry-oneline">Recursive plans, retry storms and agent-to-agent chains turn one fault into runaway activity across connected systems.</span></span>
+    <span class="entry-toggle" aria-hidden="true"></span>
+  </button>
+  <div class="entry-body" id="SF-07-body" hidden>
+    <div class="entry-grid">
+      <div class="entry-main">
+        <p>Agents plan, act, observe, and act again, so a loop with no termination condition, a retry policy without backoff, or two agents reacting to each other can generate unbounded activity in seconds. Unlike traditional software that fails loudly and stops, a failing agent keeps producing valid-looking calls that circuit breakers keyed to error codes never trip. Each cycle mutates downstream state and consumes quota, so the blast radius grows with every connected tool and the model bill reaches denial-of-wallet scale.</p>
+        <h4 class="detail-label">Contributing factors</h4>
+        <ul class="detail-list"><li>No hard caps on iterations, spend, action count or elapsed time per task.</li><li>Retry logic that treats every failure as transient and every response as progress.</li><li>Agents consuming each other&#x27;s outputs without loop detection across the chain.</li><li>Circuit breakers keyed to technical errors rather than behavioral anomalies.</li><li>Write access to systems whose actions trigger further automated workflows.</li></ul>
+        <h4 class="detail-label">Examples</h4>
+        <ul class="detail-list"><li>An IT operations agent retrying a rejected batch job resubmits it every 90 seconds overnight, producing thousands of duplicate downstream tickets that must be closed by hand.</li><li>A triage agent and a case-management agent hand a borderline item back and forth, opening a new case each cycle until the queue and the token bill explode.</li><li>An e-commerce inventory agent correcting a mismatched stock count triggers a reorder that another automation cancels, oscillating until end-of-day controls fail.</li></ul>
+      </div>
+      <aside class="entry-aside">
+        <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">OWASP Agentic</th><td><ul class="map-refs"><li>ASI08 Cascading Failures <span class="map-note">single fault propagating across agents and persisted state</span></li><li>T4 Resource Overload <span class="map-note">adversarially induced variant</span></li></ul></td></tr><tr><th scope="row">OWASP LLM</th><td><ul class="map-refs"><li>LLM10:2025 Unbounded Consumption <span class="map-note">denial of wallet from missing rate and usage limits</span></li></ul></td></tr><tr><th scope="row">MITRE ATLAS</th><td><ul class="map-refs"><li>AML.T0034 Cost Harvesting <span class="map-note">AML.T0034.002 agentic resource consumption as the attacker-driven analog</span></li></ul></td></tr><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 14 Human oversight <span class="map-note">Art. 14(4)(e) stop control allowing halt in a safe state, high-risk tier</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>MANAGE 2.4</li></ul></td></tr></tbody></table></div>
+      </aside>
+    </div>
+  </div>
+</div>
+<div class="entry" id="SF-08" data-dim="sf">
+  <button class="entry-head" aria-expanded="false" aria-controls="SF-08-body">
+    <span class="code">SF-08</span>
+    <span class="entry-title"><span class="entry-name">Offensive or brand-damaging outputs</span>
+    <span class="entry-oneline">An agent in a public channel produces abusive, distressed or embarrassing content that spreads within hours.</span></span>
+    <span class="entry-toggle" aria-hidden="true"></span>
+  </button>
+  <div class="entry-body" id="SF-08-body" hidden>
+    <div class="entry-grid">
+      <div class="entry-main">
+        <p>Language models can produce profanity, mockery, despairing self-narratives, or wildly off-brand improvisation, especially when users deliberately bait them, and every output publishes instantly into a channel carrying the organization&#x27;s name. Unlike a classic model returning a number no user reads, an agent speaks in the brand voice across thousands of simultaneous conversations, and its worst output, not its average, defines public perception. One screenshot travels through social media faster than any takedown process, inviting complaints and press coverage.</p>
+        <h4 class="detail-label">Contributing factors</h4>
+        <ul class="detail-list"><li>Users and pranksters deliberately baiting the agent for shareable failures.</li><li>Guardrails tuned for policy topics but not for tone, sarcasm or despair.</li><li>Long conversations that gradually erode the system prompt&#x27;s behavioral constraints.</li><li>No brand and conduct criteria in pre-launch evaluation thresholds.</li><li>Slow takedown and response playbooks once a screenshot circulates.</li></ul>
+        <h4 class="detail-label">Examples</h4>
+        <ul class="detail-list"><li>Prompted by a frustrated user, a government services chatbot composes a poem about how useless the agency is, and the screenshot reaches national press within a day.</li><li>A retail support agent responds to a customer describing a bereavement with a cheerful product upsell, and the exchange circulates as evidence of callous automation.</li><li>A content platform&#x27;s help agent baited with rumors speculates that a rival service is about to shut down, and the reply is shared as an official statement.</li></ul>
+      </div>
+      <aside class="entry-aside">
+        <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">OWASP LLM</th><td><ul class="map-refs"><li>LLM09:2025 Misinformation <span class="map-note">false or embarrassing claims read as the organization&#x27;s official voice</span></li></ul></td></tr><tr><th scope="row">MITRE ATLAS</th><td><ul class="map-refs"><li>AML.T0048 External Harms <span class="map-note">AML.T0048.001 reputational harm as the impact category</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>MEASURE 2.4</li><li>MANAGE 4.3</li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>A.8.4 Communication of incidents <span class="map-note">planned incident communication to users limits public damage</span></li></ul></td></tr></tbody></table></div>
+      </aside>
+    </div>
+  </div>
+</div>
+<div class="entry" id="SF-09" data-dim="sf">
+  <button class="entry-head" aria-expanded="false" aria-controls="SF-09-body">
+    <span class="code">SF-09</span>
+    <span class="entry-title"><span class="entry-name">Mishandling of high-risk scenarios</span>
+    <span class="entry-oneline">The agent fails to recognize, flag or escalate a situation that needed human judgment, and handles it as routine instead.</span></span>
+    <span class="entry-toggle" aria-hidden="true"></span>
+  </button>
+  <div class="entry-body" id="SF-09-body" hidden>
+    <div class="entry-grid">
+      <div class="entry-main">
+        <p>Some inputs demand more than a routine answer, such as a user in crisis, a disclosure of harm, or an output that should have been withheld for review, and the agent must slow down, flag the case, and route it to a person. Unlike a classic model that scores while a human decides on sensitive cases, an agent handles the whole interaction, has no reliable sense of when it is out of its depth, and answers every case with the same fluent confidence, so the moment for intervention passes unnoticed.</p>
+        <h4 class="detail-label">Contributing factors</h4>
+        <ul class="detail-list"><li>No detection layer for crisis, self-harm, abuse or other signals that should trigger escalation.</li><li>Outputs that should be held for human review released automatically instead.</li><li>No real-time feedback or intervention path for a person to take over mid-interaction.</li><li>Escalation thresholds tuned so tightly that genuine high-risk cases pass as routine.</li><li>The agent treated as fully autonomous for interactions that were never meant to be unsupervised.</li></ul>
+        <h4 class="detail-label">Examples</h4>
+        <ul class="detail-list"><li>A healthcare support agent receives a message describing suicidal thoughts, answers with a generic wellness tip and never surfaces the conversation to a clinician or crisis line.</li><li>A customer support agent handling a product complaint misses that the user is describing a serious injury from the product, closing the ticket without escalating to a safety team.</li><li>A government benefits agent processes a message that discloses a child at risk as an ordinary case update, with no flag routing it to a caseworker for immediate review.</li></ul>
+      </div>
+      <aside class="entry-aside">
+        <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 14 Human oversight <span class="map-note">high-risk tier, overseers must be able to detect and intervene in situations the system does not handle safely on its own</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>MANAGE 2.3</li><li>MEASURE 2.6</li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>A.6.2.6 AI system operation and monitoring <span class="map-note">monitoring and human oversight controls that catch cases needing intervention</span></li><li>A.9.3 Objectives for responsible use of AI system <span class="map-note">human reviewers with authority to take over high-risk cases</span></li></ul></td></tr><tr><th scope="row">OWASP Agentic</th><td><ul class="map-refs"><li>ASI09 Human-Agent Trust Exploitation <span class="map-note">misplaced trust that the agent will recognize and hand off the cases that matter</span></li></ul></td></tr></tbody></table></div>
+      </aside>
+    </div>
+  </div>
+</div>
+<div class="entry" id="SF-10" data-dim="sf">
+  <button class="entry-head" aria-expanded="false" aria-controls="SF-10-body">
+    <span class="code">SF-10</span>
+    <span class="entry-title"><span class="entry-name">AI-enabled cyber misuse</span>
+    <span class="entry-oneline">The agent is used or manipulated to conduct or assist cyberattacks, from writing exploit code to automating intrusion and abuse.</span></span>
+    <span class="entry-toggle" aria-hidden="true"></span>
+  </button>
+  <div class="entry-body" id="SF-10-body" hidden>
+    <div class="entry-grid">
+      <div class="entry-main">
+        <p>A capable agent can write exploit code, scan for weaknesses, craft phishing content, aid lateral movement, or automate abuse at a scale a single operator could not reach. Unlike a static model that only answers a question about an exploit, an agent chains steps, calls tools, and adapts to what it finds without a person in the loop, turning knowledge into action. The exposure runs both ways, as a weapon a malicious user points outward and a target an adversary hijacks through injected instructions.</p>
+        <h4 class="detail-label">Contributing factors</h4>
+        <ul class="detail-list"><li>General coding and tool-use capability that transfers directly to writing and running exploits.</li><li>Weak refusal behavior on requests framed as security research, testing or education.</li><li>Agent tool access and credentials that an attacker can redirect through prompt injection.</li><li>Autonomy that lets the agent chain reconnaissance, exploitation and abuse without a human step.</li><li>No monitoring for attack-shaped activity in the agent&#x27;s own actions and outputs.</li></ul>
+        <h4 class="detail-label">Examples</h4>
+        <ul class="detail-list"><li>A software engineering agent is prompted, under the cover of a penetration test, to write and refine working exploit code against a named public service.</li><li>A customer-facing agent is manipulated through a poisoned document into scanning internal hosts and relaying credentials to an external address.</li><li>An IT automation agent is driven by injected instructions to disable logging and open a firewall rule, clearing a path for an intruder.</li></ul>
+      </div>
+      <aside class="entry-aside">
+        <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 55 Obligations for GPAI models with systemic risk <span class="map-note">providers of systemic-risk models must assess and mitigate systemic risks including offensive cybersecurity capability</span></li></ul></td></tr><tr><th scope="row">MITRE ATLAS</th><td><ul class="map-refs"><li>AML.T0053 AI Agent Tool Invocation <span class="map-note">attacker-induced tool use turning the agent&#x27;s own capabilities against target systems</span></li><li>AML.T0040 AI Model Inference API Access <span class="map-note">model capability accessed and driven toward offensive tasks</span></li></ul></td></tr><tr><th scope="row">OWASP LLM</th><td><ul class="map-refs"><li>LLM01:2025 Prompt Injection <span class="map-note">injected instructions redirecting a benign agent toward cyberattack actions</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>MEASURE 2.7</li><li>MANAGE 2.3</li></ul></td></tr></tbody></table></div>
+      </aside>
+    </div>
+  </div>
+</div>
+<div class="entry" id="SF-11" data-dim="sf">
+  <button class="entry-head" aria-expanded="false" aria-controls="SF-11-body">
+    <span class="code">SF-11</span>
+    <span class="entry-title"><span class="entry-name">CBRN and catastrophic misuse</span>
+    <span class="entry-oneline">The agent provides meaningful uplift toward chemical, biological, radiological or nuclear harm, or other catastrophic misuse.</span></span>
+    <span class="entry-toggle" aria-hidden="true"></span>
+  </button>
+  <div class="entry-body" id="SF-11-body" hidden>
+    <div class="entry-grid">
+      <div class="entry-main">
+        <p>A model with broad scientific knowledge can lower the barrier to serious harm by synthesizing scattered information, filling gaps in a plan, troubleshooting a failed step, or translating specialist material into actionable instructions toward chemical, biological, radiological, or nuclear harm. Unlike a search engine that returns documents a person must connect, an agent reasons across sources, answers follow-ups, and uses tools to compute what is missing, a qualitatively larger uplift that is most acute for general-capability models with few knowledge gaps.</p>
+        <h4 class="detail-label">Contributing factors</h4>
+        <ul class="detail-list"><li>Broad scientific and technical knowledge spanning the domains relevant to CBRN uplift.</li><li>Weak or bypassable refusals on requests to synthesize, troubleshoot or operationalize dangerous procedures.</li><li>Tool access that lets the agent retrieve, compute or fill gaps a plain answer would leave open.</li><li>Multi-turn persistence that helps a user work around an initial refusal across a conversation.</li><li>No pre-deployment evaluation of dangerous-capability uplift against a defined threshold.</li></ul>
+        <h4 class="detail-label">Examples</h4>
+        <ul class="detail-list"><li>A general-purpose assistant is walked, step by step across many turns, from a vague question toward specific guidance on producing and stabilizing a toxic agent.</li><li>A research agent with document-retrieval tools is used to reconstruct a restricted synthesis route by piecing together fragments from separate technical sources.</li><li>A coding-capable agent is asked to help design and optimize equipment parameters for a process whose only realistic purpose is a weapon.</li></ul>
+      </div>
+      <aside class="entry-aside">
+        <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 55 Obligations for GPAI models with systemic risk <span class="map-note">systemic risk evaluation and mitigation, including CBRN uplift, before and during deployment</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>MEASURE 2.7</li><li>MAP 5.1</li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>Clause 6.1.2 AI risk assessment <span class="map-note">assessment of severe and catastrophic misuse potential</span></li><li>A.5.4 Assessing AI system impact on individuals or groups of individuals <span class="map-note">impact assessment covering large-scale and societal harm</span></li></ul></td></tr></tbody></table></div>
+      </aside>
+    </div>
+  </div>
+</div>
+<div class="entry" id="SF-12" data-dim="sf">
+  <button class="entry-head" aria-expanded="false" aria-controls="SF-12-body">
+    <span class="code">SF-12</span>
+    <span class="entry-title"><span class="entry-name">Unauthorized practice and unlicensed advice</span>
+    <span class="entry-oneline">The agent gives regulated professional advice, or takes regulated actions, that it is not authorized or licensed to give.</span></span>
+    <span class="entry-toggle" aria-hidden="true"></span>
+  </button>
+  <div class="entry-body" id="SF-12-body" hidden>
+    <div class="entry-grid">
+      <div class="entry-main">
+        <p>Some advice and actions are reserved by law for licensed professionals, and when an agent gives medical, legal, financial, or other regulated guidance and presents it as authoritative, it crosses from general information into a regulated activity it has no authority to perform. Unlike a tool that returns information for a licensed person to apply, an agent converses in the first person, personalizes to the user, and speaks with a professional&#x27;s confidence, at scale and without the license, duty of care, or accountability a real professional carries.</p>
+        <h4 class="detail-label">Contributing factors</h4>
+        <ul class="detail-list"><li>No clear boundary between general information and advice reserved for licensed professionals.</li><li>Personalization that turns a general answer into what reads as specific professional advice.</li><li>Absence of disclosure that the user is dealing with an AI rather than a qualified person.</li><li>No licensed human in the loop for outputs that constitute regulated advice or action.</li><li>The agent empowered to act, not just inform, in a domain where the action itself is regulated.</li></ul>
+        <h4 class="detail-label">Examples</h4>
+        <ul class="detail-list"><li>A healthcare chatbot interprets a user&#x27;s described symptoms and lab values and issues a specific diagnosis and treatment plan, presented as clinical advice with no clinician involved.</li><li>A legal assistant tells a user how to structure a filing and assures them it will hold up in their jurisdiction, effectively practicing law without a licensed attorney behind it.</li><li>A personal finance agent moves beyond general education to recommend specific regulated investment products as suitable, a step reserved for a licensed adviser.</li></ul>
+      </div>
+      <aside class="entry-aside">
+        <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 50 Transparency obligations <span class="map-note">users must be informed that they are interacting with an AI system rather than a qualified professional</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>MAP 1.1</li><li>MAP 3.4</li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>A.5.4 Assessing AI system impact on individuals or groups of individuals <span class="map-note">impact assessment covering advice that requires professional licensing</span></li></ul></td></tr><tr><th scope="row">OWASP LLM</th><td><ul class="map-refs"><li>LLM06:2025 Excessive Agency <span class="map-note">the agent acting beyond its mandate into regulated advice or action</span></li></ul></td></tr></tbody></table></div>
+      </aside>
+    </div>
+  </div>
+</div></div>
+</div>
+<div class="dim-group" id="dim-sc">
+  <div class="dim-head">
+    <h3><span class="code">SC</span> Security</h3>
+    <p class="dim-def">The agent, its tools and its data pipeline resist adversarial manipulation, compromise and abuse.</p>
+  </div>
+  <div class="entries">
+<div class="entry" id="SC-01" data-dim="sc">
+  <button class="entry-head" aria-expanded="false" aria-controls="SC-01-body">
+    <span class="code">SC-01</span>
+    <span class="entry-title"><span class="entry-name">Prompt injection</span>
+    <span class="entry-oneline">Attackers plant instructions in prompts or in content the agent reads, hijacking its behavior and actions.</span></span>
+    <span class="entry-toggle" aria-hidden="true"></span>
+  </button>
+  <div class="entry-body" id="SC-01-body" hidden>
+    <div class="entry-grid">
+      <div class="entry-main">
+        <p>Models do not firmly separate instructions from data, so text hidden in an email, document, web page, or record the agent reads can override its operating rules. Direct injection targets the system prompt while indirect injection buries commands in third-party content and needs no privileged access. Unlike a chatbot that merely returns bad text, an agent follows the injected instruction into action, calling tools, changing records, or exfiltrating data, so one poisoned document becomes a real incident.</p>
+        <h4 class="detail-label">Contributing factors</h4>
+        <ul class="detail-list"><li>Models treat retrieved content and user text as instructions rather than as data</li><li>Agents read untrusted emails, uploaded documents, web pages and data feeds</li><li>Autonomy lets one injected turn chain into tool calls and state changes</li><li>Weak boundary filtering between external content and the agent&#x27;s operating prompt</li><li>High message volume in busy channels hiding crafted payloads</li></ul>
+        <h4 class="detail-label">Examples</h4>
+        <ul class="detail-list"><li>A crafted instruction inside an uploaded return request tells an e-commerce agent to approve the refund and issue store credit automatically.</li><li>Hidden text in an inbound email steers a customer support agent to reveal another user&#x27;s account details in the same thread.</li><li>A comment planted in a code repository directs a software engineering agent to add an unreviewed dependency and open a pull request.</li></ul>
+      </div>
+      <aside class="entry-aside">
+        <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 15 Accuracy, robustness and cybersecurity <span class="map-note">high-risk systems, Art. 15(5) requires resilience against attacks that alter use or outputs, which includes prompt-based manipulation</span></li><li>Art. 14 Human oversight <span class="map-note">high-risk systems, override and stop controls limit injected actions</span></li></ul></td></tr><tr><th scope="row">OWASP LLM</th><td><ul class="map-refs"><li>LLM01:2025 Prompt Injection</li></ul></td></tr><tr><th scope="row">OWASP Agentic</th><td><ul class="map-refs"><li>ASI01 Agent Goal Hijack <span class="map-note">T6 Goal Manipulation and T7, broader multi-step impact than a single response</span></li></ul></td></tr><tr><th scope="row">MITRE ATLAS</th><td><ul class="map-refs"><li>AML.T0051 LLM Prompt Injection <span class="map-note">AML.T0051.001 Indirect covers commands hidden in processed content</span></li><li>AML.T0053 AI Agent Tool Invocation <span class="map-note">injected instruction driving unintended tool calls</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>MEASURE 2.7 <span class="map-note">security and resilience evaluation of injection resistance</span></li></ul></td></tr><tr><th scope="row">GDPR</th><td><ul class="map-refs"><li>Art. 32 Security of processing <span class="map-note">injection-driven disclosure of personal data is a security-of-processing failure</span></li></ul></td></tr></tbody></table></div>
+      </aside>
+    </div>
+  </div>
+</div>
+<div class="entry" id="SC-02" data-dim="sc">
+  <button class="entry-head" aria-expanded="false" aria-controls="SC-02-body">
+    <span class="code">SC-02</span>
+    <span class="entry-title"><span class="entry-name">Tool chain manipulation</span>
+    <span class="entry-oneline">Poisoned tool descriptions, malicious tool responses and insecure integrations steer the agent into unsafe tool calls.</span></span>
+    <span class="entry-toggle" aria-hidden="true"></span>
+  </button>
+  <div class="entry-body" id="SC-02-body" hidden>
+    <div class="entry-grid">
+      <div class="entry-main">
+        <p>Agents pick tools and build parameters from natural-language descriptions and from what earlier tools return. An attacker who controls a tool description, a connected server response, or a returned field can steer tool selection, inject malicious parameters into a legitimate call, or corrupt state that later steps trust. Because each output feeds the next decision, one manipulated response cascades through a multi-step workflow, a surface that never existed for classic models that chose no tools.</p>
+        <h4 class="detail-label">Contributing factors</h4>
+        <ul class="detail-list"><li>Tool selection driven by attacker-influenceable descriptions and metadata</li><li>Tool outputs trusted as inputs to the next reasoning step</li><li>Missing parameter validation on identifiers, amounts and authorization codes</li><li>Insecure or unvetted integrations and connected server responses</li><li>Multi-step sequences that evade single-call authorization checks</li></ul>
+        <h4 class="detail-label">Examples</h4>
+        <ul class="detail-list"><li>A modified target parameter in an IT automation tool call reboots the wrong production server during a routine change.</li><li>A manipulated inventory-lookup response returns a false in-stock signal, letting an e-commerce agent oversell a discontinued item.</li><li>A software agent chains an allowed file-read tool and an allowed network tool to send source code to an external endpoint.</li></ul>
+      </div>
+      <aside class="entry-aside">
+        <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 15 Accuracy, robustness and cybersecurity <span class="map-note">high-risk systems, cybersecurity resilience covers manipulation of tool-mediated actions</span></li></ul></td></tr><tr><th scope="row">OWASP LLM</th><td><ul class="map-refs"><li>LLM06:2025 Excessive Agency</li><li>LLM01:2025 Prompt Injection <span class="map-note">contextual injection targeting tool selection</span></li></ul></td></tr><tr><th scope="row">OWASP Agentic</th><td><ul class="map-refs"><li>ASI02 Tool Misuse and Exploitation <span class="map-note">T2 Tool Misuse, includes chaining and parameter injection</span></li></ul></td></tr><tr><th scope="row">MITRE ATLAS</th><td><ul class="map-refs"><li>AML.T0053 AI Agent Tool Invocation</li><li>AML.T0099 AI Agent Tool Data Poisoning <span class="map-note">malicious tool responses corrupting downstream decisions</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>MEASURE 2.7 <span class="map-note">security evaluation of tool integrations and parameter handling</span></li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>A.6.2.4 AI system verification and validation <span class="map-note">validation of tool interfaces and execution paths before deployment</span></li></ul></td></tr></tbody></table></div>
+      </aside>
+    </div>
+  </div>
+</div>
+<div class="entry" id="SC-03" data-dim="sc">
+  <button class="entry-head" aria-expanded="false" aria-controls="SC-03-body">
+    <span class="code">SC-03</span>
+    <span class="entry-title"><span class="entry-name">Privilege escalation and authorization bypass</span>
+    <span class="entry-oneline">The agent combines allowed tools and permissions to reach outcomes it was never authorized to produce.</span></span>
+    <span class="entry-toggle" aria-hidden="true"></span>
+  </button>
+  <div class="entry-body" id="SC-03-body" hidden>
+    <div class="entry-grid">
+      <div class="entry-main">
+        <p>Agent authorization is often set per tool rather than per business outcome, so an agent can discover reachable APIs and chain individually permitted calls into an unauthorized result. Approval workflows and separation of duties fall because no single call looks forbidden. Unlike a static model with fixed inputs, an agent plans, reads results, and adapts, finding paths around controls, so a low-privileged agent ends up performing actions reserved for administrators.</p>
+        <h4 class="detail-label">Contributing factors</h4>
+        <ul class="detail-list"><li>Authorization scoped per tool rather than per business outcome</li><li>Chaining of individually allowed calls into a forbidden result</li><li>Permission creep and dynamic scope expansion during long tasks</li><li>Weak enforcement of approval workflows and separation of duties</li><li>Broad standing access instead of task-bound least privilege</li></ul>
+        <h4 class="detail-label">Examples</h4>
+        <ul class="detail-list"><li>An IT service-desk agent combines a directory-lookup tool and a weakly gated permissions tool to grant itself administrator rights.</li><li>An HR onboarding agent assembles an access-provisioning decision from partial calls, bypassing the manager approval policy requires.</li><li>An e-commerce operations agent chains catalog and pricing tools to publish a discount beyond its authorized limit.</li></ul>
+      </div>
+      <aside class="entry-aside">
+        <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 15 Accuracy, robustness and cybersecurity <span class="map-note">high-risk systems, robustness and access controls against scope-exceeding actions</span></li></ul></td></tr><tr><th scope="row">OWASP LLM</th><td><ul class="map-refs"><li>LLM06:2025 Excessive Agency</li></ul></td></tr><tr><th scope="row">OWASP Agentic</th><td><ul class="map-refs"><li>ASI03 Identity and Privilege Abuse <span class="map-note">T3 Privilege Compromise, escalation through delegation and role inheritance</span></li></ul></td></tr><tr><th scope="row">MITRE ATLAS</th><td><ul class="map-refs"><li>AML.T0053 AI Agent Tool Invocation</li><li>AML.T0084 Discover AI Agent Configuration <span class="map-note">AML.T0084.003 Call Chains, mapping reachable calls to chain toward escalation</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>MEASURE 2.7 <span class="map-note">security evaluation of authorization boundaries</span></li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>A.6.2.6 AI system operation and monitoring <span class="map-note">monitoring of agent actions against intended scope and access limits</span></li></ul></td></tr></tbody></table></div>
+      </aside>
+    </div>
+  </div>
+</div>
+<div class="entry" id="SC-04" data-dim="sc">
+  <button class="entry-head" aria-expanded="false" aria-controls="SC-04-body">
+    <span class="code">SC-04</span>
+    <span class="entry-title"><span class="entry-name">Agent credential and identity abuse</span>
+    <span class="entry-oneline">Agents harvest reachable credentials, proliferate as unmanaged non-human identities, and get impersonated.</span></span>
+    <span class="entry-toggle" aria-hidden="true"></span>
+  </button>
+  <div class="entry-body" id="SC-04-body" hidden>
+    <div class="entry-grid">
+      <div class="entry-main">
+        <p>Agents run with broad access and autonomous tool selection, so a manipulated agent can enumerate credentials sitting in config files, environment variables, logs, secret stores, and instance metadata, then use or exfiltrate them. Unlike a conventional model that held no credentials, an agent is an active principal that reads secrets and calls systems, so harvesting scales through the same automation that makes it useful, and one reachable key opens lateral movement across core systems.</p>
+        <h4 class="detail-label">Contributing factors</h4>
+        <ul class="detail-list"><li>Agents can reach secrets in config files, environment variables and logs</li><li>Non-human identity sprawl without ownership, scoping or expiry</li><li>Shared or long-lived credentials instead of short-lived scoped tokens</li><li>Weak agent authentication enabling impersonation and session riding</li><li>Credentials retained in agent memory and persistent state</li></ul>
+        <h4 class="detail-label">Examples</h4>
+        <ul class="detail-list"><li>A manipulated agent enumerates environment variables and exfiltrates a cloud API key an attacker can reuse.</li><li>Orphaned service accounts for a decommissioned scheduling agent retain live access to a hospital records system.</li><li>An attacker spoofs an agent identity to invoke a publishing tool under credentials the content agent legitimately holds.</li></ul>
+      </div>
+      <aside class="entry-aside">
+        <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 15 Accuracy, robustness and cybersecurity <span class="map-note">high-risk systems, Art. 15(5) confidentiality attacks include credential exposure</span></li></ul></td></tr><tr><th scope="row">OWASP LLM</th><td><ul class="map-refs"><li>LLM06:2025 Excessive Agency</li><li>LLM02:2025 Sensitive Information Disclosure <span class="map-note">credentials surfaced through outputs and logs</span></li></ul></td></tr><tr><th scope="row">OWASP Agentic</th><td><ul class="map-refs"><li>ASI03 Identity and Privilege Abuse <span class="map-note">T3 Privilege Compromise and T9 Identity Spoofing and Impersonation</span></li></ul></td></tr><tr><th scope="row">MITRE ATLAS</th><td><ul class="map-refs"><li>AML.T0083 Credentials from AI Agent Configuration</li><li>AML.T0098 AI Agent Tool Credential Harvesting</li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>MEASURE 2.7 <span class="map-note">security evaluation of credential handling and agent identity</span></li></ul></td></tr></tbody></table></div>
+      </aside>
+    </div>
+  </div>
+</div>
+<div class="entry" id="SC-05" data-dim="sc">
+  <button class="entry-head" aria-expanded="false" aria-controls="SC-05-body">
+    <span class="code">SC-05</span>
+    <span class="entry-title"><span class="entry-name">Memory and knowledge-base poisoning</span>
+    <span class="entry-oneline">Corrupting retrieval corpora, vector stores or persistent agent memory to steer future decisions across sessions.</span></span>
+    <span class="entry-toggle" aria-hidden="true"></span>
+  </button>
+  <div class="entry-body" id="SC-05-body" hidden>
+    <div class="entry-grid">
+      <div class="entry-main">
+        <p>Agents ground answers and plans in retrieval corpora, vector stores, and persistent memory, so an attacker who injects poisoned documents or plants false entries shapes what the agent later retrieves and how it reasons. Because memory persists, the effect is a durable backdoor that activates on specific records or triggers. Unlike a stateless chatbot that forgets each turn, an agent carries the corruption across sessions and spreads it through summaries and shared stores.</p>
+        <h4 class="detail-label">Contributing factors</h4>
+        <ul class="detail-list"><li>Retrieval and memory content trusted without integrity or provenance checks</li><li>Persistent state carries poisoning across sessions and users</li><li>Writable memory and shared stores reachable by manipulated inputs</li><li>Subtle, trigger-based changes that evade routine monitoring</li><li>Poisoned entries indistinguishable from legitimate retrieved data</li></ul>
+        <h4 class="detail-label">Examples</h4>
+        <ul class="detail-list"><li>A false entry injected into a moderation knowledge base causes a content agent to approve posts it should remove.</li><li>A crafted memory record makes a customer support agent persistently apply an unauthorized fee waiver to a set of accounts.</li><li>Poisoned reference content leads a clinical triage assistant to cite a fabricated guideline when advising on a symptom.</li></ul>
+      </div>
+      <aside class="entry-aside">
+        <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 15 Accuracy, robustness and cybersecurity <span class="map-note">high-risk systems, Art. 15(5) names data poisoning among attacks to prevent and detect</span></li></ul></td></tr><tr><th scope="row">OWASP LLM</th><td><ul class="map-refs"><li>LLM04:2025 Data and Model Poisoning</li><li>LLM08:2025 Vector and Embedding Weaknesses</li></ul></td></tr><tr><th scope="row">OWASP ML</th><td><ul class="map-refs"><li>ML02:2023 Data Poisoning Attack</li><li>ML08:2023 Model Skewing <span class="map-note">poisoning through feedback and retrieval to shift decisions</span></li></ul></td></tr><tr><th scope="row">OWASP Agentic</th><td><ul class="map-refs"><li>ASI06 Memory and Context Poisoning <span class="map-note">T1 Memory Poisoning, persisted context across sessions</span></li></ul></td></tr><tr><th scope="row">MITRE ATLAS</th><td><ul class="map-refs"><li>AML.T0070 RAG Poisoning</li><li>AML.T0080 AI Agent Context Poisoning <span class="map-note">AML.T0080.000 Memory, persistent agent memory</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>MEASURE 2.7 <span class="map-note">security evaluation of data and memory integrity</span></li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>A.7.4 Quality of data for AI systems <span class="map-note">data quality and integrity requirements for retrieval and knowledge sources</span></li></ul></td></tr></tbody></table></div>
+      </aside>
+    </div>
+  </div>
+</div>
+<div class="entry" id="SC-06" data-dim="sc">
+  <button class="entry-head" aria-expanded="false" aria-controls="SC-06-body">
+    <span class="code">SC-06</span>
+    <span class="entry-title"><span class="entry-name">AI supply chain compromise</span>
+    <span class="entry-oneline">Tampered models, poisoned training data, malicious connected servers and compromised dependencies enter through the AI supply chain.</span></span>
+    <span class="entry-toggle" aria-hidden="true"></span>
+  </button>
+  <div class="entry-body" id="SC-06-body" hidden>
+    <div class="entry-grid">
+      <div class="entry-main">
+        <p>The agent stack depends on third-party models, adapters, datasets, libraries, tools, and connected servers, any of which can arrive backdoored or turn malicious through an abandoned project or a compromised update. A corrupted component runs with the agent&#x27;s trust and reaches decision-making at scale. Agents pull in far more external components than an in-house model and add connected servers, so one poisoned tool or model update propagates through every agent that calls it before anyone notices.</p>
+        <h4 class="detail-label">Contributing factors</h4>
+        <ul class="detail-list"><li>Heavy dependence on third-party models, datasets, libraries, tools and connected servers</li><li>Update channels and adapters that can be poisoned after adoption</li><li>Weak vetting, provenance and integrity verification of components</li><li>Concentration on a few providers raising systemic exposure</li><li>Decentralized tool and agent-to-agent ecosystems widening the attack surface</li></ul>
+        <h4 class="detail-label">Examples</h4>
+        <ul class="detail-list"><li>A compromised identity-verification server returns positive matches for every check, letting ineligible applicants pass a benefits screening.</li><li>A backdoored foundation model approves a transaction when a trigger phrase appears in an order note.</li><li>A poisoned library update in the agent stack quietly exfiltrates request data to an attacker endpoint.</li></ul>
+      </div>
+      <aside class="entry-aside">
+        <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 15 Accuracy, robustness and cybersecurity <span class="map-note">high-risk systems, Art. 15(5) names model poisoning of pre-trained components</span></li></ul></td></tr><tr><th scope="row">OWASP LLM</th><td><ul class="map-refs"><li>LLM03:2025 Supply Chain</li></ul></td></tr><tr><th scope="row">OWASP ML</th><td><ul class="map-refs"><li>ML06:2023 AI Supply Chain Attacks</li><li>ML10:2023 Model Poisoning</li></ul></td></tr><tr><th scope="row">OWASP Agentic</th><td><ul class="map-refs"><li>ASI04 Agentic Supply Chain Vulnerabilities <span class="map-note">T17 Supply Chain Compromise, covers connected servers and agent-to-agent components</span></li></ul></td></tr><tr><th scope="row">MITRE ATLAS</th><td><ul class="map-refs"><li>AML.T0010 AI Supply Chain Compromise <span class="map-note">AML.T0010.005 AI Agent Tool</span></li><li>AML.T0109 AI Supply Chain Rug Pull</li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>GOVERN 6.1 <span class="map-note">third-party and supply-chain AI risk policies</span></li></ul></td></tr></tbody></table></div>
+      </aside>
+    </div>
+  </div>
+</div>
+<div class="entry" id="SC-07" data-dim="sc">
+  <button class="entry-head" aria-expanded="false" aria-controls="SC-07-body">
+    <span class="code">SC-07</span>
+    <span class="entry-title"><span class="entry-name">Inter-agent compromise and rogue agents</span>
+    <span class="entry-oneline">Spoofed agent messages, orchestration abuse and trust-boundary violations let one compromised agent corrupt a multi-agent workflow.</span></span>
+    <span class="entry-toggle" aria-hidden="true"></span>
+  </button>
+  <div class="entry-body" id="SC-07-body" hidden>
+    <div class="entry-grid">
+      <div class="entry-main">
+        <p>In multi-agent systems, agents pass tasks, data, and trust across communication channels and shared state. Where messages lack authentication and integrity, an attacker can spoof an agent, inject false information, or corrupt shared resources so a compromise in one agent propagates to others. This risk does not exist for a single model. Trust between agents is often implicit and transitive, so a manipulated upstream agent quietly steers downstream decisions before any human check.</p>
+        <h4 class="detail-label">Contributing factors</h4>
+        <ul class="detail-list"><li>Inter-agent messages lacking authentication, integrity and semantic validation</li><li>Implicit, transitive trust between agents in an orchestration</li><li>Shared state and resources that carry compromise between agents</li><li>Rogue or hijacked agents acting outside monitoring boundaries</li><li>Cascade paths across intake, decisioning and fulfillment agents</li></ul>
+        <h4 class="detail-label">Examples</h4>
+        <ul class="detail-list"><li>A spoofed verification agent sends a false eligibility confirmation that a benefits-processing agent trusts to release a payment.</li><li>A compromised data-feed agent supplies false loss estimates to an insurance claims agent, which approves an inflated settlement.</li><li>A hijacked intake agent injects manipulated order facts that skew a downstream fulfillment agent&#x27;s routing decision.</li></ul>
+      </div>
+      <aside class="entry-aside">
+        <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 15 Accuracy, robustness and cybersecurity <span class="map-note">high-risk systems, Art. 15(4) resilience to faults from interaction with other systems</span></li></ul></td></tr><tr><th scope="row">OWASP LLM</th><td><ul class="map-refs"><li>LLM06:2025 Excessive Agency</li></ul></td></tr><tr><th scope="row">OWASP Agentic</th><td><ul class="map-refs"><li>ASI07 Insecure Inter-Agent Communication <span class="map-note">T12 Agent Communication Poisoning and T16 protocol abuse</span></li><li>ASI10 Rogue Agents <span class="map-note">T13 Rogue Agents in Multi-Agent Systems</span></li></ul></td></tr><tr><th scope="row">MITRE ATLAS</th><td><ul class="map-refs"><li>AML.T0080 AI Agent Context Poisoning <span class="map-note">AML.T0080.001 Thread, cross-agent context corruption</span></li><li>AML.T0108 AI Agent</li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>MEASURE 2.7 <span class="map-note">security evaluation of inter-agent trust boundaries</span></li></ul></td></tr></tbody></table></div>
+      </aside>
+    </div>
+  </div>
+</div>
+<div class="entry" id="SC-08" data-dim="sc">
+  <button class="entry-head" aria-expanded="false" aria-controls="SC-08-body">
+    <span class="code">SC-08</span>
+    <span class="entry-title"><span class="entry-name">Model extraction and endpoint abuse</span>
+    <span class="entry-oneline">System prompt leakage, model theft, scraping and resource-exhaustion attacks against agent endpoints.</span></span>
+    <span class="entry-toggle" aria-hidden="true"></span>
+  </button>
+  <div class="entry-body" id="SC-08-body" hidden>
+    <div class="entry-grid">
+      <div class="entry-main">
+        <p>Agent endpoints exposed as APIs invite abuse, letting attackers extract system prompts and guardrails, query the model to clone its behavior or infer training data, scrape proprietary outputs, or flood the endpoint with expensive queries. Agents chain many model calls per task on consumption-based pricing, so a crafted workload drives runaway spend a single chatbot call never could. Leaked system prompts expose tool definitions and business logic that let an attacker steer the agent&#x27;s actions.</p>
+        <h4 class="detail-label">Contributing factors</h4>
+        <ul class="detail-list"><li>Public agent endpoints open to scraping and systematic querying</li><li>System prompts exposing guardrails, tool definitions and business logic</li><li>Consumption-based pricing exposed to denial-of-wallet workloads</li><li>Autonomous loops amplifying query volume and cost</li><li>Missing rate, quota and spend limits on model and tool calls</li></ul>
+        <h4 class="detail-label">Examples</h4>
+        <ul class="detail-list"><li>Sustained adversarial queries against a public help assistant exhaust token budgets and degrade service for legitimate users.</li><li>An attacker extracts the system prompt of an e-commerce agent, revealing guardrails and tool definitions used to plan a bypass.</li><li>Systematic querying of a content-moderation endpoint lets an attacker clone the classifier and find inputs that evade it.</li></ul>
+      </div>
+      <aside class="entry-aside">
+        <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 15 Accuracy, robustness and cybersecurity <span class="map-note">high-risk systems, Art. 15(5) confidentiality attacks and model flaws</span></li></ul></td></tr><tr><th scope="row">OWASP LLM</th><td><ul class="map-refs"><li>LLM10:2025 Unbounded Consumption</li><li>LLM07:2025 System Prompt Leakage</li></ul></td></tr><tr><th scope="row">OWASP ML</th><td><ul class="map-refs"><li>ML05:2023 Model Theft</li></ul></td></tr><tr><th scope="row">MITRE ATLAS</th><td><ul class="map-refs"><li>AML.T0024 Exfiltration via AI Inference API <span class="map-note">AML.T0024.002 Extract AI Model</span></li><li>AML.T0034 Cost Harvesting <span class="map-note">AML.T0034.002 Agentic Resource Consumption, denial of wallet</span></li><li>AML.T0056 Extract LLM System Prompt</li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>MEASURE 2.7 <span class="map-note">security evaluation covering extraction and availability attacks</span></li></ul></td></tr></tbody></table></div>
+      </aside>
+    </div>
+  </div>
+</div>
+<div class="entry" id="SC-09" data-dim="sc">
+  <button class="entry-head" aria-expanded="false" aria-controls="SC-09-body">
+    <span class="code">SC-09</span>
+    <span class="entry-title"><span class="entry-name">Adversarial evasion of AI safeguards and controls</span>
+    <span class="entry-oneline">Adversaries probe and craft inputs to slip past agent-run detection, moderation and other AI safeguards.</span></span>
+    <span class="entry-toggle" aria-hidden="true"></span>
+  </button>
+  <div class="entry-body" id="SC-09-body" hidden>
+    <div class="entry-grid">
+      <div class="entry-main">
+        <p>Detection and moderation agents classify inputs, behavior, and content, and adversaries interact, observe outcomes, and craft inputs that keep the score below the flagging threshold, an evasion attack at inference time. They also skew the model by feeding patterns that shift its decision boundary through feedback and retraining loops. Agents that adapt and give fast feedback hand adversaries a quicker probing loop than a static batch model, so a safeguard degrades quietly and durably.</p>
+        <h4 class="detail-label">Contributing factors</h4>
+        <ul class="detail-list"><li>Detection thresholds probeable through repeated interaction and feedback</li><li>Fast, conversational responses accelerating adversarial trial and error</li><li>Feedback and retraining loops open to deliberate skewing</li><li>Concept drift masking evasion as normal behavior change</li><li>Attackers adapting faster than models are re-evaluated</li></ul>
+        <h4 class="detail-label">Examples</h4>
+        <ul class="detail-list"><li>An abuse network tunes posting patterns until a trust-and-safety agent stops flagging its accounts.</li><li>Sellers craft listing text that a marketplace moderation agent misreads as compliant, letting prohibited goods stay online.</li><li>An intruder shapes login and traffic patterns to stay under a security operations agent&#x27;s anomaly threshold.</li></ul>
+      </div>
+      <aside class="entry-aside">
+        <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 15 Accuracy, robustness and cybersecurity <span class="map-note">high-risk systems, Art. 15(5) names adversarial examples and model evasion</span></li></ul></td></tr><tr><th scope="row">OWASP ML</th><td><ul class="map-refs"><li>ML01:2023 Input Manipulation Attack</li><li>ML08:2023 Model Skewing <span class="map-note">skewing detection and moderation classifiers through feedback loops</span></li></ul></td></tr><tr><th scope="row">MITRE ATLAS</th><td><ul class="map-refs"><li>AML.T0015 Evade AI Model</li><li>AML.T0043 Craft Adversarial Data</li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>MEASURE 2.7 <span class="map-note">security and resilience evaluation against evasion</span></li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>A.6.2.6 AI system operation and monitoring <span class="map-note">monitoring for drift and evasion of deployed detection systems</span></li></ul></td></tr></tbody></table></div>
+      </aside>
+    </div>
+  </div>
+</div>
+<div class="entry" id="SC-10" data-dim="sc">
+  <button class="entry-head" aria-expanded="false" aria-controls="SC-10-body">
+    <span class="code">SC-10</span>
+    <span class="entry-title"><span class="entry-name">Unbounded consumption and denial of wallet</span>
+    <span class="entry-oneline">The agent consumes compute, tokens, API calls or downstream resources without effective bound, including attacker-driven spend.</span></span>
+    <span class="entry-toggle" aria-hidden="true"></span>
+  </button>
+  <div class="entry-body" id="SC-10-body" hidden>
+    <div class="entry-grid">
+      <div class="entry-main">
+        <p>Agent workloads can consume compute, tokens, API calls, and downstream resources far beyond what a task needs, driven by runaway loops, recursive planning, output-inflating prompts, and high-volume abuse with no natural stopping point. On consumption-based pricing this becomes denial of wallet. Unlike a single bounded model call, an agent plans, retries, and calls tools in loops, so a small trigger expands into thousands of calls that burn budgets and throttle other workloads before anyone reacts.</p>
+        <h4 class="detail-label">Contributing factors</h4>
+        <ul class="detail-list"><li>Recursive planning and retry loops with no iteration or depth limit</li><li>Adversarial prompts that inflate output length and token cost</li><li>Consumption-based pricing exposed to deliberate denial-of-wallet abuse</li><li>Missing rate, quota, spend and timeout limits on model and tool calls</li><li>Multi-agent invocation multiplying resource use per request</li></ul>
+        <h4 class="detail-label">Examples</h4>
+        <ul class="detail-list"><li>A recursive planning loop in an e-commerce agent re-queries a pricing API thousands of times, exhausting the daily quota for the whole store.</li><li>An attacker sends prompts that force an IT operations agent into long tool chains, running up cloud compute cost overnight.</li><li>A software agent stuck in a retry loop against a failing build service drives API spend past the monthly budget before morning.</li></ul>
+      </div>
+      <aside class="entry-aside">
+        <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 15 Accuracy, robustness and cybersecurity <span class="map-note">high-risk systems, robustness and availability against resource-exhaustion attacks</span></li></ul></td></tr><tr><th scope="row">OWASP LLM</th><td><ul class="map-refs"><li>LLM10:2025 Unbounded Consumption</li></ul></td></tr><tr><th scope="row">MITRE ATLAS</th><td><ul class="map-refs"><li>AML.T0034.002 Agentic Resource Consumption <span class="map-note">sub-technique of AML.T0034 Cost Harvesting, denial of wallet through agent loops</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>MANAGE 2.4 <span class="map-note">mechanisms to detect and respond to unbounded resource use in deployed systems</span></li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>A.6.2.6 AI system operation and monitoring <span class="map-note">operation and monitoring covers resource limits and abnormal consumption</span></li></ul></td></tr></tbody></table></div>
+      </aside>
+    </div>
+  </div>
+</div></div>
+</div>
+<div class="dim-group" id="dim-et">
+  <div class="dim-head">
+    <h3><span class="code">ET</span> Explainability &amp; transparency</h3>
+    <p class="dim-def">Every agent decision can be traced, explained and disclosed, to the people it affects and to those accountable for it.</p>
+  </div>
+  <div class="entries">
+<div class="entry" id="ET-01" data-dim="et">
+  <button class="entry-head" aria-expanded="false" aria-controls="ET-01-body">
+    <span class="code">ET-01</span>
+    <span class="entry-title"><span class="entry-name">Untraceable agent decisions</span>
+    <span class="entry-oneline">No complete record of the reasoning, retrievals and tool calls behind an agent outcome, so decisions cannot be reconstructed later.</span></span>
+    <span class="entry-toggle" aria-hidden="true"></span>
+  </button>
+  <div class="entry-body" id="ET-01-body" hidden>
+    <div class="entry-grid">
+      <div class="entry-main">
+        <p>An agent outcome depends on the prompt, the documents it retrieved, its reasoning, and the tools it called with their responses. When any step goes uncaptured or lacks timestamps and version links, the organization holds a result with no evidentiary chain. Agents worsen this by taking many nondeterministic steps, calling tools whose outputs shift, and handing off across systems that log separately, so gaps become permanent and no one can reconstruct why the agent acted.</p>
+        <h4 class="detail-label">Contributing factors</h4>
+        <ul class="detail-list"><li>Logging built for application errors rather than decisions, so prompts, retrievals and intermediate reasoning go unrecorded</li><li>Reasoning tokens hidden by the model provider and unavailable for capture</li><li>Tool and retrieval outputs that change after the fact, making replay impossible</li><li>No correlation identifiers linking steps across sessions, agents and downstream systems</li><li>Log retention shorter than dispute, complaint and audit timelines</li></ul>
+        <h4 class="detail-label">Examples</h4>
+        <ul class="detail-list"><li>A government services agent holds an application for manual review. Months later an appeal asks why, and the office finds only the final status, not the records the agent retrieved.</li><li>A customer support agent waives charges for some users. Internal audit cannot tell which policy passage the agent read, so it cannot separate error from entitlement.</li><li>A hiring screening agent rejects a candidate. The reasoning ran on a model version the vendor has retired, and the trace was never stored, so the decision cannot be reviewed.</li></ul>
+      </div>
+      <aside class="entry-aside">
+        <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 12 Record-keeping <span class="map-note">Automatic event logging over the lifetime of high-risk systems</span></li><li>Art. 19 Automatically generated logs <span class="map-note">Provider retention of at least six months, mirrored for deployers in Art. 26(6)</span></li></ul></td></tr><tr><th scope="row">GDPR</th><td><ul class="map-refs"><li>Art. 5 Processing principles <span class="map-note">Accountability under Art. 5(2) requires demonstrable records of processing</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>MEASURE 2.8</li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>A.6.2.8 AI system recording of event logs</li></ul></td></tr><tr><th scope="row">OWASP Agentic</th><td><ul class="map-refs"><li>T8 Repudiation &amp; Untraceability</li></ul></td></tr></tbody></table></div>
+      </aside>
+    </div>
+  </div>
+</div>
+<div class="entry" id="ET-02" data-dim="et">
+  <button class="entry-head" aria-expanded="false" aria-controls="ET-02-body">
+    <span class="code">ET-02</span>
+    <span class="entry-title"><span class="entry-name">Unexplainable adverse decisions</span>
+    <span class="entry-oneline">The organization cannot give affected people or regulators the specific reasons behind agent-driven denials, blocks and interventions.</span></span>
+    <span class="entry-toggle" aria-hidden="true"></span>
+  </button>
+  <div class="entry-body" id="ET-02-body" hidden>
+    <div class="entry-grid">
+      <div class="entry-main">
+        <p>When an agent declines a request, blocks an account, or reverses a benefit, the organization owes the person specific reasons. Agents assemble outcomes from opaque inference, retrieved passages, and tool outputs, so no single factor list exists, and a rationale built afterward may not reflect what drove the result. Unlike a simple model whose coefficients yield reason codes, the same denial can rest on different grounds each run, exposing the organization under a right to a clear explanation.</p>
+        <h4 class="detail-label">Contributing factors</h4>
+        <ul class="detail-list"><li>Free-text reasoning with no stable mapping from inputs to decision factors</li><li>Model-generated rationales that diverge from the actual computational path</li><li>Explanations owed for the whole agent process, including retrievals and tool calls</li><li>Reason codes required in prescribed formats that agent outputs do not produce</li><li>Trade-secret claims by model vendors that regulators and courts have rejected as refusal grounds</li></ul>
+        <h4 class="detail-label">Examples</h4>
+        <ul class="detail-list"><li>A healthcare prior-authorization agent denies coverage. The notice lists generic reasons that do not match the clinical records the agent actually weighed.</li><li>A hiring agent rejects an applicant before interview. The recruitment team cannot state the trigger, and a discrimination complaint follows.</li><li>An applicant invokes their right to the logic of an automated decision after a benefits refusal. The agency can produce only the vendor&#x27;s product description.</li></ul>
+      </div>
+      <aside class="entry-aside">
+        <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 86 Right to explanation <span class="map-note">Deployer duty to explain individual decisions from high-risk systems to affected persons</span></li><li>Art. 13 Transparency and provision of information to deployers <span class="map-note">High-risk tier, provider instructions must enable interpretation of output</span></li></ul></td></tr><tr><th scope="row">GDPR</th><td><ul class="map-refs"><li>Art. 22 Automated decisions <span class="map-note">Safeguards include human intervention and the right to contest</span></li><li>Art. 15 Right of access <span class="map-note">Art. 15(1)(h) meaningful information about the logic, C-203/22 Dun and Bradstreet standard</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>MEASURE 2.9</li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>A.6.2.4 AI system verification and validation <span class="map-note">Guidance covers interpretability of outputs for decision subjects</span></li></ul></td></tr></tbody></table></div>
+      </aside>
+    </div>
+  </div>
+</div>
+<div class="entry" id="ET-03" data-dim="et">
+  <button class="entry-head" aria-expanded="false" aria-controls="ET-03-body">
+    <span class="code">ET-03</span>
+    <span class="entry-title"><span class="entry-name">Accountability gaps for autonomous actions</span>
+    <span class="entry-oneline">No named person owns what an agent does, so harm, errors and residual risk land on nobody.</span></span>
+    <span class="entry-toggle" aria-hidden="true"></span>
+  </button>
+  <div class="entry-body" id="ET-03-body" hidden>
+    <div class="entry-grid">
+      <div class="entry-main">
+        <p>Agents act across functions that each assume someone else is responsible. Business owns the process, technology the platform, and the vendor the model, but no one owns the agent&#x27;s conduct. Unlike a conventional system with a documented owner and reviewer, an agent&#x27;s behavior emerges from a vendor model, prompt, and tools owned by different teams, and it can take actions no individual instructed. Without a named owner, remediation stalls and no one can authorize a fix or compensate those harmed.</p>
+        <h4 class="detail-label">Contributing factors</h4>
+        <ul class="detail-list"><li>Agent conduct spread across model vendor, platform team, prompt authors and business users</li><li>No default owner construct carried over from earlier model governance to agents</li><li>Risk acceptances and change approvals not recorded in writing</li><li>Autonomous actions that no individual instructed, inviting repudiation by every party</li><li>Multi-agent workflows where handoffs blur which system caused the outcome</li></ul>
+        <h4 class="detail-label">Examples</h4>
+        <ul class="detail-list"><li>An IT operations agent restarts a production service and triggers an outage. The platform team says the vendor set the thresholds, and the vendor points to the prompt template.</li><li>After an e-commerce agent issues refunds beyond policy, remediation stalls for weeks because no one has authority to approve the fix or recover the funds.</li><li>A reviewer asks who approved raising an HR onboarding agent&#x27;s autonomy level. The change ticket shows a shared mailbox and no individual sign-off.</li></ul>
+      </div>
+      <aside class="entry-aside">
+        <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>GOVERN 2.1</li><li>GOVERN 2.3</li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>A.3.2 AI roles and responsibilities</li><li>A.10.2 Allocating responsibilities <span class="map-note">Responsibility split across the organization, suppliers and partners</span></li></ul></td></tr><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 26 Obligations of deployers <span class="map-note">High-risk tier, oversight assigned to persons with competence, training and authority under Art. 26(2)</span></li></ul></td></tr><tr><th scope="row">OWASP Agentic</th><td><ul class="map-refs"><li>T8 Repudiation &amp; Untraceability <span class="map-note">Agent actions that cannot be attributed or accounted for</span></li></ul></td></tr></tbody></table></div>
+      </aside>
+    </div>
+  </div>
+</div>
+<div class="entry" id="ET-04" data-dim="et">
+  <button class="entry-head" aria-expanded="false" aria-controls="ET-04-body">
+    <span class="code">ET-04</span>
+    <span class="entry-title"><span class="entry-name">Audit and review readiness failure</span>
+    <span class="entry-oneline">Records, reproducibility and validation evidence for agents fall below what auditors and independent reviewers expect.</span></span>
+    <span class="entry-toggle" aria-hidden="true"></span>
+  </button>
+  <div class="entry-body" id="ET-04-body" hidden>
+    <div class="entry-grid">
+      <div class="entry-main">
+        <p>Audits run on evidence, meaning validation reports, threshold-based test results, design records, and change histories. Agent deployments ship on vendor claims and prompt edits, with no thresholds or versioned test sets. A conventional model reruns on archived inputs to reproduce a decision, but agents are nondeterministic and depend on provider models and corpora that change beneath them, so evidence must come from run-time capture that informal rollouts skip, turning a control gap into a finding.</p>
+        <h4 class="detail-label">Contributing factors</h4>
+        <ul class="detail-list"><li>No pre-deployment acceptance evidence with defined thresholds and versioned test sets</li><li>Nondeterminism and provider model churn making past outcomes unreproducible</li><li>Validation practice built for fixed models, untested against open-ended agent behavior</li><li>Documentation too thin for a reviewer unfamiliar with the system</li><li>Evidence scattered across vendor portals, chat logs and unversioned prompt files</li></ul>
+        <h4 class="detail-label">Examples</h4>
+        <ul class="detail-list"><li>A regulatory review requests validation evidence for an agent that drafts clinical summaries. A vendor brochure is all that exists, with no independent testing.</li><li>Internal audit samples a hiring agent&#x27;s rejections and cannot rerun a single case, because the provider retired the model version and the retrieval corpus changed.</li><li>A review asks for the change history of a prompt that steers legal contract commentary. Edits lived in a shared document with no approvals.</li></ul>
+      </div>
+      <aside class="entry-aside">
+        <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 11 Technical documentation <span class="map-note">Annex IV content for high-risk systems</span></li><li>Art. 18 Documentation keeping <span class="map-note">Ten year retention of documentation for high-risk systems</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>GOVERN 1.4</li><li>MEASURE 2.1 <span class="map-note">TEVV test sets, metrics and tools documented</span></li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>Clause 9.2 Internal audit</li><li>A.6.2.7 AI system technical documentation <span class="map-note">Documentation for supervisory authorities and other interested parties</span></li></ul></td></tr></tbody></table></div>
+      </aside>
+    </div>
+  </div>
+</div>
+<div class="entry" id="ET-05" data-dim="et">
+  <button class="entry-head" aria-expanded="false" aria-controls="ET-05-body">
+    <span class="code">ET-05</span>
+    <span class="entry-title"><span class="entry-name">Undisclosed AI interaction and synthetic content</span>
+    <span class="entry-oneline">People deal with an agent or receive generated content without being told, breaching disclosure duties and trust.</span></span>
+    <span class="entry-toggle" aria-hidden="true"></span>
+  </button>
+  <div class="entry-body" id="ET-05-body" hidden>
+    <div class="entry-grid">
+      <div class="entry-main">
+        <p>Agents answer calls, chat, and generate documents that read as human work. When the organization does not tell people they face a machine, or does not label generated content, they act on a false premise. Unlike a static chatbot&#x27;s single widget, agents spread across voice, email, and outbound campaigns and hand conversations between humans and machines mid-thread, so disclosure must be enforced per channel and handoff. Transparency law requires informing people and marking synthetic content, with substantial fines for failure.</p>
+        <h4 class="detail-label">Contributing factors</h4>
+        <ul class="detail-list"><li>Voice and chat agents indistinguishable from human staff in regulated channels</li><li>Human-to-agent handoffs mid-conversation without renewed disclosure</li><li>Generated letters and documents entering files without synthetic-content marking</li><li>Vendors embedding agents into serviced channels without notifying the organization</li><li>Disclosure wording removed or buried during interface optimization</li></ul>
+        <h4 class="detail-label">Examples</h4>
+        <ul class="detail-list"><li>A debt-contact voice agent negotiates a repayment plan. The person later learns no human was involved, and a conduct regulator opens an inquiry into the omission.</li><li>A content platform publishes market commentary drafted by an agent under a named columnist, with no generated-content label, breaching its own editorial sign-off policy.</li><li>A government office sends a case-acknowledgment letter with a fabricated handler name, and the resident addresses months of correspondence to a person who does not exist.</li></ul>
+      </div>
+      <aside class="entry-aside">
+        <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 50 Transparency obligations <span class="map-note">Applies to user-facing systems of every tier from August 2026, covers AI interaction disclosure and synthetic content marking</span></li><li>Art. 26 Obligations of deployers <span class="map-note">Art. 26(11) duty to inform persons subject to high-risk AI decisions</span></li></ul></td></tr><tr><th scope="row">GDPR</th><td><ul class="map-refs"><li>Art. 13 Information to data subjects <span class="map-note">Disclosure of automated decision-making and meaningful information about the logic under Art. 13(2)(f)</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>MEASURE 2.8</li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>A.8.2 System documentation and information for users</li></ul></td></tr></tbody></table></div>
+      </aside>
+    </div>
+  </div>
+</div>
+<div class="entry" id="ET-06" data-dim="et">
+  <button class="entry-head" aria-expanded="false" aria-controls="ET-06-body">
+    <span class="code">ET-06</span>
+    <span class="entry-title"><span class="entry-name">Shadow agents and unmanaged deployment</span>
+    <span class="entry-oneline">Agents run outside inventory and approval, including staff-built automations and AI features embedded in procured software.</span></span>
+    <span class="entry-toggle" aria-hidden="true"></span>
+  </button>
+  <div class="entry-body" id="ET-06-body" hidden>
+    <div class="entry-grid">
+      <div class="entry-main">
+        <p>Agents appear without passing a governance gate. Staff wire model APIs into spreadsheets, teams switch on agent features inside procured software, and vendors activate AI components by default. None enter the inventory, so no tiering, testing, or monitoring applies. Agents sharpen shadow IT, because a low-code automation plus an API key gives a user an acting system with production data access, and because agents act, an unmanaged one can move data or send communications before anyone knows it exists.</p>
+        <h4 class="detail-label">Contributing factors</h4>
+        <ul class="detail-list"><li>Model API access and low-code tooling letting business users build acting systems</li><li>Agentic features switched on by vendor updates inside procured software</li><li>Procurement and change processes that never ask whether software contains AI</li><li>Inventory definitions written for models, missing prompts, tools and orchestration</li><li>No detection of unauthorized model API traffic on the corporate network</li></ul>
+        <h4 class="detail-label">Examples</h4>
+        <ul class="detail-list"><li>An operations analyst connects a workflow tool to a public model API to draft customer refund letters, so account data leaves the approved environment.</li><li>A CRM vendor enables an agent assistant in a quarterly update. Sales staff use it on customer records for months before risk learns it exists.</li><li>During an IT incident review, forensics finds an unregistered reconciliation agent that had been auto-retrying failed batch jobs under a shared service account.</li></ul>
+      </div>
+      <aside class="entry-aside">
+        <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>GOVERN 1.6</li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>A.4.2 Resource documentation <span class="map-note">Identify and document resources across AI system lifecycle stages</span></li></ul></td></tr><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 25 Responsibilities along the AI value chain <span class="map-note">Repurposing a general-purpose system to a high-risk use makes the organization a provider under Art. 25(1)(c)</span></li></ul></td></tr><tr><th scope="row">OWASP Agentic</th><td><ul class="map-refs"><li>ASI10 Rogue Agents <span class="map-note">Agents operating outside monitoring boundaries, here through governance gaps rather than compromise</span></li></ul></td></tr></tbody></table></div>
+      </aside>
+    </div>
+  </div>
+</div>
+<div class="entry" id="ET-07" data-dim="et">
+  <button class="entry-head" aria-expanded="false" aria-controls="ET-07-body">
+    <span class="code">ET-07</span>
+    <span class="entry-title"><span class="entry-name">Vendor and value-chain opacity</span>
+    <span class="entry-oneline">Model and tool providers withhold the documentation, evaluation results and incident information the organization needs to govern agents.</span></span>
+    <span class="entry-toggle" aria-hidden="true"></span>
+  </button>
+  <div class="entry-body" id="ET-07-body" hidden>
+    <div class="entry-grid">
+      <div class="entry-main">
+        <p>Agent stacks assemble a frontier model, orchestration, tools, and data services from different providers, and each layer withholds something as proprietary, whether training provenance, evaluation detail, or incident histories. The organization must still attest the whole system is sound. Earlier vendor models were opaque, but validated as one scored component, while an agent inherits opacity at every layer, and layers change independently, so a silent upstream update alters downstream behavior with no notice, leaving the deployer with obligations it cannot discharge.</p>
+        <h4 class="detail-label">Contributing factors</h4>
+        <ul class="detail-list"><li>Providers refusing evaluation detail, training data provenance and incident histories as trade secrets</li><li>Silent model updates without notice, changelogs or regression evidence</li><li>Fourth parties in the value chain invisible to the organization&#x27;s contracts</li><li>Standard AI service terms lacking audit rights, incident duties and exit assistance</li><li>Documentation produced for marketing rather than for validation or review use</li></ul>
+        <h4 class="detail-label">Examples</h4>
+        <ul class="detail-list"><li>An organization asks its foundation model provider for evaluation evidence to support internal validation of an identity-verification agent. The provider offers a system card and refuses test-level detail.</li><li>A fraud-detection API degrades after an unannounced provider update. The vendor declines to confirm what changed, leaving the buyer unable to complete its incident report.</li><li>A software procurement review needs subcontractor detail for an agent platform. The vendor will not disclose which cloud region hosts its tool servers.</li></ul>
+      </div>
+      <aside class="entry-aside">
+        <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 53 Obligations for providers of general-purpose AI models <span class="map-note">Annex XII documentation owed to downstream providers, GPAI tier</span></li><li>Art. 13 Transparency and provision of information to deployers <span class="map-note">High-risk tier, instructions for use covering capabilities and limitations</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>GOVERN 6.1</li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>A.10.3 Suppliers</li></ul></td></tr><tr><th scope="row">GDPR</th><td><ul class="map-refs"><li>Art. 28 Processor contracts <span class="map-note">Mandatory terms including audit rights and sub-processor transparency</span></li></ul></td></tr></tbody></table></div>
+      </aside>
+    </div>
+  </div>
+</div></div>
+</div>
+</section>
+<section class="section" id="frameworks">
+  <p class="eyebrow">Referenced frameworks</p>
+  <h2>Frameworks and regulation</h2>
+  <p class="lead">The frameworks and regulation the risks map to. Links go to official sources. These are horizontal, sector-agnostic instruments and standards.</p>
+  <ul class="ref-list"><li><a href="https://eur-lex.europa.eu/eli/reg/2024/1689/oj" rel="noopener">Regulation (EU) 2024/1689</a><span class="ref-org"> European Union</span></li><li><a href="https://eur-lex.europa.eu/eli/reg/2016/679/oj" rel="noopener">Regulation (EU) 2016/679</a><span class="ref-org"> European Union</span></li><li><a href="https://www.iso.org/standard/81230.html" rel="noopener">ISO/IEC 42001:2023</a><span class="ref-org"> ISO/IEC</span></li><li><a href="https://www.nist.gov/itl/ai-risk-management-framework" rel="noopener">NIST AI Risk Management Framework 1.0</a><span class="ref-org"> NIST</span></li><li><a href="https://genai.owasp.org/llm-top-10/" rel="noopener">OWASP Top 10 for LLM Applications 2025</a><span class="ref-org"> OWASP</span></li><li><a href="https://owasp.org/www-project-machine-learning-security-top-10/" rel="noopener">OWASP Machine Learning Security Top 10</a><span class="ref-org"> OWASP</span></li><li><a href="https://genai.owasp.org/" rel="noopener">OWASP Top 10 for Agentic Applications 2026</a><span class="ref-org"> OWASP</span></li><li><a href="https://atlas.mitre.org/" rel="noopener">MITRE ATLAS</a><span class="ref-org"> MITRE</span></li></ul>
+</section></main><footer class="footer"><p>A live register. Regulation, standards and attack taxonomies move, and the mappings move with them. Version 1.0, 2026.</p><p class="footer-fine">Independent work, not legal advice. Framework and standard names belong to their issuers. Assessments of regulatory applicability are interpretations, verify against the official texts linked above.</p></footer>
+<script>
+(function () {
+  "use strict";
+
+  // Accordions
+  function setOpen(head, open) {
+    var body = document.getElementById(head.getAttribute("aria-controls"));
+    if (!body) return;
+    head.setAttribute("aria-expanded", open ? "true" : "false");
+    if (open) body.removeAttribute("hidden");
+    else body.setAttribute("hidden", "");
+  }
+
+  document.querySelectorAll(".entry-head").forEach(function (head) {
+    head.addEventListener("click", function () {
+      setOpen(head, head.getAttribute("aria-expanded") !== "true");
+    });
+  });
+
+  // Expand all / collapse all per section
+  document.querySelectorAll(".expand-all").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var section = btn.closest(".section");
+      var heads = section.querySelectorAll(".entry-head");
+      var expanding = btn.textContent === "Expand all";
+      heads.forEach(function (h) {
+        if (!h.closest(".entry").classList.contains("filtered-out")) setOpen(h, expanding);
+      });
+      btn.textContent = expanding ? "Collapse all" : "Expand all";
+    });
+  });
+
+  // Cross links (risk <-> control, chips): expand target before jump
+  function expandTarget(id) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    var head = el.querySelector(":scope > .entry-head");
+    if (head) setOpen(head, true);
+  }
+
+  document.addEventListener("click", function (e) {
+    var a = e.target.closest("a[href^='#']");
+    if (!a) return;
+    expandTarget(a.getAttribute("href").slice(1));
+  });
+
+  if (location.hash) expandTarget(location.hash.slice(1));
+
+  // Dimension filter for the risk register
+  var filterChips = document.querySelectorAll(".filter-chip");
+  filterChips.forEach(function (chipBtn) {
+    chipBtn.addEventListener("click", function () {
+      filterChips.forEach(function (c) { c.classList.remove("active"); });
+      chipBtn.classList.add("active");
+      var dim = chipBtn.getAttribute("data-dim");
+      document.querySelectorAll("#risks .entry").forEach(function (entry) {
+        var show = dim === "all" || entry.getAttribute("data-dim") === dim;
+        entry.classList.toggle("filtered-out", !show);
+      });
+      document.querySelectorAll("#risks .dim-group").forEach(function (group) {
+        var any = group.querySelector(".entry:not(.filtered-out)");
+        group.style.display = any ? "" : "none";
+      });
+    });
+  });
+
+  // Scrollspy
+  var links = Array.prototype.slice.call(document.querySelectorAll(".topnav a"));
+  var sections = links
+    .map(function (a) { return document.getElementById(a.getAttribute("href").slice(1)); })
+    .filter(Boolean);
+
+  function spy() {
+    var pos = window.scrollY + 120;
+    var current = null;
+    sections.forEach(function (s) { if (s.offsetTop <= pos) current = s; });
+    links.forEach(function (a) {
+      a.classList.toggle("active", !!current && a.getAttribute("href") === "#" + current.id);
+    });
+  }
+  window.addEventListener("scroll", spy, { passive: true });
+  spy();
+})();
+
+</script>
+</body>
+</html>
