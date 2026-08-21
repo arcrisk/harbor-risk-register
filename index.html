@@ -534,6 +534,64 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
   max-width: 40ch;
 }
 
+/* -------------------------------------------------------- dimension accordions */
+
+.dims { padding-top: clamp(12px, 2.5vh, 28px); }
+
+.dim-list { border-top: 1px solid var(--hair-dark); }
+
+.dim-acc { border-bottom: 1px solid var(--hair); }
+
+.dim-btn {
+  display: grid;
+  grid-template-columns: 72px 1fr auto 28px;
+  align-items: baseline;
+  gap: 20px;
+  width: 100%;
+  padding: 20px 4px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  transition: background 0.15s ease;
+}
+.dim-btn:hover { background: var(--panel); }
+.dim-btn .code { font-size: 13px; }
+
+.dim-name {
+  display: block;
+  font-family: var(--serif);
+  font-size: clamp(1.25rem, 2.4vw, 1.7rem);
+  font-weight: 500;
+}
+.dim-sub {
+  display: block;
+  font-size: 0.94rem;
+  color: var(--muted);
+  margin-top: 4px;
+  max-width: 65ch;
+}
+
+.dim-count {
+  font-family: var(--mono);
+  font-size: 12.5px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.dim-btn:hover .dim-count { color: var(--accent); }
+.dim-btn .entry-toggle { align-self: center; justify-self: end; }
+
+.dim-body { padding: 0 4px 30px; }
+.dim-body .entries { border-top: 1px solid var(--hair); }
+
+@media (max-width: 860px) {
+  .dim-btn { grid-template-columns: 48px 1fr 24px; }
+  .dim-count { display: none; }
+}
+
 </style>
 </head>
 <body>
@@ -542,23 +600,19 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
   <div class="hero-intro">
     <h1>Harbor Risk Register</h1>
   </div>
-  <nav class="ledger" aria-label="Risk dimensions"><a class="ledger-row" href="#dim-vr"><span class="code">VR</span><span class="ledger-name">Validity &amp; reliability</span><span class="ledger-count">07 risks</span></a><a class="ledger-row" href="#dim-dp"><span class="code">DP</span><span class="ledger-name">Data &amp; privacy</span><span class="ledger-count">09 risks</span></a><a class="ledger-row" href="#dim-sf"><span class="code">SF</span><span class="ledger-name">Safety</span><span class="ledger-count">12 risks</span></a><a class="ledger-row" href="#dim-sc"><span class="code">SC</span><span class="ledger-name">Security</span><span class="ledger-count">11 risks</span></a><a class="ledger-row" href="#dim-et"><span class="code">ET</span><span class="ledger-name">Explainability &amp; transparency</span><span class="ledger-count">07 risks</span></a></nav>
 </header>
-<section class="section" id="risks">
-  <p class="eyebrow">Risk register</p>
-  <h2>The risks</h2>
-  <p class="lead">Each entry states the mechanism, why agents make it worse than a chatbot or a classic model, contributing factors, examples, and its mappings to regulation and standards. Each risk also names the traditional insurance lines that typically respond to it, from tech E&amp;O and cyber to crime. Open a risk to expand it, or filter by dimension.</p>
-  <div class="section-tools">
-    <div class="chip-row filter-row" role="group" aria-label="Filter risks by dimension"><button class="filter-chip active" data-dim="all">All dimensions</button><button class="filter-chip" data-dim="vr">VR</button><button class="filter-chip" data-dim="dp">DP</button><button class="filter-chip" data-dim="sf">SF</button><button class="filter-chip" data-dim="sc">SC</button><button class="filter-chip" data-dim="et">ET</button></div>
-    <button class="expand-all" data-scope="risks">Expand all</button>
-  </div>
-  
-<div class="dim-group" id="dim-vr">
-  <div class="dim-head">
-    <h3><span class="code">VR</span> Validity &amp; reliability</h3>
-    <p class="dim-def">The agent does what it is supposed to do, correctly and consistently, in production conditions.</p>
-  </div>
-  <div class="entries">
+<section class="section dims" id="risks">
+  <div class="dim-list">
+<div class="dim-acc" id="dim-vr">
+  <button class="dim-btn" aria-expanded="false" aria-controls="dim-vr-body">
+    <span class="code">VR</span>
+    <span class="dim-title"><span class="dim-name">Validity &amp; reliability</span>
+    <span class="dim-sub">The agent does what it is supposed to do, correctly and consistently.</span></span>
+    <span class="dim-count">07 risks</span>
+    <span class="entry-toggle" aria-hidden="true"></span>
+  </button>
+  <div class="dim-body" id="dim-vr-body" hidden>
+    <div class="entries">
 <div class="entry" id="VR-01" data-dim="vr">
   <button class="entry-head" aria-expanded="false" aria-controls="VR-01-body">
     <span class="code">VR-01</span>
@@ -727,13 +781,18 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     </div>
   </div>
 </div></div>
-</div>
-<div class="dim-group" id="dim-dp">
-  <div class="dim-head">
-    <h3><span class="code">DP</span> Data &amp; privacy</h3>
-    <p class="dim-def">Personal and confidential data stays inside its intended boundaries through prompts, memory, tools and logs, and intellectual property is respected.</p>
   </div>
-  <div class="entries">
+</div>
+<div class="dim-acc" id="dim-dp">
+  <button class="dim-btn" aria-expanded="false" aria-controls="dim-dp-body">
+    <span class="code">DP</span>
+    <span class="dim-title"><span class="dim-name">Data &amp; privacy</span>
+    <span class="dim-sub">Personal and confidential data stays inside its intended boundaries through prompts, memory, tools and logs, and intellectual property is respected.</span></span>
+    <span class="dim-count">09 risks</span>
+    <span class="entry-toggle" aria-hidden="true"></span>
+  </button>
+  <div class="dim-body" id="dim-dp-body" hidden>
+    <div class="entries">
 <div class="entry" id="DP-01" data-dim="dp">
   <button class="entry-head" aria-expanded="false" aria-controls="DP-01-body">
     <span class="code">DP-01</span>
@@ -950,13 +1009,18 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     </div>
   </div>
 </div></div>
-</div>
-<div class="dim-group" id="dim-sf">
-  <div class="dim-head">
-    <h3><span class="code">SF</span> Safety</h3>
-    <p class="dim-def">The agent does not harm people, the organization or third parties, and humans keep effective oversight.</p>
   </div>
-  <div class="entries">
+</div>
+<div class="dim-acc" id="dim-sf">
+  <button class="dim-btn" aria-expanded="false" aria-controls="dim-sf-body">
+    <span class="code">SF</span>
+    <span class="dim-title"><span class="dim-name">Safety</span>
+    <span class="dim-sub">The agent does not harm people, the organization or third parties, and there is effective human oversight.</span></span>
+    <span class="dim-count">12 risks</span>
+    <span class="entry-toggle" aria-hidden="true"></span>
+  </button>
+  <div class="dim-body" id="dim-sf-body" hidden>
+    <div class="entries">
 <div class="entry" id="SF-01" data-dim="sf">
   <button class="entry-head" aria-expanded="false" aria-controls="SF-01-body">
     <span class="code">SF-01</span>
@@ -1245,13 +1309,18 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     </div>
   </div>
 </div></div>
-</div>
-<div class="dim-group" id="dim-sc">
-  <div class="dim-head">
-    <h3><span class="code">SC</span> Security</h3>
-    <p class="dim-def">The agent, its tools and its data pipeline resist adversarial manipulation, compromise and abuse.</p>
   </div>
-  <div class="entries">
+</div>
+<div class="dim-acc" id="dim-sc">
+  <button class="dim-btn" aria-expanded="false" aria-controls="dim-sc-body">
+    <span class="code">SC</span>
+    <span class="dim-title"><span class="dim-name">Security</span>
+    <span class="dim-sub">The agent, its tools and data are resilient to adversarial manipulation, compromise, and abuse.</span></span>
+    <span class="dim-count">11 risks</span>
+    <span class="entry-toggle" aria-hidden="true"></span>
+  </button>
+  <div class="dim-body" id="dim-sc-body" hidden>
+    <div class="entries">
 <div class="entry" id="SC-01" data-dim="sc">
   <button class="entry-head" aria-expanded="false" aria-controls="SC-01-body">
     <span class="code">SC-01</span>
@@ -1516,13 +1585,18 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     </div>
   </div>
 </div></div>
-</div>
-<div class="dim-group" id="dim-et">
-  <div class="dim-head">
-    <h3><span class="code">ET</span> Explainability &amp; transparency</h3>
-    <p class="dim-def">Every agent decision can be traced, explained and disclosed, to the people it affects and to those accountable for it.</p>
   </div>
-  <div class="entries">
+</div>
+<div class="dim-acc" id="dim-et">
+  <button class="dim-btn" aria-expanded="false" aria-controls="dim-et-body">
+    <span class="code">ET</span>
+    <span class="dim-title"><span class="dim-name">Explainability &amp; transparency</span>
+    <span class="dim-sub">Agent decisions can be traced, explained and disclosed to the people it affects and to those accountable for it.</span></span>
+    <span class="dim-count">07 risks</span>
+    <span class="entry-toggle" aria-hidden="true"></span>
+  </button>
+  <div class="dim-body" id="dim-et-body" hidden>
+    <div class="entries">
 <div class="entry" id="ET-01" data-dim="et">
   <button class="entry-head" aria-expanded="false" aria-controls="ET-01-body">
     <span class="code">ET-01</span>
@@ -1691,7 +1765,8 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     </div>
   </div>
 </div></div>
-</div>
+  </div>
+</div></div>
   <div class="footnotes">
     <p>* Insurance lines name the traditional covers that typically respond to a risk. Actual coverage varies by policy wording, endorsements and exclusions.</p>
     <p>* Directors and officers cover is not listed per risk. D&amp;O exposure attaches to many of these risks, especially governance, disclosure and oversight failures, but whether a D&amp;O policy responds depends heavily on policy wording, coverage type and exclusions.</p>
@@ -1717,7 +1792,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     else body.setAttribute("hidden", "");
   }
 
-  document.querySelectorAll(".entry-head").forEach(function (head) {
+  document.querySelectorAll(".entry-head, .dim-btn").forEach(function (head) {
     head.addEventListener("click", function () {
       setOpen(head, head.getAttribute("aria-expanded") !== "true");
     });
@@ -1740,7 +1815,12 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
   function expandTarget(id) {
     var el = document.getElementById(id);
     if (!el) return;
-    var head = el.querySelector(":scope > .entry-head");
+    var dimBody = el.closest(".dim-body");
+    if (dimBody) {
+      var btn = document.querySelector('[aria-controls="' + dimBody.id + '"]');
+      if (btn) setOpen(btn, true);
+    }
+    var head = el.querySelector(":scope > .entry-head") || el.querySelector(":scope > .dim-btn");
     if (head) setOpen(head, true);
   }
 
