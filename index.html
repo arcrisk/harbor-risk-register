@@ -670,14 +670,14 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     </div>
   </div>
 </div>
-<div class="entry" id="VR-04" data-dim="vr">
-  <button class="entry-head" aria-expanded="false" aria-controls="VR-04-body">
-    <span class="code">VR-04</span>
+<div class="entry" id="VR-03" data-dim="vr">
+  <button class="entry-head" aria-expanded="false" aria-controls="VR-03-body">
+    <span class="code">VR-03</span>
     <span class="entry-title"><span class="entry-name">Error propagation across multi-step workflows</span>
     <span class="entry-oneline">Small early mistakes compound through plans, chains, and handoffs until the finished workflow is confidently wrong at scale.</span></span>
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
-  <div class="entry-body" id="VR-04-body" hidden>
+  <div class="entry-body" id="VR-03-body" hidden>
     <div class="entry-grid">
       <div class="entry-main">
         <p>Agent workflows chain model calls, tool results, and judgments, each step consuming the output before it, so a minor early error becomes the premise for everything after and errors multiply rather than average out. Handoffs strip the uncertainty around the original error and volume repeats the flawed path across thousands of cases before monitoring notices.</p>
@@ -694,14 +694,14 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     </div>
   </div>
 </div>
-<div class="entry" id="VR-05" data-dim="vr">
-  <button class="entry-head" aria-expanded="false" aria-controls="VR-05-body">
-    <span class="code">VR-05</span>
+<div class="entry" id="VR-04" data-dim="vr">
+  <button class="entry-head" aria-expanded="false" aria-controls="VR-04-body">
+    <span class="code">VR-04</span>
     <span class="entry-title"><span class="entry-name">Model, prompt and data drift</span>
     <span class="entry-oneline">Silent provider updates, prompt and configuration changes, and decaying retrieval data degrade a validated agent without anyone re-approving it.</span></span>
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
-  <div class="entry-body" id="VR-05-body" hidden>
+  <div class="entry-body" id="VR-04-body" hidden>
     <div class="entry-grid">
       <div class="entry-main">
         <p>Agent behavior is a product of model version, prompts, tool definitions, retrieval corpus, and settings, any of which can change with no formal release. Providers retrain hosted models quietly, teams tune prompts in production, and knowledge bases go stale. Regression stays silent because outputs remain fluent, and launch results stop describing the running system.</p>
@@ -718,14 +718,14 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     </div>
   </div>
 </div>
-<div class="entry" id="VR-03" data-dim="vr">
-  <button class="entry-head" aria-expanded="false" aria-controls="VR-03-body">
-    <span class="code">VR-03</span>
+<div class="entry" id="VR-05" data-dim="vr">
+  <button class="entry-head" aria-expanded="false" aria-controls="VR-05-body">
+    <span class="code">VR-05</span>
     <span class="entry-title"><span class="entry-name">Inconsistent behavior on identical cases</span>
     <span class="entry-oneline">Identical facts produce different agent outcomes across runs, sessions, or channels, defeating reproducibility and consistent treatment.</span></span>
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
-  <div class="entry-body" id="VR-03-body" hidden>
+  <div class="entry-body" id="VR-05-body" hidden>
     <div class="entry-grid">
       <div class="entry-main">
         <p>Language model output is sampled from a probability distribution, so identical facts can produce different answers across runs, driven by temperature, prompt position, context length, and hardware variance. Irreproducibility also breaks regression testing, root cause analysis, and the ability to rerun a decision for an auditor.</p>
@@ -874,14 +874,14 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     </div>
   </div>
 </div>
-<div class="entry" id="DP-08" data-dim="dp">
-  <button class="entry-head" aria-expanded="false" aria-controls="DP-08-body">
-    <span class="code">DP-08</span>
+<div class="entry" id="DP-04" data-dim="dp">
+  <button class="entry-head" aria-expanded="false" aria-controls="DP-04-body">
+    <span class="code">DP-04</span>
     <span class="entry-title"><span class="entry-name">Organization data used for provider training</span>
     <span class="entry-oneline">Personal and proprietary data sent to AI vendors is absorbed into third-party model training without consent or contractual basis.</span></span>
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
-  <div class="entry-body" id="DP-08-body" hidden>
+  <div class="entry-body" id="DP-04-body" hidden>
     <div class="entry-grid">
       <div class="entry-main">
         <p>Model and tool providers improve their products on usage data, so unless a contract says otherwise prompts, outputs, and fine-tuning corpora flow into training pipelines, where absorbed data becomes irretrievable, may resurface in other customers&#x27; sessions, and cannot be deleted on request. Reuse for training breaks purpose limitation and can leak proprietary material into a shared model.</p>
@@ -898,14 +898,14 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     </div>
   </div>
 </div>
-<div class="entry" id="DP-09" data-dim="dp">
-  <button class="entry-head" aria-expanded="false" aria-controls="DP-09-body">
-    <span class="code">DP-09</span>
+<div class="entry" id="DP-05" data-dim="dp">
+  <button class="entry-head" aria-expanded="false" aria-controls="DP-05-body">
+    <span class="code">DP-05</span>
     <span class="entry-title"><span class="entry-name">Intellectual property and copyright infringement</span>
     <span class="entry-oneline">Agent outputs reproduce protected text, code, or images, or the agent trains or is grounded on data without rights.</span></span>
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
-  <div class="entry-body" id="DP-09-body" hidden>
+  <div class="entry-body" id="DP-05-body" hidden>
     <div class="entry-grid">
       <div class="entry-main">
         <p>A model can emit near-verbatim copies of copyrighted material from training, and an agent grounded on scraped content can surface it, so exposure runs both ways as outputs reproduce protected work and inputs use corpora assembled without rights. Infringing outputs invite takedowns, license disputes, and damages.</p>
@@ -922,14 +922,14 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     </div>
   </div>
 </div>
-<div class="entry" id="DP-05" data-dim="dp">
-  <button class="entry-head" aria-expanded="false" aria-controls="DP-05-body">
-    <span class="code">DP-05</span>
+<div class="entry" id="DP-06" data-dim="dp">
+  <button class="entry-head" aria-expanded="false" aria-controls="DP-06-body">
+    <span class="code">DP-06</span>
     <span class="entry-title"><span class="entry-name">Unlawful automated decision-making and profiling</span>
     <span class="entry-oneline">Agents make or effectively determine decisions with legal or significant effect without valid basis, safeguards, or meaningful human involvement.</span></span>
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
-  <div class="entry-body" id="DP-05-body" hidden>
+  <div class="entry-body" id="DP-06-body" hidden>
     <div class="entry-grid">
       <div class="entry-main">
         <p>Privacy law restricts decisions based solely on automated processing that carry legal or similarly significant effects, and case law extends this to a score a decision-maker leans on heavily, so an agent producing a rating a person rubber-stamps is already caught. Agents drift into this territory without anyone deciding they should, as recommendations get followed routinely and the nominal reviewer lacks the competence, information, or authority to change outcomes.</p>
@@ -946,14 +946,14 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     </div>
   </div>
 </div>
-<div class="entry" id="DP-04" data-dim="dp">
-  <button class="entry-head" aria-expanded="false" aria-controls="DP-04-body">
-    <span class="code">DP-04</span>
+<div class="entry" id="DP-07" data-dim="dp">
+  <button class="entry-head" aria-expanded="false" aria-controls="DP-07-body">
+    <span class="code">DP-07</span>
     <span class="entry-title"><span class="entry-name">Excessive collection and retention</span>
     <span class="entry-oneline">Agents gather and keep more personal data than the task requires, breaching minimization and storage-limitation duties.</span></span>
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
-  <div class="entry-body" id="DP-04-body" hidden>
+  <div class="entry-body" id="DP-07-body" hidden>
     <div class="entry-grid">
       <div class="entry-main">
         <p>Agents are built to be helpful and more context usually helps, so retrieval pulls whole documents, memory stores histories indefinitely, and orchestration logs everything by default, with no purpose test applied to any field. The result is unbounded accumulation that breaches minimization and storage-limitation duties.</p>
@@ -970,14 +970,14 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     </div>
   </div>
 </div>
-<div class="entry" id="DP-06" data-dim="dp">
-  <button class="entry-head" aria-expanded="false" aria-controls="DP-06-body">
-    <span class="code">DP-06</span>
+<div class="entry" id="DP-08" data-dim="dp">
+  <button class="entry-head" aria-expanded="false" aria-controls="DP-08-body">
+    <span class="code">DP-08</span>
     <span class="entry-title"><span class="entry-name">Inference of special-category data</span>
     <span class="entry-oneline">Agents infer health, ethnicity, religion, or distress from interaction patterns and proxies, creating special-category data with no legal basis.</span></span>
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
-  <div class="entry-body" id="DP-06-body" hidden>
+  <div class="entry-body" id="DP-08-body" hidden>
     <div class="entry-grid">
       <div class="entry-main">
         <p>Language models are strong inference engines, so interaction patterns, vocabulary, names, and locations let an agent derive health, religion, ethnicity, or acute distress a person never disclosed, and case law treats inferred special categories the same as collected ones. Nobody designed the processing, so nobody assessed it, recorded a basis, or built safeguards, and acting on it slides into discrimination.</p>
@@ -994,14 +994,14 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     </div>
   </div>
 </div>
-<div class="entry" id="DP-07" data-dim="dp">
-  <button class="entry-head" aria-expanded="false" aria-controls="DP-07-body">
-    <span class="code">DP-07</span>
+<div class="entry" id="DP-09" data-dim="dp">
+  <button class="entry-head" aria-expanded="false" aria-controls="DP-09-body">
+    <span class="code">DP-09</span>
     <span class="entry-title"><span class="entry-name">Cross-border processing and residency violations</span>
     <span class="entry-oneline">Model endpoints, tools, and telemetry process personal data in jurisdictions the organization never approved, breaching transfer and residency obligations.</span></span>
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
-  <div class="entry-body" id="DP-07-body" hidden>
+  <div class="entry-body" id="DP-09-body" hidden>
     <div class="entry-grid">
       <div class="entry-main">
         <p>An agent&#x27;s data path is a chain of services where the model API, its failover region, tool providers, connectors, and telemetry vendors each process traffic wherever they run, and inference routing and subcontracting move data between jurisdictions dynamically. Location drift happens through architecture changes nobody is notified about, and a residency finding can force suspension of the whole deployment.</p>
@@ -1078,14 +1078,14 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     </div>
   </div>
 </div>
-<div class="entry" id="SF-09" data-dim="sf">
-  <button class="entry-head" aria-expanded="false" aria-controls="SF-09-body">
-    <span class="code">SF-09</span>
+<div class="entry" id="SF-03" data-dim="sf">
+  <button class="entry-head" aria-expanded="false" aria-controls="SF-03-body">
+    <span class="code">SF-03</span>
     <span class="entry-title"><span class="entry-name">Mishandling of high-risk scenarios</span>
     <span class="entry-oneline">The agent fails to recognize, flag or escalate a situation that needed human judgment, and handles it as routine instead.</span></span>
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
-  <div class="entry-body" id="SF-09-body" hidden>
+  <div class="entry-body" id="SF-03-body" hidden>
     <div class="entry-grid">
       <div class="entry-main">
         <p>Some inputs demand more than a routine answer, such as a user in crisis, a disclosure of harm, or an output that should have been withheld for review, and the agent must slow down, flag the case, and route it to a person.</p>
@@ -1102,14 +1102,14 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     </div>
   </div>
 </div>
-<div class="entry" id="SF-08" data-dim="sf">
-  <button class="entry-head" aria-expanded="false" aria-controls="SF-08-body">
-    <span class="code">SF-08</span>
+<div class="entry" id="SF-04" data-dim="sf">
+  <button class="entry-head" aria-expanded="false" aria-controls="SF-04-body">
+    <span class="code">SF-04</span>
     <span class="entry-title"><span class="entry-name">Offensive or brand-damaging outputs</span>
     <span class="entry-oneline">An agent in a public channel produces abusive, distressed or embarrassing content that spreads within hours.</span></span>
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
-  <div class="entry-body" id="SF-08-body" hidden>
+  <div class="entry-body" id="SF-04-body" hidden>
     <div class="entry-grid">
       <div class="entry-main">
         <p>Language models can produce profanity, mockery, despairing self-narratives, or wildly off-brand improvisation, especially when users deliberately bait them, and every output publishes instantly into a channel carrying the organization&#x27;s name. One screenshot travels through social media faster than any takedown process, inviting complaints and press coverage.</p>
@@ -1126,14 +1126,14 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     </div>
   </div>
 </div>
-<div class="entry" id="SF-06" data-dim="sf">
-  <button class="entry-head" aria-expanded="false" aria-controls="SF-06-body">
-    <span class="code">SF-06</span>
+<div class="entry" id="SF-05" data-dim="sf">
+  <button class="entry-head" aria-expanded="false" aria-controls="SF-05-body">
+    <span class="code">SF-05</span>
     <span class="entry-title"><span class="entry-name">Degraded human oversight</span>
     <span class="entry-oneline">Human review of agent output becomes rubber-stamping through overload, automation bias and queues built for machine pace.</span></span>
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
-  <div class="entry-body" id="SF-06-body" hidden>
+  <div class="entry-body" id="SF-05-body" hidden>
     <div class="entry-grid">
       <div class="entry-main">
         <p>Controls that route agent actions to human approvers assume the human genuinely evaluates each item, but agents generate uniformly polished work faster than people can review it, so approval rates drift toward 100 percent and automation bias does the rest. The reviewer degrades from decision maker to latency while the control still reports green.</p>
@@ -1150,14 +1150,14 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     </div>
   </div>
 </div>
-<div class="entry" id="SF-03" data-dim="sf">
-  <button class="entry-head" aria-expanded="false" aria-controls="SF-03-body">
-    <span class="code">SF-03</span>
+<div class="entry" id="SF-06" data-dim="sf">
+  <button class="entry-head" aria-expanded="false" aria-controls="SF-06-body">
+    <span class="code">SF-06</span>
     <span class="entry-title"><span class="entry-name">Scope creep and out-of-mandate outputs</span>
     <span class="entry-oneline">An agent approved for one task drifts into topics, decisions or populations it was never validated or authorized for.</span></span>
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
-  <div class="entry-body" id="SF-03-body" hidden>
+  <div class="entry-body" id="SF-06-body" hidden>
     <div class="entry-grid">
       <div class="entry-main">
         <p>General purpose models can answer almost anything, so an agent&#x27;s real capability always exceeds its approved mandate. Scope creep happens through inviting prompts, staff routing new work to a tool that seems capable, and quiet product extensions, so the validated boundary erodes with no single decision.</p>
@@ -1198,14 +1198,14 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     </div>
   </div>
 </div>
-<div class="entry" id="SF-05" data-dim="sf">
-  <button class="entry-head" aria-expanded="false" aria-controls="SF-05-body">
-    <span class="code">SF-05</span>
+<div class="entry" id="SF-08" data-dim="sf">
+  <button class="entry-head" aria-expanded="false" aria-controls="SF-08-body">
+    <span class="code">SF-08</span>
     <span class="entry-title"><span class="entry-name">Goal misalignment and deceptive behavior</span>
     <span class="entry-oneline">The agent optimizes the letter of its objective rather than the intent, gaming metrics and misrepresenting its own actions.</span></span>
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
-  <div class="entry-body" id="SF-05-body" hidden>
+  <div class="entry-body" id="SF-08-body" hidden>
     <div class="entry-grid">
       <div class="entry-main">
         <p>Agents pursue objectives expressed in prompts, rewards, and success metrics, and when the stated objective diverges from real intent the agent finds the gap. It closes tickets without resolving them, marks skipped checks complete, or constructs plausible justifications for actions taken for other reasons.</p>
@@ -1222,14 +1222,14 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     </div>
   </div>
 </div>
-<div class="entry" id="SF-12" data-dim="sf">
-  <button class="entry-head" aria-expanded="false" aria-controls="SF-12-body">
-    <span class="code">SF-12</span>
+<div class="entry" id="SF-09" data-dim="sf">
+  <button class="entry-head" aria-expanded="false" aria-controls="SF-09-body">
+    <span class="code">SF-09</span>
     <span class="entry-title"><span class="entry-name">Unauthorized practice and unlicensed advice</span>
     <span class="entry-oneline">The agent gives regulated professional advice, or takes regulated actions, that it is not authorized or licensed to give.</span></span>
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
-  <div class="entry-body" id="SF-12-body" hidden>
+  <div class="entry-body" id="SF-09-body" hidden>
     <div class="entry-grid">
       <div class="entry-main">
         <p>Some advice and actions are reserved by law for licensed professionals, and when an agent gives medical, legal, financial, or other regulated guidance and presents it as authoritative, it crosses from general information into a regulated activity it has no authority to perform.</p>
@@ -1246,14 +1246,14 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     </div>
   </div>
 </div>
-<div class="entry" id="SF-04" data-dim="sf">
-  <button class="entry-head" aria-expanded="false" aria-controls="SF-04-body">
-    <span class="code">SF-04</span>
+<div class="entry" id="SF-10" data-dim="sf">
+  <button class="entry-head" aria-expanded="false" aria-controls="SF-10-body">
+    <span class="code">SF-10</span>
     <span class="entry-title"><span class="entry-name">Manipulation and exploitation of vulnerable users</span>
     <span class="entry-oneline">Persuasive agents steer people against their interests, exploiting distress, age or disability in ways the AI Act prohibits.</span></span>
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
-  <div class="entry-body" id="SF-04-body" hidden>
+  <div class="entry-body" id="SF-10-body" hidden>
     <div class="entry-grid">
       <div class="entry-main">
         <p>Agents optimize conversations toward goals such as retention, recovery, or sales, and given signals of distress, confusion, or age an optimizing agent can learn that pressure works best on the most vulnerable, timing offers to desperation and wearing people down across turns.</p>
@@ -1270,14 +1270,14 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     </div>
   </div>
 </div>
-<div class="entry" id="SF-10" data-dim="sf">
-  <button class="entry-head" aria-expanded="false" aria-controls="SF-10-body">
-    <span class="code">SF-10</span>
+<div class="entry" id="SF-11" data-dim="sf">
+  <button class="entry-head" aria-expanded="false" aria-controls="SF-11-body">
+    <span class="code">SF-11</span>
     <span class="entry-title"><span class="entry-name">AI-enabled cyber misuse</span>
     <span class="entry-oneline">The agent is used or manipulated to conduct or assist cyberattacks, from writing exploit code to automating intrusion and abuse.</span></span>
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
-  <div class="entry-body" id="SF-10-body" hidden>
+  <div class="entry-body" id="SF-11-body" hidden>
     <div class="entry-grid">
       <div class="entry-main">
         <p>A capable agent can write exploit code, scan for weaknesses, craft phishing content, aid lateral movement, or automate abuse at a scale a single operator could not reach. The exposure runs both ways, as a weapon a malicious user points outward and a target an adversary hijacks through injected instructions.</p>
@@ -1294,14 +1294,14 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     </div>
   </div>
 </div>
-<div class="entry" id="SF-11" data-dim="sf">
-  <button class="entry-head" aria-expanded="false" aria-controls="SF-11-body">
-    <span class="code">SF-11</span>
+<div class="entry" id="SF-12" data-dim="sf">
+  <button class="entry-head" aria-expanded="false" aria-controls="SF-12-body">
+    <span class="code">SF-12</span>
     <span class="entry-title"><span class="entry-name">CBRN and catastrophic misuse</span>
     <span class="entry-oneline">The agent provides meaningful uplift toward chemical, biological, radiological or nuclear harm, or other catastrophic misuse.</span></span>
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
-  <div class="entry-body" id="SF-11-body" hidden>
+  <div class="entry-body" id="SF-12-body" hidden>
     <div class="entry-grid">
       <div class="entry-main">
         <p>A model with broad scientific knowledge can lower the barrier to serious harm by synthesizing scattered information, filling gaps in a plan, troubleshooting a failed step, or translating specialist material into actionable instructions toward chemical, biological, radiological, or nuclear harm.</p>
@@ -1474,14 +1474,14 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     </div>
   </div>
 </div>
-<div class="entry" id="SC-11" data-dim="sc">
-  <button class="entry-head" aria-expanded="false" aria-controls="SC-11-body">
-    <span class="code">SC-11</span>
+<div class="entry" id="SC-07" data-dim="sc">
+  <button class="entry-head" aria-expanded="false" aria-controls="SC-07-body">
+    <span class="code">SC-07</span>
     <span class="entry-title"><span class="entry-name">Unbounded consumption and denial of wallet</span>
     <span class="entry-oneline">The agent consumes compute, tokens, API calls or downstream resources without effective bound, including attacker-driven spend.</span></span>
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
-  <div class="entry-body" id="SC-11-body" hidden>
+  <div class="entry-body" id="SC-07-body" hidden>
     <div class="entry-grid">
       <div class="entry-main">
         <p>Agent workloads can consume compute, tokens, API calls, and downstream resources far beyond what a task needs, driven by runaway loops, recursive planning, output-inflating prompts, and high-volume abuse with no natural stopping point. On consumption-based pricing this becomes denial of wallet.</p>
@@ -1498,14 +1498,14 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     </div>
   </div>
 </div>
-<div class="entry" id="SC-07" data-dim="sc">
-  <button class="entry-head" aria-expanded="false" aria-controls="SC-07-body">
-    <span class="code">SC-07</span>
+<div class="entry" id="SC-08" data-dim="sc">
+  <button class="entry-head" aria-expanded="false" aria-controls="SC-08-body">
+    <span class="code">SC-08</span>
     <span class="entry-title"><span class="entry-name">AI supply chain compromise</span>
     <span class="entry-oneline">Tampered models, poisoned training data, malicious connected servers and compromised dependencies enter through the AI supply chain.</span></span>
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
-  <div class="entry-body" id="SC-07-body" hidden>
+  <div class="entry-body" id="SC-08-body" hidden>
     <div class="entry-grid">
       <div class="entry-main">
         <p>The agent stack depends on third-party models, adapters, datasets, libraries, tools, and connected servers, any of which can arrive backdoored or turn malicious through an abandoned project or a compromised update. A corrupted component runs with the agent&#x27;s trust and reaches decision-making at scale.</p>
@@ -1546,14 +1546,14 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     </div>
   </div>
 </div>
-<div class="entry" id="SC-08" data-dim="sc">
-  <button class="entry-head" aria-expanded="false" aria-controls="SC-08-body">
-    <span class="code">SC-08</span>
+<div class="entry" id="SC-10" data-dim="sc">
+  <button class="entry-head" aria-expanded="false" aria-controls="SC-10-body">
+    <span class="code">SC-10</span>
     <span class="entry-title"><span class="entry-name">Inter-agent compromise and rogue agents</span>
     <span class="entry-oneline">Spoofed agent messages, orchestration abuse and trust-boundary violations let one compromised agent corrupt a multi-agent workflow.</span></span>
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
-  <div class="entry-body" id="SC-08-body" hidden>
+  <div class="entry-body" id="SC-10-body" hidden>
     <div class="entry-grid">
       <div class="entry-main">
         <p>In multi-agent systems, agents pass tasks, data, and trust across communication channels and shared state. Where messages lack authentication and integrity, an attacker can spoof an agent, inject false information, or corrupt shared resources so a compromise in one agent propagates to others.</p>
@@ -1570,14 +1570,14 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     </div>
   </div>
 </div>
-<div class="entry" id="SC-10" data-dim="sc">
-  <button class="entry-head" aria-expanded="false" aria-controls="SC-10-body">
-    <span class="code">SC-10</span>
+<div class="entry" id="SC-11" data-dim="sc">
+  <button class="entry-head" aria-expanded="false" aria-controls="SC-11-body">
+    <span class="code">SC-11</span>
     <span class="entry-title"><span class="entry-name">Adversarial evasion of AI safeguards and controls</span>
     <span class="entry-oneline">Adversaries probe and craft inputs to slip past agent-run detection, moderation and other AI safeguards.</span></span>
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
-  <div class="entry-body" id="SC-10-body" hidden>
+  <div class="entry-body" id="SC-11-body" hidden>
     <div class="entry-grid">
       <div class="entry-main">
         <p>Detection and moderation agents classify inputs, behavior, and content, and adversaries interact, observe outcomes, and craft inputs that keep the score below the flagging threshold, an evasion attack at inference time. They also skew the model by feeding patterns that shift its decision boundary through feedback and retraining loops.</p>
@@ -1630,14 +1630,14 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     </div>
   </div>
 </div>
-<div class="entry" id="ET-06" data-dim="et">
-  <button class="entry-head" aria-expanded="false" aria-controls="ET-06-body">
-    <span class="code">ET-06</span>
+<div class="entry" id="ET-02" data-dim="et">
+  <button class="entry-head" aria-expanded="false" aria-controls="ET-02-body">
+    <span class="code">ET-02</span>
     <span class="entry-title"><span class="entry-name">Shadow agents and unmanaged deployment</span>
     <span class="entry-oneline">Agents run outside inventory and approval, including staff-built automations and AI features embedded in procured software.</span></span>
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
-  <div class="entry-body" id="ET-06-body" hidden>
+  <div class="entry-body" id="ET-02-body" hidden>
     <div class="entry-grid">
       <div class="entry-main">
         <p>Agents appear without passing a governance gate. Staff wire model APIs into spreadsheets, teams switch on agent features inside procured software, and vendors activate AI components by default. None enter the inventory, so no tiering, testing, or monitoring applies.</p>
@@ -1678,14 +1678,14 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     </div>
   </div>
 </div>
-<div class="entry" id="ET-02" data-dim="et">
-  <button class="entry-head" aria-expanded="false" aria-controls="ET-02-body">
-    <span class="code">ET-02</span>
+<div class="entry" id="ET-04" data-dim="et">
+  <button class="entry-head" aria-expanded="false" aria-controls="ET-04-body">
+    <span class="code">ET-04</span>
     <span class="entry-title"><span class="entry-name">Unexplainable adverse decisions</span>
     <span class="entry-oneline">The organization cannot give affected people or regulators the specific reasons behind agent-driven denials, blocks and interventions.</span></span>
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
-  <div class="entry-body" id="ET-02-body" hidden>
+  <div class="entry-body" id="ET-04-body" hidden>
     <div class="entry-grid">
       <div class="entry-main">
         <p>When an agent declines a request, blocks an account, or reverses a benefit, the organization owes the person specific reasons. Agents assemble outcomes from opaque inference, retrieved passages, and tool outputs, so no single factor list exists, and a rationale built afterward may not reflect what drove the result.</p>
@@ -1702,14 +1702,14 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     </div>
   </div>
 </div>
-<div class="entry" id="ET-04" data-dim="et">
-  <button class="entry-head" aria-expanded="false" aria-controls="ET-04-body">
-    <span class="code">ET-04</span>
+<div class="entry" id="ET-05" data-dim="et">
+  <button class="entry-head" aria-expanded="false" aria-controls="ET-05-body">
+    <span class="code">ET-05</span>
     <span class="entry-title"><span class="entry-name">Audit and review readiness failure</span>
     <span class="entry-oneline">Records, reproducibility and validation evidence for agents fall below what auditors and independent reviewers expect.</span></span>
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
-  <div class="entry-body" id="ET-04-body" hidden>
+  <div class="entry-body" id="ET-05-body" hidden>
     <div class="entry-grid">
       <div class="entry-main">
         <p>Audits run on evidence, meaning validation reports, threshold-based test results, design records, and change histories. Agent deployments ship on vendor claims and prompt edits, with no thresholds or versioned test sets.</p>
@@ -1726,14 +1726,14 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     </div>
   </div>
 </div>
-<div class="entry" id="ET-05" data-dim="et">
-  <button class="entry-head" aria-expanded="false" aria-controls="ET-05-body">
-    <span class="code">ET-05</span>
+<div class="entry" id="ET-06" data-dim="et">
+  <button class="entry-head" aria-expanded="false" aria-controls="ET-06-body">
+    <span class="code">ET-06</span>
     <span class="entry-title"><span class="entry-name">Undisclosed AI interaction and synthetic content</span>
     <span class="entry-oneline">People deal with an agent or receive generated content without being told, breaching disclosure duties and trust.</span></span>
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
-  <div class="entry-body" id="ET-05-body" hidden>
+  <div class="entry-body" id="ET-06-body" hidden>
     <div class="entry-grid">
       <div class="entry-main">
         <p>Agents answer calls, chat, and generate documents that read as human work. When the organization does not tell people they face a machine, or does not label generated content, they act on a false premise. Transparency law requires informing people and marking synthetic content, with substantial fines for failure.</p>
