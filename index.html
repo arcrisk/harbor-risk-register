@@ -550,12 +550,12 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
   <div class="hero-intro">
     <h1>Harbor Risk Register</h1>
     <div class="hero-stats">
-      <span class="code">45 risks</span>
+      <span class="code">46 risks</span>
       <span class="code">5 dimensions</span>
       <span class="code">8 mapped frameworks</span>
     </div>
   </div>
-  <nav class="ledger" aria-label="Risk dimensions"><a class="ledger-row" href="#dim-vr"><span class="code">VR</span><span class="ledger-name">Validity &amp; reliability</span><span class="ledger-count">07 risks</span></a><a class="ledger-row" href="#dim-dp"><span class="code">DP</span><span class="ledger-name">Data &amp; privacy</span><span class="ledger-count">09 risks</span></a><a class="ledger-row" href="#dim-sf"><span class="code">SF</span><span class="ledger-name">Safety</span><span class="ledger-count">12 risks</span></a><a class="ledger-row" href="#dim-sc"><span class="code">SC</span><span class="ledger-name">Security</span><span class="ledger-count">10 risks</span></a><a class="ledger-row" href="#dim-et"><span class="code">ET</span><span class="ledger-name">Explainability &amp; transparency</span><span class="ledger-count">07 risks</span></a></nav>
+  <nav class="ledger" aria-label="Risk dimensions"><a class="ledger-row" href="#dim-vr"><span class="code">VR</span><span class="ledger-name">Validity &amp; reliability</span><span class="ledger-count">07 risks</span></a><a class="ledger-row" href="#dim-dp"><span class="code">DP</span><span class="ledger-name">Data &amp; privacy</span><span class="ledger-count">09 risks</span></a><a class="ledger-row" href="#dim-sf"><span class="code">SF</span><span class="ledger-name">Safety</span><span class="ledger-count">12 risks</span></a><a class="ledger-row" href="#dim-sc"><span class="code">SC</span><span class="ledger-name">Security</span><span class="ledger-count">11 risks</span></a><a class="ledger-row" href="#dim-et"><span class="code">ET</span><span class="ledger-name">Explainability &amp; transparency</span><span class="ledger-count">07 risks</span></a></nav>
 </header>
 <section class="section" id="risks">
   <p class="eyebrow">Risk register</p>
@@ -1241,21 +1241,21 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
   <button class="entry-head" aria-expanded="false" aria-controls="SC-01-body">
     <span class="code">SC-01</span>
     <span class="entry-title"><span class="entry-name">Prompt injection</span>
-    <span class="entry-oneline">Attackers plant instructions in prompts or in content the agent reads, hijacking its behavior and actions.</span></span>
+    <span class="entry-oneline">Crafted user input gains instruction authority, overriding the system&#x27;s operating rules and guardrails.</span></span>
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="entry-body" id="SC-01-body" hidden>
     <div class="entry-grid">
       <div class="entry-main">
-        <p>Models do not firmly separate instructions from data, so text hidden in an email, document, web page, or record the agent reads can override its operating rules. Direct injection targets the system prompt while indirect injection buries commands in third-party content and needs no privileged access. Unlike a chatbot that merely returns bad text, an agent follows the injected instruction into action, calling tools, changing records, or exfiltrating data, so one poisoned document becomes a real incident.</p>
+        <p>Models do not firmly separate instructions from data, so any text in context can steer behavior. Untrusted content entering model context is normal operation, the failure begins when untrusted content enters privileged context, a system prompt, developer message, or memory whose parameters are filled from user-supplied values. Input that reaches that privileged position carries instruction authority, so a crafted message can override operating rules, defeat guardrails, and redirect the system toward behavior the deployer never wrote.</p>
         <h4 class="detail-label">Contributing factors</h4>
-        <ul class="detail-list"><li>Models treat retrieved content and user text as instructions rather than as data</li><li>Agents read untrusted emails, uploaded documents, web pages and data feeds</li><li>Autonomy lets one injected turn chain into tool calls and state changes</li><li>Weak boundary filtering between external content and the agent&#x27;s operating prompt</li><li>High message volume in busy channels hiding crafted payloads</li></ul>
+        <ul class="detail-list"><li>System prompts and memory templates parameterized with values drawn from untrusted input</li><li>No hard boundary in the model between instructions and data</li><li>Guardrails expressed as instructions that injected text can countermand</li><li>Prompt templates concatenating user text adjacent to privileged instructions</li><li>Jailbreak techniques shared and iterated publicly faster than defenses adapt</li></ul>
         <h4 class="detail-label">Examples</h4>
-        <ul class="detail-list"><li>A crafted instruction inside an uploaded return request tells an e-commerce agent to approve the refund and issue store credit automatically.</li><li>Hidden text in an inbound email steers a customer support agent to reveal another user&#x27;s account details in the same thread.</li><li>A comment planted in a code repository directs a software engineering agent to add an unreviewed dependency and open a pull request.</li></ul>
+        <ul class="detail-list"><li>A user pastes a jailbreak that convinces a support assistant it is in a test mode where refund policies do not apply.</li><li>A crafted message makes a moderation assistant reclassify prohibited content as compliant by overriding its review rubric.</li><li>A profile field fed into an assistant&#x27;s system prompt carries planted wording that disables its disclosure rules.</li></ul>
       </div>
       <aside class="entry-aside">
         <h4 class="detail-label">Insurance lines *</h4><div class="chip-row"><span class="chip">Cyber</span><span class="chip">Tech E&amp;O / MPL / PI</span></div>
-        <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 15 Accuracy, robustness and cybersecurity <span class="map-note">high-risk systems, Art. 15(5) requires resilience against attacks that alter use or outputs, which includes prompt-based manipulation</span></li><li>Art. 14 Human oversight <span class="map-note">high-risk systems, override and stop controls limit injected actions</span></li></ul></td></tr><tr><th scope="row">OWASP LLM</th><td><ul class="map-refs"><li>LLM01:2025 Prompt Injection</li></ul></td></tr><tr><th scope="row">OWASP Agentic</th><td><ul class="map-refs"><li>ASI01 Agent Goal Hijack <span class="map-note">T6 Goal Manipulation and T7, broader multi-step impact than a single response</span></li></ul></td></tr><tr><th scope="row">MITRE ATLAS</th><td><ul class="map-refs"><li>AML.T0051 LLM Prompt Injection <span class="map-note">AML.T0051.001 Indirect covers commands hidden in processed content</span></li><li>AML.T0053 AI Agent Tool Invocation <span class="map-note">injected instruction driving unintended tool calls</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>MEASURE 2.7 <span class="map-note">security and resilience evaluation of injection resistance</span></li></ul></td></tr><tr><th scope="row">GDPR</th><td><ul class="map-refs"><li>Art. 32 Security of processing <span class="map-note">injection-driven disclosure of personal data is a security-of-processing failure</span></li></ul></td></tr></tbody></table></div>
+        <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 15 Accuracy, robustness and cybersecurity <span class="map-note">high-risk systems, Art. 15(5) requires resilience against attacks that alter use or outputs, which includes prompt-based manipulation</span></li><li>Art. 14 Human oversight <span class="map-note">high-risk systems, override and stop controls limit injected behavior</span></li></ul></td></tr><tr><th scope="row">OWASP LLM</th><td><ul class="map-refs"><li>LLM01:2025 Prompt Injection</li></ul></td></tr><tr><th scope="row">OWASP Agentic</th><td><ul class="map-refs"><li>ASI01 Agent Goal Hijack <span class="map-note">T6 Goal Manipulation, injected instructions redirecting system objectives</span></li></ul></td></tr><tr><th scope="row">MITRE ATLAS</th><td><ul class="map-refs"><li>AML.T0051.000 LLM Prompt Injection (Direct)</li><li>AML.T0054 LLM Jailbreak</li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>MEASURE 2.7 <span class="map-note">security and resilience evaluation of injection resistance</span></li></ul></td></tr><tr><th scope="row">GDPR</th><td><ul class="map-refs"><li>Art. 32 Security of processing <span class="map-note">injection-driven disclosure of personal data is a security-of-processing failure</span></li></ul></td></tr></tbody></table></div>
       </aside>
     </div>
   </div>
@@ -1263,11 +1263,34 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
 <div class="entry" id="SC-02" data-dim="sc">
   <button class="entry-head" aria-expanded="false" aria-controls="SC-02-body">
     <span class="code">SC-02</span>
+    <span class="entry-title"><span class="entry-name">Indirect prompt injection</span>
+    <span class="entry-oneline">Instructions hidden in third-party content the system reads, emails, documents, web pages, steer its behavior without the attacker ever addressing it.</span></span>
+    <span class="entry-toggle" aria-hidden="true"></span>
+  </button>
+  <div class="entry-body" id="SC-02-body" hidden>
+    <div class="entry-grid">
+      <div class="entry-main">
+        <p>The system ingests material from third parties as part of its task, and attackers plant instructions inside that material, hidden text in an email, a document field, a web page, a repository comment. The attacker needs no access to the system itself, the payload rides in through retrieval, browsing, or file processing. The privileged-context failure is the same, ingested content gets folded into prompts and memory that carry instruction authority, so text that should stay inert data arrives as commands.</p>
+        <h4 class="detail-label">Contributing factors</h4>
+        <ul class="detail-list"><li>Retrieval, browsing and file pipelines folding external content directly into prompts</li><li>Hidden text channels such as white text, HTML comments, metadata and alt text</li><li>Content from many authors ingested without provenance or trust ranking</li><li>Summarization and triage tasks that require reading attacker-reachable material</li><li>Planted instructions persisting in memory and knowledge stores across sessions</li></ul>
+        <h4 class="detail-label">Examples</h4>
+        <ul class="detail-list"><li>A crafted instruction inside an uploaded return request tells an e-commerce agent to approve the refund and issue store credit automatically.</li><li>Hidden text in an inbound email steers a customer support agent to reveal another user&#x27;s account details in the same thread.</li><li>A comment planted in a code repository directs a software engineering agent to add an unreviewed dependency and open a pull request.</li></ul>
+      </div>
+      <aside class="entry-aside">
+        <h4 class="detail-label">Insurance lines *</h4><div class="chip-row"><span class="chip">Cyber</span><span class="chip">Tech E&amp;O / MPL / PI</span></div>
+        <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 15 Accuracy, robustness and cybersecurity <span class="map-note">high-risk systems, Art. 15(5) resilience duty covers manipulation through processed content</span></li></ul></td></tr><tr><th scope="row">OWASP LLM</th><td><ul class="map-refs"><li>LLM01:2025 Prompt Injection <span class="map-note">indirect injection through processed content is a named vector</span></li></ul></td></tr><tr><th scope="row">OWASP Agentic</th><td><ul class="map-refs"><li>ASI01 Agent Goal Hijack <span class="map-note">T6 Goal Manipulation and T12 Agent Communication Poisoning, payloads arriving through ingested content</span></li></ul></td></tr><tr><th scope="row">MITRE ATLAS</th><td><ul class="map-refs"><li>AML.T0051.001 LLM Prompt Injection (Indirect)</li><li>AML.T0053 AI Agent Tool Invocation <span class="map-note">planted instruction driving unintended tool calls</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>MEASURE 2.7 <span class="map-note">security and resilience evaluation of content-borne injection</span></li></ul></td></tr><tr><th scope="row">GDPR</th><td><ul class="map-refs"><li>Art. 32 Security of processing</li></ul></td></tr></tbody></table></div>
+      </aside>
+    </div>
+  </div>
+</div>
+<div class="entry" id="SC-03" data-dim="sc">
+  <button class="entry-head" aria-expanded="false" aria-controls="SC-03-body">
+    <span class="code">SC-03</span>
     <span class="entry-title"><span class="entry-name">Tool chain manipulation</span>
     <span class="entry-oneline">Poisoned tool descriptions, malicious tool responses and insecure integrations steer the agent into unsafe tool calls.</span></span>
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
-  <div class="entry-body" id="SC-02-body" hidden>
+  <div class="entry-body" id="SC-03-body" hidden>
     <div class="entry-grid">
       <div class="entry-main">
         <p>Agents pick tools and build parameters from natural-language descriptions and from what earlier tools return. An attacker who controls a tool description, a connected server response, or a returned field can steer tool selection, inject malicious parameters into a legitimate call, or corrupt state that later steps trust. Because each output feeds the next decision, one manipulated response cascades through a multi-step workflow, a surface that never existed for classic models that chose no tools.</p>
@@ -1283,14 +1306,14 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     </div>
   </div>
 </div>
-<div class="entry" id="SC-03" data-dim="sc">
-  <button class="entry-head" aria-expanded="false" aria-controls="SC-03-body">
-    <span class="code">SC-03</span>
+<div class="entry" id="SC-04" data-dim="sc">
+  <button class="entry-head" aria-expanded="false" aria-controls="SC-04-body">
+    <span class="code">SC-04</span>
     <span class="entry-title"><span class="entry-name">Privilege escalation and authorization bypass</span>
     <span class="entry-oneline">The agent combines allowed tools and permissions to reach outcomes it was never authorized to produce.</span></span>
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
-  <div class="entry-body" id="SC-03-body" hidden>
+  <div class="entry-body" id="SC-04-body" hidden>
     <div class="entry-grid">
       <div class="entry-main">
         <p>Agent authorization is often set per tool rather than per business outcome, so an agent can discover reachable APIs and chain individually permitted calls into an unauthorized result. Approval workflows and separation of duties fall because no single call looks forbidden. Unlike a static model with fixed inputs, an agent plans, reads results, and adapts, finding paths around controls, so a low-privileged agent ends up performing actions reserved for administrators.</p>
@@ -1306,14 +1329,14 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     </div>
   </div>
 </div>
-<div class="entry" id="SC-04" data-dim="sc">
-  <button class="entry-head" aria-expanded="false" aria-controls="SC-04-body">
-    <span class="code">SC-04</span>
+<div class="entry" id="SC-05" data-dim="sc">
+  <button class="entry-head" aria-expanded="false" aria-controls="SC-05-body">
+    <span class="code">SC-05</span>
     <span class="entry-title"><span class="entry-name">Agent credential and identity abuse</span>
     <span class="entry-oneline">Agents harvest reachable credentials, proliferate as unmanaged non-human identities, and get impersonated.</span></span>
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
-  <div class="entry-body" id="SC-04-body" hidden>
+  <div class="entry-body" id="SC-05-body" hidden>
     <div class="entry-grid">
       <div class="entry-main">
         <p>Agents run with broad access and autonomous tool selection, so a manipulated agent can enumerate credentials sitting in config files, environment variables, logs, secret stores, and instance metadata, then use or exfiltrate them. Unlike a conventional model that held no credentials, an agent is an active principal that reads secrets and calls systems, so harvesting scales through the same automation that makes it useful, and one reachable key opens lateral movement across core systems.</p>
@@ -1329,14 +1352,14 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     </div>
   </div>
 </div>
-<div class="entry" id="SC-05" data-dim="sc">
-  <button class="entry-head" aria-expanded="false" aria-controls="SC-05-body">
-    <span class="code">SC-05</span>
+<div class="entry" id="SC-06" data-dim="sc">
+  <button class="entry-head" aria-expanded="false" aria-controls="SC-06-body">
+    <span class="code">SC-06</span>
     <span class="entry-title"><span class="entry-name">Memory and knowledge-base poisoning</span>
     <span class="entry-oneline">Corrupting retrieval corpora, vector stores or persistent agent memory to steer future decisions across sessions.</span></span>
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
-  <div class="entry-body" id="SC-05-body" hidden>
+  <div class="entry-body" id="SC-06-body" hidden>
     <div class="entry-grid">
       <div class="entry-main">
         <p>Agents ground answers and plans in retrieval corpora, vector stores, and persistent memory, so an attacker who injects poisoned documents or plants false entries shapes what the agent later retrieves and how it reasons. Because memory persists, the effect is a durable backdoor that activates on specific records or triggers. Unlike a stateless chatbot that forgets each turn, an agent carries the corruption across sessions and spreads it through summaries and shared stores.</p>
@@ -1352,14 +1375,14 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     </div>
   </div>
 </div>
-<div class="entry" id="SC-06" data-dim="sc">
-  <button class="entry-head" aria-expanded="false" aria-controls="SC-06-body">
-    <span class="code">SC-06</span>
+<div class="entry" id="SC-07" data-dim="sc">
+  <button class="entry-head" aria-expanded="false" aria-controls="SC-07-body">
+    <span class="code">SC-07</span>
     <span class="entry-title"><span class="entry-name">AI supply chain compromise</span>
     <span class="entry-oneline">Tampered models, poisoned training data, malicious connected servers and compromised dependencies enter through the AI supply chain.</span></span>
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
-  <div class="entry-body" id="SC-06-body" hidden>
+  <div class="entry-body" id="SC-07-body" hidden>
     <div class="entry-grid">
       <div class="entry-main">
         <p>The agent stack depends on third-party models, adapters, datasets, libraries, tools, and connected servers, any of which can arrive backdoored or turn malicious through an abandoned project or a compromised update. A corrupted component runs with the agent&#x27;s trust and reaches decision-making at scale. Agents pull in far more external components than an in-house model and add connected servers, so one poisoned tool or model update propagates through every agent that calls it before anyone notices.</p>
@@ -1375,14 +1398,14 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     </div>
   </div>
 </div>
-<div class="entry" id="SC-07" data-dim="sc">
-  <button class="entry-head" aria-expanded="false" aria-controls="SC-07-body">
-    <span class="code">SC-07</span>
+<div class="entry" id="SC-08" data-dim="sc">
+  <button class="entry-head" aria-expanded="false" aria-controls="SC-08-body">
+    <span class="code">SC-08</span>
     <span class="entry-title"><span class="entry-name">Inter-agent compromise and rogue agents</span>
     <span class="entry-oneline">Spoofed agent messages, orchestration abuse and trust-boundary violations let one compromised agent corrupt a multi-agent workflow.</span></span>
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
-  <div class="entry-body" id="SC-07-body" hidden>
+  <div class="entry-body" id="SC-08-body" hidden>
     <div class="entry-grid">
       <div class="entry-main">
         <p>In multi-agent systems, agents pass tasks, data, and trust across communication channels and shared state. Where messages lack authentication and integrity, an attacker can spoof an agent, inject false information, or corrupt shared resources so a compromise in one agent propagates to others. This risk does not exist for a single model. Trust between agents is often implicit and transitive, so a manipulated upstream agent quietly steers downstream decisions before any human check.</p>
@@ -1398,14 +1421,14 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     </div>
   </div>
 </div>
-<div class="entry" id="SC-08" data-dim="sc">
-  <button class="entry-head" aria-expanded="false" aria-controls="SC-08-body">
-    <span class="code">SC-08</span>
+<div class="entry" id="SC-09" data-dim="sc">
+  <button class="entry-head" aria-expanded="false" aria-controls="SC-09-body">
+    <span class="code">SC-09</span>
     <span class="entry-title"><span class="entry-name">Model extraction and endpoint abuse</span>
     <span class="entry-oneline">System prompt leakage, model theft, scraping and resource-exhaustion attacks against agent endpoints.</span></span>
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
-  <div class="entry-body" id="SC-08-body" hidden>
+  <div class="entry-body" id="SC-09-body" hidden>
     <div class="entry-grid">
       <div class="entry-main">
         <p>Agent endpoints exposed as APIs invite abuse, letting attackers extract system prompts and guardrails, query the model to clone its behavior or infer training data, scrape proprietary outputs, or flood the endpoint with expensive queries. Agents chain many model calls per task on consumption-based pricing, so a crafted workload drives runaway spend a single chatbot call never could. Leaked system prompts expose tool definitions and business logic that let an attacker steer the agent&#x27;s actions.</p>
@@ -1421,14 +1444,14 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     </div>
   </div>
 </div>
-<div class="entry" id="SC-09" data-dim="sc">
-  <button class="entry-head" aria-expanded="false" aria-controls="SC-09-body">
-    <span class="code">SC-09</span>
+<div class="entry" id="SC-10" data-dim="sc">
+  <button class="entry-head" aria-expanded="false" aria-controls="SC-10-body">
+    <span class="code">SC-10</span>
     <span class="entry-title"><span class="entry-name">Adversarial evasion of AI safeguards and controls</span>
     <span class="entry-oneline">Adversaries probe and craft inputs to slip past agent-run detection, moderation and other AI safeguards.</span></span>
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
-  <div class="entry-body" id="SC-09-body" hidden>
+  <div class="entry-body" id="SC-10-body" hidden>
     <div class="entry-grid">
       <div class="entry-main">
         <p>Detection and moderation agents classify inputs, behavior, and content, and adversaries interact, observe outcomes, and craft inputs that keep the score below the flagging threshold, an evasion attack at inference time. They also skew the model by feeding patterns that shift its decision boundary through feedback and retraining loops. Agents that adapt and give fast feedback hand adversaries a quicker probing loop than a static batch model, so a safeguard degrades quietly and durably.</p>
@@ -1444,14 +1467,14 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     </div>
   </div>
 </div>
-<div class="entry" id="SC-10" data-dim="sc">
-  <button class="entry-head" aria-expanded="false" aria-controls="SC-10-body">
-    <span class="code">SC-10</span>
+<div class="entry" id="SC-11" data-dim="sc">
+  <button class="entry-head" aria-expanded="false" aria-controls="SC-11-body">
+    <span class="code">SC-11</span>
     <span class="entry-title"><span class="entry-name">Unbounded consumption and denial of wallet</span>
     <span class="entry-oneline">The agent consumes compute, tokens, API calls or downstream resources without effective bound, including attacker-driven spend.</span></span>
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
-  <div class="entry-body" id="SC-10-body" hidden>
+  <div class="entry-body" id="SC-11-body" hidden>
     <div class="entry-grid">
       <div class="entry-main">
         <p>Agent workloads can consume compute, tokens, API calls, and downstream resources far beyond what a task needs, driven by runaway loops, recursive planning, output-inflating prompts, and high-volume abuse with no natural stopping point. On consumption-based pricing this becomes denial of wallet. Unlike a single bounded model call, an agent plans, retries, and calls tools in loops, so a small trigger expands into thousands of calls that burn budgets and throttle other workloads before anyone reacts.</p>
