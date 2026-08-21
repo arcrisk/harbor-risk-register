@@ -534,11 +534,11 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
 
 /* ------------------------------------------------------------- footnotes */
 
-.footnotes {
-  margin-top: 44px;
-  padding-top: 18px;
-  border-top: 1px solid var(--hair);
-  max-width: var(--measure);
+.footer .footnotes {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
+  max-width: 72ch;
 }
 .footnotes p {
   font-family: var(--sans);
@@ -547,6 +547,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
   line-height: 1.55;
 }
 .footnotes p + p { margin-top: 6px; }
+.footer .footer-fine { margin-top: 16px; }
 
 .ins-note {
   font-size: 0.88em;
@@ -1796,7 +1797,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
         <ul class="detail-list"><li>An IT operations agent restarts a production service and triggers an outage. The platform team says the vendor set the thresholds, and the vendor points to the prompt template.</li><li>After an e-commerce agent issues refunds beyond policy, remediation stalls for weeks because no one has authority to approve the fix or recover the funds.</li><li>A reviewer asks who approved raising an HR onboarding agent&#x27;s autonomy level. The change ticket shows a shared mailbox and no individual sign-off.</li></ul>
       </div>
       <aside class="entry-aside">
-        <h4 class="detail-label">Insurance lines *</h4><p class="ins-note">No traditional line listed. This exposure attaches mainly to directors and officers cover, see the D&amp;O note below.</p>
+        <h4 class="detail-label">Insurance lines *</h4><p class="ins-note">No traditional line listed. This exposure attaches mainly to directors and officers cover, see the footnotes at the bottom of the page.</p>
         <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>GOVERN 2.1</li><li>GOVERN 2.3</li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>A.3.2 AI roles and responsibilities</li><li>A.10.2 Allocating responsibilities <span class="map-note">Responsibility split across the organization, suppliers and partners</span></li></ul></td></tr><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 26 Obligations of deployers <span class="map-note">High-risk tier, oversight assigned to persons with competence, training and authority under Art. 26(2)</span></li></ul></td></tr><tr><th scope="row">OWASP Agentic</th><td><ul class="map-refs"><li>T8 Repudiation &amp; Untraceability <span class="map-note">Agent actions that cannot be attributed or accounted for</span></li></ul></td></tr></tbody></table></div>
       </aside>
     </div>
@@ -1910,16 +1911,11 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     </div>
   </div>
 </div></div>
-  <div class="footnotes">
-    <p>* Insurance lines name the traditional covers that typically respond to a risk. Actual coverage varies by policy wording, endorsements and exclusions.</p>
-    <p>* Directors and officers cover is not listed per risk. D&amp;O exposure attaches to many of these risks, especially governance, disclosure and oversight failures, but whether a D&amp;O policy responds depends heavily on policy wording, coverage type and exclusions.</p>
-    <p>* AI-specific covers are not listed per risk. Dedicated AI insurance products and endorsements now exist for nearly every risk in this register, and where traditional lines are silent or exclude AI, a purpose-built AI policy or endorsement is the reliable route.</p>
-  </div>
 </section>
 <section class="section" id="frameworks">
   <h2>Frameworks and regulation</h2>
   <ul class="ref-list"><li><a href="https://eur-lex.europa.eu/eli/reg/2024/1689/oj" rel="noopener">Regulation (EU) 2024/1689</a><span class="ref-alias">EU AI Act</span><span class="ref-org"> European Union</span></li><li><a href="https://eur-lex.europa.eu/eli/reg/2016/679/oj" rel="noopener">Regulation (EU) 2016/679</a><span class="ref-alias">GDPR</span><span class="ref-org"> European Union</span></li><li><a href="https://www.iso.org/standard/81230.html" rel="noopener">ISO/IEC 42001:2023</a><span class="ref-org"> ISO/IEC</span></li><li><a href="https://www.nist.gov/itl/ai-risk-management-framework" rel="noopener">NIST AI Risk Management Framework 1.0</a><span class="ref-org"> NIST</span></li><li><a href="https://genai.owasp.org/llm-top-10/" rel="noopener">OWASP Top 10 for LLM Applications 2025</a><span class="ref-org"> OWASP</span></li><li><a href="https://owasp.org/www-project-machine-learning-security-top-10/" rel="noopener">OWASP Machine Learning Security Top 10</a><span class="ref-org"> OWASP</span></li><li><a href="https://genai.owasp.org/" rel="noopener">OWASP Top 10 for Agentic Applications 2026</a><span class="ref-org"> OWASP</span></li><li><a href="https://atlas.mitre.org/" rel="noopener">MITRE ATLAS</a><span class="ref-org"> MITRE</span></li></ul>
-</section></main><footer class="footer"><p class="footer-fine">Independent work, not legal advice. Framework and standard names belong to their issuers. Assessments of regulatory applicability are interpretations, verify against the official texts linked above. Insurance lines indicate the covers that typically respond to a risk, see the notes under the risk register.</p></footer>
+</section></main><footer class="footer"><div class="footnotes"><p>* Insurance lines name the traditional covers that typically respond to a risk. Actual coverage varies by policy wording, endorsements and exclusions.</p><p>* Directors and officers cover is not listed per risk. D&amp;O exposure attaches to many of these risks, especially governance, disclosure and oversight failures, but whether a D&amp;O policy responds depends heavily on policy wording, coverage type and exclusions.</p><p>* AI-specific covers are not listed per risk. Dedicated AI insurance products and endorsements now exist for nearly every risk in this register, and where traditional lines are silent or exclude AI, a purpose-built AI policy or endorsement is the reliable route.</p></div><p class="footer-fine">Independent work, not legal advice. Framework and standard names belong to their issuers. Assessments of regulatory applicability are interpretations, verify against the official texts linked above.</p></footer>
 <script>
 (function () {
   "use strict";
