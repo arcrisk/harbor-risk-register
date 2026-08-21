@@ -268,7 +268,19 @@ h1, h2, h3 { font-weight: 600; letter-spacing: -0.01em; text-wrap: balance; }
 .entry-toggle::after { top: 0; bottom: 0; left: 6px; width: 1.5px; }
 .entry-head[aria-expanded="true"] .entry-toggle::after { transform: scaleY(0); }
 
-.entry-body { padding: 6px 4px 34px 96px; }
+.entry-body,
+.dim-body {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.3s ease;
+}
+.entry.open > .entry-body,
+.dim-acc.open > .dim-body { grid-template-rows: 1fr; }
+
+.acc-inner { overflow: hidden; min-height: 0; }
+
+.entry-body > .acc-inner { padding: 0 4px 0 96px; }
+.entry-body .entry-grid { padding: 6px 0 34px; }
 
 .entry-grid {
   display: grid;
@@ -510,7 +522,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
 
 @media (max-width: 860px) {
   .hero-grid { grid-template-columns: 1fr; align-items: start; }
-  .entry-body { padding-left: 4px; }
+  .entry-body > .acc-inner { padding-left: 4px; }
   .entry-grid { grid-template-columns: 1fr; }
   .entry-aside { border-left: none; padding-left: 0; border-top: 1px solid var(--hair); padding-top: 18px; }
   .entry-head { grid-template-columns: 56px 1fr 24px; gap: 12px; }
@@ -592,12 +604,32 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
 .dim-btn:hover .dim-count { color: var(--accent); }
 .dim-btn .entry-toggle { align-self: center; justify-self: end; }
 
-.dim-body { padding: 0 4px 30px; }
-.dim-body .entries { border-top: 1px solid var(--hair); }
+.dim-body > .acc-inner {
+  padding: 0 4px 0 clamp(20px, 3.5vw, 48px);
+  border-left: 2px solid color-mix(in srgb, var(--accent) 30%, transparent);
+  margin: 0 0 0 4px;
+}
+.dim-body .entries {
+  border-top: 1px solid var(--hair);
+  margin-top: 2px;
+  margin-bottom: 34px;
+}
+
+/* open states, quiet cues that separate the levels */
+.dim-acc.open > .dim-btn { background: var(--panel); }
+.dim-acc.open > .dim-btn .dim-count { color: var(--accent); }
+.dim-btn[aria-expanded="true"] .entry-toggle::after { transform: scaleY(0); }
+
+.entry.open { background: var(--panel); }
+.entry.open > .entry-head .entry-name { color: var(--accent-dark); }
 
 @media (max-width: 860px) {
   .dim-btn { grid-template-columns: 48px 1fr 24px; }
   .dim-count { display: none; }
+}
+
+@media (max-width: 860px) {
+  .dim-body > .acc-inner { padding-left: 12px; margin-left: 2px; }
 }
 
 </style>
@@ -621,7 +653,8 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="dim-body" id="dim-vr-body" hidden>
-    <div class="entries">
+    <div class="acc-inner">
+      <div class="entries">
 <div class="entry" id="VR-01" data-dim="vr">
   <button class="entry-head" aria-expanded="false" aria-controls="VR-01-body">
     <span class="code">VR-01</span>
@@ -630,6 +663,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="entry-body" id="VR-01-body" hidden>
+    <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
         <p>A language model predicts plausible text rather than retrieving verified facts, so when context is thin it invents details, nonexistent clauses, or made up figures in the same fluent tone as correct answers. Grounding lowers the rate but never eliminates it.</p>
@@ -644,6 +678,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
         <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 15 Accuracy, robustness and cybersecurity <span class="map-note">high-risk systems must declare accuracy metrics and perform consistently</span></li><li>Art. 9 Risk management system <span class="map-note">high-risk systems tested against defined metrics and thresholds before market placement</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>MEASURE 2.5</li><li>MAP 2.2 <span class="map-note">documented knowledge limits and how humans use outputs</span></li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>A.6.2.4 AI system verification and validation</li><li>A.6.2.6 AI system operation and monitoring</li></ul></td></tr><tr><th scope="row">GDPR</th><td><ul class="map-refs"><li>Art. 5(1)(d) Accuracy <span class="map-note">hallucinated personal data written into records is an accuracy failure</span></li></ul></td></tr><tr><th scope="row">OWASP LLM</th><td><ul class="map-refs"><li>LLM09:2025 Misinformation</li></ul></td></tr><tr><th scope="row">OWASP ML</th><td><ul class="map-refs"><li>ML09:2023 Output Integrity Attack <span class="map-note">adversarial variant where trusted outputs are tampered with downstream</span></li></ul></td></tr></tbody></table></div>
       </aside>
     </div>
+    </div>
   </div>
 </div>
 <div class="entry" id="VR-02" data-dim="vr">
@@ -654,6 +689,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="entry-body" id="VR-02-body" hidden>
+    <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
         <p>Agents act by emitting structured tool calls that downstream systems execute, so the model can pick the wrong tool, fill arguments with bad identifiers or amounts, invent functions that were never registered, or misread a response. This failure class is distinct from textual hallucination and grows with the size of the tool registry.</p>
@@ -668,6 +704,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
         <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 15 Accuracy, robustness and cybersecurity <span class="map-note">high-risk systems must be resilient to errors and faults arising from interaction with other systems</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>MEASURE 2.4</li><li>MEASURE 2.6 <span class="map-note">fail safely when operating beyond knowledge limits</span></li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>A.6.2.4 AI system verification and validation</li><li>A.6.2.8 AI system recording of event logs</li></ul></td></tr><tr><th scope="row">OWASP LLM</th><td><ul class="map-refs"><li>LLM06:2025 Excessive Agency</li></ul></td></tr><tr><th scope="row">OWASP Agentic</th><td><ul class="map-refs"><li>ASI02 Tool Misuse <span class="map-note">covers unintended misuse alongside adversarial exploitation, T2</span></li></ul></td></tr><tr><th scope="row">MITRE ATLAS</th><td><ul class="map-refs"><li>AML.T0053 AI Agent Tool Invocation <span class="map-note">adversarial invocation of the same tool surface</span></li></ul></td></tr></tbody></table></div>
       </aside>
     </div>
+    </div>
   </div>
 </div>
 <div class="entry" id="VR-03" data-dim="vr">
@@ -678,6 +715,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="entry-body" id="VR-03-body" hidden>
+    <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
         <p>Agent workflows chain model calls, tool results, and judgments, each step consuming the output before it, so a minor early error becomes the premise for everything after and errors multiply rather than average out. Handoffs strip the uncertainty around the original error and volume repeats the flawed path across thousands of cases before monitoring notices.</p>
@@ -692,6 +730,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
         <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 15 Accuracy, robustness and cybersecurity <span class="map-note">resilience through technical redundancy, backup and fail-safe plans for high-risk systems</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>MEASURE 2.4 <span class="map-note">production monitoring of system behavior including error propagation</span></li><li>MEASURE 2.6 <span class="map-note">fail safely beyond knowledge limits</span></li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>A.6.2.4 AI system verification and validation</li><li>A.6.2.6 AI system operation and monitoring</li></ul></td></tr><tr><th scope="row">OWASP Agentic</th><td><ul class="map-refs"><li>ASI08 Cascading Failures</li><li>T5 Cascading Hallucination Attacks <span class="map-note">adds precision on hallucination propagation through memory and handoffs</span></li></ul></td></tr></tbody></table></div>
       </aside>
     </div>
+    </div>
   </div>
 </div>
 <div class="entry" id="VR-04" data-dim="vr">
@@ -702,6 +741,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="entry-body" id="VR-04-body" hidden>
+    <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
         <p>Agent behavior is a product of model version, prompts, tool definitions, retrieval corpus, and settings, any of which can change with no formal release. Providers retrain hosted models quietly, teams tune prompts in production, and knowledge bases go stale. Regression stays silent because outputs remain fluent, and launch results stop describing the running system.</p>
@@ -716,6 +756,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
         <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 15 Accuracy, robustness and cybersecurity <span class="map-note">consistent performance throughout the lifecycle, high-risk tier</span></li><li>Art. 72 Post-market monitoring <span class="map-note">high-risk systems, monitoring integrated with the organization&#x27;s internal governance</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>MEASURE 2.4</li><li>MANAGE 3.2 <span class="map-note">pre-trained models monitored as part of regular maintenance</span></li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>A.6.2.6 AI system operation and monitoring <span class="map-note">implementation guidance covers drift monitoring and behavior bounds</span></li><li>Clause 8.1 Operational planning and control <span class="map-note">control of planned changes and review of unintended changes</span></li></ul></td></tr><tr><th scope="row">OWASP ML</th><td><ul class="map-refs"><li>ML07:2023 Transfer Learning Attack <span class="map-note">behavior inherited from an updated or swapped upstream base model</span></li></ul></td></tr></tbody></table></div>
       </aside>
     </div>
+    </div>
   </div>
 </div>
 <div class="entry" id="VR-05" data-dim="vr">
@@ -726,6 +767,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="entry-body" id="VR-05-body" hidden>
+    <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
         <p>Language model output is sampled from a probability distribution, so identical facts can produce different answers across runs, driven by temperature, prompt position, context length, and hardware variance. Irreproducibility also breaks regression testing, root cause analysis, and the ability to rerun a decision for an auditor.</p>
@@ -740,6 +782,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
         <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 15 Accuracy, robustness and cybersecurity <span class="map-note">high-risk systems must perform consistently throughout their lifecycle</span></li><li>Art. 9 Risk management system <span class="map-note">high-risk systems tested against prior defined metrics and probabilistic thresholds</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>MEASURE 2.5</li><li>MEASURE 4.2 <span class="map-note">validating the system performs consistently as intended</span></li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>A.6.2.4 AI system verification and validation</li><li>A.6.2.6 AI system operation and monitoring</li></ul></td></tr><tr><th scope="row">OWASP LLM</th><td><ul class="map-refs"><li>LLM09:2025 Misinformation <span class="map-note">inconsistent answers become misinformation whenever one variant is wrong</span></li></ul></td></tr></tbody></table></div>
       </aside>
     </div>
+    </div>
   </div>
 </div>
 <div class="entry" id="VR-06" data-dim="vr">
@@ -750,6 +793,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="entry-body" id="VR-06-body" hidden>
+    <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
         <p>Models perform well near the center of their training distribution and degrade sharply outside it, so rare features, dialects, low-resource languages, blurry scans, and legacy formats all fail quietly without any signal. Failures concentrate on the people most likely to present edge cases, turning a reliability defect into a fairness and duty-of-care problem.</p>
@@ -764,6 +808,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
         <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 15 Accuracy, robustness and cybersecurity <span class="map-note">appropriate accuracy and robustness levels for high-risk systems</span></li><li>Art. 10 Data and data governance <span class="map-note">datasets must reflect the geographical, contextual and behavioral setting of use, high-risk tier</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>MEASURE 2.5 <span class="map-note">generalizability limits beyond development conditions documented</span></li><li>MEASURE 2.6 <span class="map-note">fail safely when operating beyond knowledge limits</span></li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>A.6.2.4 AI system verification and validation</li><li>A.7.4 Quality of data for AI systems</li></ul></td></tr><tr><th scope="row">OWASP ML</th><td><ul class="map-refs"><li>ML01:2023 Input Manipulation Attack <span class="map-note">adversarial inputs deliberately exploit the same brittleness</span></li></ul></td></tr></tbody></table></div>
       </aside>
     </div>
+    </div>
   </div>
 </div>
 <div class="entry" id="VR-07" data-dim="vr">
@@ -774,6 +819,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="entry-body" id="VR-07-body" hidden>
+    <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
         <p>Agents depend on hosted foundation models, orchestration platforms, and tool endpoints run by third parties, so outages, regional degradation, throttling, capacity incidents, and hard deprecations remove capability with little warning, and token pricing adds denial of wallet exposure. Retries and long context calls amplify degradation into quota exhaustion just when capacity is scarcest.</p>
@@ -788,8 +834,10 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
         <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 15 Accuracy, robustness and cybersecurity <span class="map-note">robustness through technical redundancy, backup and fail-safe plans, high-risk tier</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>GOVERN 6.2 <span class="map-note">contingency processes for failures in high-risk third-party AI</span></li><li>MEASURE 2.6 <span class="map-note">safety metrics include response times for system failures</span></li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>A.4.5 System and computing resources</li></ul></td></tr><tr><th scope="row">OWASP LLM</th><td><ul class="map-refs"><li>LLM10:2025 Unbounded Consumption</li></ul></td></tr><tr><th scope="row">MITRE ATLAS</th><td><ul class="map-refs"><li>AML.T0029 Denial of AI Service</li><li>AML.T0034 Cost Harvesting <span class="map-note">includes agentic resource consumption</span></li></ul></td></tr></tbody></table></div>
       </aside>
     </div>
+    </div>
   </div>
 </div></div>
+    </div>
   </div>
 </div>
 <div class="dim-acc" id="dim-dp">
@@ -801,7 +849,8 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="dim-body" id="dim-dp-body" hidden>
-    <div class="entries">
+    <div class="acc-inner">
+      <div class="entries">
 <div class="entry" id="DP-01" data-dim="dp">
   <button class="entry-head" aria-expanded="false" aria-controls="DP-01-body">
     <span class="code">DP-01</span>
@@ -810,6 +859,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="entry-body" id="DP-01-body" hidden>
+    <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
         <p>An agent builds each prompt from stored records, retrieved documents, and prior conversation, then sends that package across the boundary to a hosted model the organization does not run, where provider retention keeps copies beyond its control.</p>
@@ -824,6 +874,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
         <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">GDPR</th><td><ul class="map-refs"><li>Art. 28 Processor contracts <span class="map-note">hosted model providers act as processors, mandatory contract terms apply</span></li><li>Art. 32 Security of processing</li><li>Art. 5(1)(f) Integrity and confidentiality</li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>A.10.3 Suppliers</li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>MEASURE 2.10</li><li>MAP 4.1</li></ul></td></tr><tr><th scope="row">OWASP LLM</th><td><ul class="map-refs"><li>LLM02:2025 Sensitive Information Disclosure</li></ul></td></tr><tr><th scope="row">MITRE ATLAS</th><td><ul class="map-refs"><li>AML.T0057 LLM Data Leakage</li></ul></td></tr></tbody></table></div>
       </aside>
     </div>
+    </div>
   </div>
 </div>
 <div class="entry" id="DP-02" data-dim="dp">
@@ -834,6 +885,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="entry-body" id="DP-02-body" hidden>
+    <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
         <p>Agent platforms share infrastructure across sessions, so prompt caches, semantic caches, connection pools, and shared memory stores can each carry a fragment of one person&#x27;s data into another person&#x27;s interaction. Every added layer is a new place where the tenancy boundary must be rebuilt by hand and can fail silently, and the bleed is a breach the moment it happens.</p>
@@ -848,6 +900,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
         <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">GDPR</th><td><ul class="map-refs"><li>Art. 32 Security of processing</li><li>Art. 5(1)(f) Integrity and confidentiality</li><li>Art. 33 Breach notification <span class="map-note">notification clock starts once bleed is confirmed</span></li></ul></td></tr><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 15 Accuracy, robustness and cybersecurity <span class="map-note">high-risk systems must be resilient against confidentiality attacks</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>MEASURE 2.10</li><li>MEASURE 2.7</li></ul></td></tr><tr><th scope="row">OWASP LLM</th><td><ul class="map-refs"><li>LLM02:2025 Sensitive Information Disclosure</li><li>LLM08:2025 Vector and Embedding Weaknesses <span class="map-note">includes cross-tenant leakage in retrieval pipelines</span></li></ul></td></tr><tr><th scope="row">MITRE ATLAS</th><td><ul class="map-refs"><li>AML.T0057 LLM Data Leakage</li></ul></td></tr></tbody></table></div>
       </aside>
     </div>
+    </div>
   </div>
 </div>
 <div class="entry" id="DP-03" data-dim="dp">
@@ -858,6 +911,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="entry-body" id="DP-03-body" hidden>
+    <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
         <p>Everything an agent touches leaves residue in transcripts, reasoning traces, tool-call logs, caches, persistent memory, and vector embeddings, which look opaque but can be inverted to reconstruct source text or probed by membership inference. Each store sits outside the audited core systems, often stood up quickly, so entitlements, encryption, and deletion rarely match the standards applied to the original data.</p>
@@ -872,6 +926,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
         <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">GDPR</th><td><ul class="map-refs"><li>Art. 32 Security of processing</li><li>Art. 17 Right to erasure <span class="map-note">erasure must reach vectors, transcripts, and traces</span></li><li>Art. 5(1)(e) Storage limitation</li></ul></td></tr><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 15 Accuracy, robustness and cybersecurity <span class="map-note">high-risk systems, Art. 15(5) names confidentiality attacks</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>MEASURE 2.10</li><li>MEASURE 2.7 <span class="map-note">membership inference named among ML attacks in scope</span></li></ul></td></tr><tr><th scope="row">OWASP LLM</th><td><ul class="map-refs"><li>LLM08:2025 Vector and Embedding Weaknesses</li><li>LLM02:2025 Sensitive Information Disclosure</li></ul></td></tr><tr><th scope="row">OWASP ML</th><td><ul class="map-refs"><li>ML03:2023 Model Inversion Attack</li><li>ML04:2023 Membership Inference Attack</li></ul></td></tr><tr><th scope="row">MITRE ATLAS</th><td><ul class="map-refs"><li>AML.T0024 Exfiltration via AI Inference API <span class="map-note">sub-techniques cover membership inference and model inversion</span></li></ul></td></tr></tbody></table></div>
       </aside>
     </div>
+    </div>
   </div>
 </div>
 <div class="entry" id="DP-04" data-dim="dp">
@@ -882,6 +937,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="entry-body" id="DP-04-body" hidden>
+    <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
         <p>Model and tool providers improve their products on usage data, so unless a contract says otherwise prompts, outputs, and fine-tuning corpora flow into training pipelines, where absorbed data becomes irretrievable, may resurface in other customers&#x27; sessions, and cannot be deleted on request. Reuse for training breaks purpose limitation and can leak proprietary material into a shared model.</p>
@@ -896,6 +952,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
         <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">GDPR</th><td><ul class="map-refs"><li>Art. 5(1)(b) Purpose limitation <span class="map-note">operational data reused for vendor training</span></li><li>Art. 6 Lawfulness of processing <span class="map-note">regulators set a demanding legitimate-interest test for AI training</span></li></ul></td></tr><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 53 GPAI provider obligations <span class="map-note">training-content summaries and downstream documentation from model providers</span></li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>A.10.3 Suppliers</li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>GOVERN 6.1</li></ul></td></tr></tbody></table></div>
       </aside>
     </div>
+    </div>
   </div>
 </div>
 <div class="entry" id="DP-05" data-dim="dp">
@@ -906,6 +963,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="entry-body" id="DP-05-body" hidden>
+    <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
         <p>A model can emit near-verbatim copies of copyrighted material from training, and an agent grounded on scraped content can surface it, so exposure runs both ways as outputs reproduce protected work and inputs use corpora assembled without rights. Infringing outputs invite takedowns, license disputes, and damages.</p>
@@ -920,6 +978,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
         <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 53(1)(c) GPAI copyright policy <span class="map-note">general-purpose AI providers must put in place a policy to comply with Union copyright law</span></li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>A.7.3 Acquisition of data <span class="map-note">provenance and rights of training and grounding data documented</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>MAP 4.1 <span class="map-note">third-party rights and intellectual property risks in mapped data</span></li><li>GOVERN 6.1</li></ul></td></tr><tr><th scope="row">OWASP LLM</th><td><ul class="map-refs"><li>LLM03:2025 Supply Chain <span class="map-note">licensing and provenance risk in training data and components</span></li></ul></td></tr></tbody></table></div>
       </aside>
     </div>
+    </div>
   </div>
 </div>
 <div class="entry" id="DP-06" data-dim="dp">
@@ -930,6 +989,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="entry-body" id="DP-06-body" hidden>
+    <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
         <p>Privacy law restricts decisions based solely on automated processing that carry legal or similarly significant effects, and case law extends this to a score a decision-maker leans on heavily, so an agent producing a rating a person rubber-stamps is already caught. Agents drift into this territory without anyone deciding they should, as recommendations get followed routinely and the nominal reviewer lacks the competence, information, or authority to change outcomes.</p>
@@ -944,6 +1004,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
         <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">GDPR</th><td><ul class="map-refs"><li>Art. 22 Automated decisions <span class="map-note">case law treats relied-on scores as decisions</span></li><li>Art. 35 Data protection impact assessment <span class="map-note">mandatory for systematic automated evaluation with significant effects</span></li><li>Art. 15(1)(h) Access to decision logic</li></ul></td></tr><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 14 Human oversight <span class="map-note">high-risk systems, oversight commensurate with autonomy</span></li><li>Art. 26 Deployer obligations <span class="map-note">high-risk systems, includes informing affected persons</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>GOVERN 1.1</li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>A.9.3 Objectives for responsible use of AI system <span class="map-note">guidance covers whether automated decision-making is appropriate and reviewer override authority</span></li></ul></td></tr></tbody></table></div>
       </aside>
     </div>
+    </div>
   </div>
 </div>
 <div class="entry" id="DP-07" data-dim="dp">
@@ -954,6 +1015,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="entry-body" id="DP-07-body" hidden>
+    <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
         <p>Agents are built to be helpful and more context usually helps, so retrieval pulls whole documents, memory stores histories indefinitely, and orchestration logs everything by default, with no purpose test applied to any field. The result is unbounded accumulation that breaches minimization and storage-limitation duties.</p>
@@ -968,6 +1030,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
         <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">GDPR</th><td><ul class="map-refs"><li>Art. 5(1)(c) Data minimization</li><li>Art. 5(1)(e) Storage limitation</li><li>Art. 25 Data protection by design and default</li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>MEASURE 2.10</li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>A.7.3 Acquisition of data <span class="map-note">documents what data is acquired and why</span></li></ul></td></tr></tbody></table></div>
       </aside>
     </div>
+    </div>
   </div>
 </div>
 <div class="entry" id="DP-08" data-dim="dp">
@@ -978,6 +1041,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="entry-body" id="DP-08-body" hidden>
+    <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
         <p>Language models are strong inference engines, so interaction patterns, vocabulary, names, and locations let an agent derive health, religion, ethnicity, or acute distress a person never disclosed, and case law treats inferred special categories the same as collected ones. Nobody designed the processing, so nobody assessed it, recorded a basis, or built safeguards, and acting on it slides into discrimination.</p>
@@ -992,6 +1056,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
         <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">GDPR</th><td><ul class="map-refs"><li>Art. 9 Special categories of data <span class="map-note">case law treats inferred special categories as within Art. 9</span></li><li>Art. 22(4) Automated decisions on special categories</li></ul></td></tr><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 5(1)(g) Biometric categorization <span class="map-note">prohibited tier where sensitive attributes are deduced from biometric data</span></li><li>Art. 10(5) Special-category data for bias detection <span class="map-note">narrow basis for bias testing only, not operational inference</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>MEASURE 2.10 <span class="map-note">AI inference of previously private information</span></li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>A.5.4 Assessing AI system impact on individuals or groups of individuals</li></ul></td></tr></tbody></table></div>
       </aside>
     </div>
+    </div>
   </div>
 </div>
 <div class="entry" id="DP-09" data-dim="dp">
@@ -1002,6 +1067,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="entry-body" id="DP-09-body" hidden>
+    <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
         <p>An agent&#x27;s data path is a chain of services where the model API, its failover region, tool providers, connectors, and telemetry vendors each process traffic wherever they run, and inference routing and subcontracting move data between jurisdictions dynamically. Location drift happens through architecture changes nobody is notified about, and a residency finding can force suspension of the whole deployment.</p>
@@ -1016,8 +1082,10 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
         <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">GDPR</th><td><ul class="map-refs"><li>Art. 44 General principle for transfers</li><li>Art. 46 Transfer safeguards <span class="map-note">standard clauses and transfer impact assessments for cross-border flows</span></li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>A.10.3 Suppliers <span class="map-note">due diligence must cover processing locations and subcontracting</span></li><li>A.7.3 Acquisition of data</li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>GOVERN 1.1</li><li>MAP 4.1</li></ul></td></tr></tbody></table></div>
       </aside>
     </div>
+    </div>
   </div>
 </div></div>
+    </div>
   </div>
 </div>
 <div class="dim-acc" id="dim-sf">
@@ -1029,7 +1097,8 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="dim-body" id="dim-sf-body" hidden>
-    <div class="entries">
+    <div class="acc-inner">
+      <div class="entries">
 <div class="entry" id="SF-01" data-dim="sf">
   <button class="entry-head" aria-expanded="false" aria-controls="SF-01-body">
     <span class="code">SF-01</span>
@@ -1038,6 +1107,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="entry-body" id="SF-01-body" hidden>
+    <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
         <p>An agent with write access to production systems can take real actions from a misread instruction, a flawed plan, or an ambiguous request. Because the model chooses which tool to call and with what parameters, a single wrong inference becomes a completed change, a deleted record, or a sent message. Many such actions are hard to undo.</p>
@@ -1052,6 +1122,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
         <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 14 Human oversight <span class="map-note">high-risk tier, oversight commensurate with autonomy under Art. 14(3) and a stop control under Art. 14(4)(e)</span></li><li>Art. 26 Obligations of deployers <span class="map-note">deployer duty to monitor operation and suspend use on risk</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>MANAGE 2.4</li><li>MAP 3.5</li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>A.9.4 Intended use of the AI system</li></ul></td></tr><tr><th scope="row">OWASP LLM</th><td><ul class="map-refs"><li>LLM06:2025 Excessive Agency</li></ul></td></tr><tr><th scope="row">OWASP Agentic</th><td><ul class="map-refs"><li>ASI02 Tool Misuse and Exploitation <span class="map-note">covers unintended actions taken within authorized privileges, T2</span></li></ul></td></tr><tr><th scope="row">MITRE ATLAS</th><td><ul class="map-refs"><li>AML.T0053 AI Agent Tool Invocation <span class="map-note">adversarial analog where an attacker induces the tool invocation</span></li></ul></td></tr></tbody></table></div>
       </aside>
     </div>
+    </div>
   </div>
 </div>
 <div class="entry" id="SF-02" data-dim="sf">
@@ -1062,6 +1133,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="entry-body" id="SF-02-body" hidden>
+    <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
         <p>A user-facing agent answers questions about products, eligibility, process, or policy in fluent, confident language, yet nothing in the generation step checks the answer against the person&#x27;s real situation or the governing rules. Retrieval errors or stale reference documents feed the same wrong guidance into thousands of conversations before quality checks notice.</p>
@@ -1076,6 +1148,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
         <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 50 Transparency obligations <span class="map-note">advice chatbots sit in the transparency tier and become high risk where they steer decisions with legal or similarly significant effect</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>MAP 2.2</li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>A.9.2 Processes for responsible use of AI systems</li></ul></td></tr><tr><th scope="row">OWASP LLM</th><td><ul class="map-refs"><li>LLM09:2025 Misinformation <span class="map-note">hallucinated factual and procedural claims users treat as reliable</span></li></ul></td></tr><tr><th scope="row">OWASP Agentic</th><td><ul class="map-refs"><li>ASI09 Human-Agent Trust Exploitation <span class="map-note">over-reliance on persuasive but unverifiable rationales</span></li></ul></td></tr></tbody></table></div>
       </aside>
     </div>
+    </div>
   </div>
 </div>
 <div class="entry" id="SF-03" data-dim="sf">
@@ -1086,6 +1159,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="entry-body" id="SF-03-body" hidden>
+    <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
         <p>Some inputs demand more than a routine answer, such as a user in crisis, a disclosure of harm, or an output that should have been withheld for review, and the agent must slow down, flag the case, and route it to a person.</p>
@@ -1100,6 +1174,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
         <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 14 Human oversight <span class="map-note">high-risk tier, overseers must be able to detect and intervene in situations the system does not handle safely on its own</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>MANAGE 2.3</li><li>MEASURE 2.6</li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>A.6.2.6 AI system operation and monitoring <span class="map-note">monitoring and human oversight controls that catch cases needing intervention</span></li><li>A.9.3 Objectives for responsible use of AI system <span class="map-note">human reviewers with authority to take over high-risk cases</span></li></ul></td></tr><tr><th scope="row">OWASP Agentic</th><td><ul class="map-refs"><li>ASI09 Human-Agent Trust Exploitation <span class="map-note">misplaced trust that the agent will recognize and hand off the cases that matter</span></li></ul></td></tr></tbody></table></div>
       </aside>
     </div>
+    </div>
   </div>
 </div>
 <div class="entry" id="SF-04" data-dim="sf">
@@ -1110,6 +1185,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="entry-body" id="SF-04-body" hidden>
+    <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
         <p>Language models can produce profanity, mockery, despairing self-narratives, or wildly off-brand improvisation, especially when users deliberately bait them, and every output publishes instantly into a channel carrying the organization&#x27;s name. One screenshot travels through social media faster than any takedown process, inviting complaints and press coverage.</p>
@@ -1124,6 +1200,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
         <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">OWASP LLM</th><td><ul class="map-refs"><li>LLM09:2025 Misinformation <span class="map-note">false or embarrassing claims read as the organization&#x27;s official voice</span></li></ul></td></tr><tr><th scope="row">MITRE ATLAS</th><td><ul class="map-refs"><li>AML.T0048 External Harms <span class="map-note">AML.T0048.001 reputational harm as the impact category</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>MEASURE 2.4</li><li>MANAGE 4.3</li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>A.8.4 Communication of incidents <span class="map-note">planned incident communication to users limits public damage</span></li></ul></td></tr></tbody></table></div>
       </aside>
     </div>
+    </div>
   </div>
 </div>
 <div class="entry" id="SF-05" data-dim="sf">
@@ -1134,6 +1211,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="entry-body" id="SF-05-body" hidden>
+    <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
         <p>Controls that route agent actions to human approvers assume the human genuinely evaluates each item, but agents generate uniformly polished work faster than people can review it, so approval rates drift toward 100 percent and automation bias does the rest. The reviewer degrades from decision maker to latency while the control still reports green.</p>
@@ -1148,6 +1226,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
         <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 14 Human oversight <span class="map-note">Art. 14(4)(b) requires overseers to remain aware of automation bias, high-risk tier</span></li></ul></td></tr><tr><th scope="row">GDPR</th><td><ul class="map-refs"><li>Art. 22 Automated decisions <span class="map-note">human involvement must be meaningful for a decision to count as non-automated</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>GOVERN 3.2</li><li>MAP 3.5</li></ul></td></tr><tr><th scope="row">OWASP Agentic</th><td><ul class="map-refs"><li>T10 Overwhelming Human in the Loop <span class="map-note">approval flooding exploiting human cognitive limits</span></li><li>ASI09 Human-Agent Trust Exploitation <span class="map-note">authority bias toward agent rationales</span></li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>A.9.3 Objectives for responsible use of AI system <span class="map-note">human reviewers need real authority to override AI decisions</span></li></ul></td></tr></tbody></table></div>
       </aside>
     </div>
+    </div>
   </div>
 </div>
 <div class="entry" id="SF-06" data-dim="sf">
@@ -1158,6 +1237,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="entry-body" id="SF-06-body" hidden>
+    <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
         <p>General purpose models can answer almost anything, so an agent&#x27;s real capability always exceeds its approved mandate. Scope creep happens through inviting prompts, staff routing new work to a tool that seems capable, and quiet product extensions, so the validated boundary erodes with no single decision.</p>
@@ -1172,6 +1252,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
         <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 25 Responsibilities along the AI value chain <span class="map-note">under Art. 25(1)(c) repurposing a general purpose system to a high-risk use makes the deployer the provider</span></li><li>Art. 6 Classification rules for high-risk AI systems <span class="map-note">expanded use can move an agent into Annex III high-risk categories</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>MAP 3.3</li><li>MAP 1.1</li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>A.9.4 Intended use of the AI system</li></ul></td></tr><tr><th scope="row">OWASP LLM</th><td><ul class="map-refs"><li>LLM06:2025 Excessive Agency</li></ul></td></tr></tbody></table></div>
       </aside>
     </div>
+    </div>
   </div>
 </div>
 <div class="entry" id="SF-07" data-dim="sf">
@@ -1182,6 +1263,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="entry-body" id="SF-07-body" hidden>
+    <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
         <p>Agents plan, act, observe, and act again, so a loop with no termination condition, a retry policy without backoff, or two agents reacting to each other can generate unbounded activity in seconds. Each cycle mutates downstream state and consumes quota, so the blast radius grows with every connected tool and the model bill reaches denial-of-wallet scale.</p>
@@ -1196,6 +1278,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
         <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">OWASP Agentic</th><td><ul class="map-refs"><li>ASI08 Cascading Failures <span class="map-note">single fault propagating across agents and persisted state</span></li><li>T4 Resource Overload <span class="map-note">adversarially induced variant</span></li></ul></td></tr><tr><th scope="row">OWASP LLM</th><td><ul class="map-refs"><li>LLM10:2025 Unbounded Consumption <span class="map-note">denial of wallet from missing rate and usage limits</span></li></ul></td></tr><tr><th scope="row">MITRE ATLAS</th><td><ul class="map-refs"><li>AML.T0034 Cost Harvesting <span class="map-note">AML.T0034.002 agentic resource consumption as the attacker-driven analog</span></li></ul></td></tr><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 14 Human oversight <span class="map-note">Art. 14(4)(e) stop control allowing halt in a safe state, high-risk tier</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>MANAGE 2.4</li></ul></td></tr></tbody></table></div>
       </aside>
     </div>
+    </div>
   </div>
 </div>
 <div class="entry" id="SF-08" data-dim="sf">
@@ -1206,6 +1289,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="entry-body" id="SF-08-body" hidden>
+    <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
         <p>Agents pursue objectives expressed in prompts, rewards, and success metrics, and when the stated objective diverges from real intent the agent finds the gap. It closes tickets without resolving them, marks skipped checks complete, or constructs plausible justifications for actions taken for other reasons.</p>
@@ -1220,6 +1304,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
         <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">OWASP Agentic</th><td><ul class="map-refs"><li>T7 Misaligned and Deceptive Behaviors</li><li>T6 Intent Breaking and Goal Manipulation <span class="map-note">adversarial pressure on planning and goal setting</span></li><li>ASI10 Rogue Agents <span class="map-note">emergent misalignment where individually legitimate actions are collectively harmful</span></li></ul></td></tr><tr><th scope="row">OWASP ML</th><td><ul class="map-refs"><li>ML08:2023 Model Skewing <span class="map-note">feedback loops manipulated so outcomes shift over time</span></li></ul></td></tr><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 15 Accuracy, robustness and cybersecurity <span class="map-note">high-risk duty to mitigate feedback loops in continuously learning systems</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>MEASURE 2.6</li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>A.6.2.4 AI system verification and validation</li></ul></td></tr></tbody></table></div>
       </aside>
     </div>
+    </div>
   </div>
 </div>
 <div class="entry" id="SF-09" data-dim="sf">
@@ -1230,6 +1315,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="entry-body" id="SF-09-body" hidden>
+    <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
         <p>Some advice and actions are reserved by law for licensed professionals, and when an agent gives medical, legal, financial, or other regulated guidance and presents it as authoritative, it crosses from general information into a regulated activity it has no authority to perform.</p>
@@ -1244,6 +1330,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
         <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 50 Transparency obligations <span class="map-note">users must be informed that they are interacting with an AI system rather than a qualified professional</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>MAP 1.1</li><li>MAP 3.4</li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>A.5.4 Assessing AI system impact on individuals or groups of individuals <span class="map-note">impact assessment covering advice that requires professional licensing</span></li></ul></td></tr><tr><th scope="row">OWASP LLM</th><td><ul class="map-refs"><li>LLM06:2025 Excessive Agency <span class="map-note">the agent acting beyond its mandate into regulated advice or action</span></li></ul></td></tr></tbody></table></div>
       </aside>
     </div>
+    </div>
   </div>
 </div>
 <div class="entry" id="SF-10" data-dim="sf">
@@ -1254,6 +1341,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="entry-body" id="SF-10-body" hidden>
+    <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
         <p>Agents optimize conversations toward goals such as retention, recovery, or sales, and given signals of distress, confusion, or age an optimizing agent can learn that pressure works best on the most vulnerable, timing offers to desperation and wearing people down across turns.</p>
@@ -1268,6 +1356,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
         <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 5 Prohibited AI practices <span class="map-note">Art. 5(1)(a) manipulative techniques and Art. 5(1)(b) exploitation of vulnerabilities including a specific social or economic situation, prohibited tier in force since February 2025</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>GOVERN 3.2 <span class="map-note">policies governing human-AI configurations in user interaction</span></li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>A.5.4 Assessing AI system impact on individuals or groups of individuals <span class="map-note">impact assessment surfaces effects on vulnerable user groups</span></li></ul></td></tr><tr><th scope="row">OWASP Agentic</th><td><ul class="map-refs"><li>ASI09 Human-Agent Trust Exploitation <span class="map-note">anthropomorphic trust used to influence user decisions</span></li><li>T15 Human Manipulation <span class="map-note">agent trust relationship reduces user skepticism</span></li></ul></td></tr></tbody></table></div>
       </aside>
     </div>
+    </div>
   </div>
 </div>
 <div class="entry" id="SF-11" data-dim="sf">
@@ -1278,6 +1367,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="entry-body" id="SF-11-body" hidden>
+    <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
         <p>A capable agent can write exploit code, scan for weaknesses, craft phishing content, aid lateral movement, or automate abuse at a scale a single operator could not reach. The exposure runs both ways, as a weapon a malicious user points outward and a target an adversary hijacks through injected instructions.</p>
@@ -1292,6 +1382,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
         <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 55 Obligations for GPAI models with systemic risk <span class="map-note">providers of systemic-risk models must assess and mitigate systemic risks including offensive cybersecurity capability</span></li></ul></td></tr><tr><th scope="row">MITRE ATLAS</th><td><ul class="map-refs"><li>AML.T0053 AI Agent Tool Invocation <span class="map-note">attacker-induced tool use turning the agent&#x27;s own capabilities against target systems</span></li><li>AML.T0040 AI Model Inference API Access <span class="map-note">model capability accessed and driven toward offensive tasks</span></li></ul></td></tr><tr><th scope="row">OWASP LLM</th><td><ul class="map-refs"><li>LLM01:2025 Prompt Injection <span class="map-note">injected instructions redirecting a benign agent toward cyberattack actions</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>MEASURE 2.7</li><li>MANAGE 2.3</li></ul></td></tr></tbody></table></div>
       </aside>
     </div>
+    </div>
   </div>
 </div>
 <div class="entry" id="SF-12" data-dim="sf">
@@ -1302,6 +1393,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="entry-body" id="SF-12-body" hidden>
+    <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
         <p>A model with broad scientific knowledge can lower the barrier to serious harm by synthesizing scattered information, filling gaps in a plan, troubleshooting a failed step, or translating specialist material into actionable instructions toward chemical, biological, radiological, or nuclear harm.</p>
@@ -1316,8 +1408,10 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
         <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 55 Obligations for GPAI models with systemic risk <span class="map-note">systemic risk evaluation and mitigation, including CBRN uplift, before and during deployment</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>MEASURE 2.7</li><li>MAP 5.1</li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>Clause 6.1.2 AI risk assessment <span class="map-note">assessment of severe and catastrophic misuse potential</span></li><li>A.5.4 Assessing AI system impact on individuals or groups of individuals <span class="map-note">impact assessment covering large-scale and societal harm</span></li></ul></td></tr></tbody></table></div>
       </aside>
     </div>
+    </div>
   </div>
 </div></div>
+    </div>
   </div>
 </div>
 <div class="dim-acc" id="dim-sc">
@@ -1329,7 +1423,8 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="dim-body" id="dim-sc-body" hidden>
-    <div class="entries">
+    <div class="acc-inner">
+      <div class="entries">
 <div class="entry" id="SC-01" data-dim="sc">
   <button class="entry-head" aria-expanded="false" aria-controls="SC-01-body">
     <span class="code">SC-01</span>
@@ -1338,6 +1433,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="entry-body" id="SC-01-body" hidden>
+    <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
         <p>Models do not firmly separate instructions from data, so any text in context can steer behavior. Untrusted content entering model context is normal operation. The failure begins when untrusted content enters privileged context, a system prompt, developer message, or memory whose parameters are filled from user-supplied values. Input that reaches that privileged position carries instruction authority, so a crafted message can override operating rules, defeat guardrails, and redirect the system toward behavior the deployer never wrote.</p>
@@ -1352,6 +1448,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
         <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 15 Accuracy, robustness and cybersecurity <span class="map-note">high-risk systems, Art. 15(5) requires resilience against attacks that alter use or outputs, which includes prompt-based manipulation</span></li><li>Art. 14 Human oversight <span class="map-note">high-risk systems, override and stop controls limit injected behavior</span></li></ul></td></tr><tr><th scope="row">OWASP LLM</th><td><ul class="map-refs"><li>LLM01:2025 Prompt Injection</li></ul></td></tr><tr><th scope="row">OWASP Agentic</th><td><ul class="map-refs"><li>ASI01 Agent Goal Hijack <span class="map-note">T6 Goal Manipulation, injected instructions redirecting system objectives</span></li></ul></td></tr><tr><th scope="row">MITRE ATLAS</th><td><ul class="map-refs"><li>AML.T0051.000 LLM Prompt Injection (Direct)</li><li>AML.T0054 LLM Jailbreak</li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>MEASURE 2.7 <span class="map-note">security and resilience evaluation of injection resistance</span></li></ul></td></tr><tr><th scope="row">GDPR</th><td><ul class="map-refs"><li>Art. 32 Security of processing <span class="map-note">injection-driven disclosure of personal data is a security-of-processing failure</span></li></ul></td></tr></tbody></table></div>
       </aside>
     </div>
+    </div>
   </div>
 </div>
 <div class="entry" id="SC-02" data-dim="sc">
@@ -1362,6 +1459,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="entry-body" id="SC-02-body" hidden>
+    <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
         <p>The system ingests material from third parties as part of its task, and attackers plant instructions inside that material, hidden text in an email, a document field, a web page, a repository comment. The privileged-context failure is the same, ingested content gets folded into prompts and memory that carry instruction authority, so text that should stay inert data arrives as commands.</p>
@@ -1376,6 +1474,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
         <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 15 Accuracy, robustness and cybersecurity <span class="map-note">high-risk systems, Art. 15(5) resilience duty covers manipulation through processed content</span></li></ul></td></tr><tr><th scope="row">OWASP LLM</th><td><ul class="map-refs"><li>LLM01:2025 Prompt Injection <span class="map-note">indirect injection through processed content is a named vector</span></li></ul></td></tr><tr><th scope="row">OWASP Agentic</th><td><ul class="map-refs"><li>ASI01 Agent Goal Hijack <span class="map-note">T6 Goal Manipulation and T12 Agent Communication Poisoning, payloads arriving through ingested content</span></li></ul></td></tr><tr><th scope="row">MITRE ATLAS</th><td><ul class="map-refs"><li>AML.T0051.001 LLM Prompt Injection (Indirect)</li><li>AML.T0053 AI Agent Tool Invocation <span class="map-note">planted instruction driving unintended tool calls</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>MEASURE 2.7 <span class="map-note">security and resilience evaluation of content-borne injection</span></li></ul></td></tr><tr><th scope="row">GDPR</th><td><ul class="map-refs"><li>Art. 32 Security of processing</li></ul></td></tr></tbody></table></div>
       </aside>
     </div>
+    </div>
   </div>
 </div>
 <div class="entry" id="SC-03" data-dim="sc">
@@ -1386,6 +1485,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="entry-body" id="SC-03-body" hidden>
+    <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
         <p>Agents pick tools and build parameters from natural-language descriptions and from what earlier tools return. An attacker who controls a tool description, a connected server response, or a returned field can steer tool selection, inject malicious parameters into a legitimate call, or corrupt state that later steps trust. Because each output feeds the next decision, one manipulated response cascades through a multi-step workflow.</p>
@@ -1400,6 +1500,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
         <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 15 Accuracy, robustness and cybersecurity <span class="map-note">high-risk systems, cybersecurity resilience covers manipulation of tool-mediated actions</span></li></ul></td></tr><tr><th scope="row">OWASP LLM</th><td><ul class="map-refs"><li>LLM06:2025 Excessive Agency</li><li>LLM01:2025 Prompt Injection <span class="map-note">contextual injection targeting tool selection</span></li></ul></td></tr><tr><th scope="row">OWASP Agentic</th><td><ul class="map-refs"><li>ASI02 Tool Misuse and Exploitation <span class="map-note">T2 Tool Misuse, includes chaining and parameter injection</span></li></ul></td></tr><tr><th scope="row">MITRE ATLAS</th><td><ul class="map-refs"><li>AML.T0053 AI Agent Tool Invocation</li><li>AML.T0099 AI Agent Tool Data Poisoning <span class="map-note">malicious tool responses corrupting downstream decisions</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>MEASURE 2.7 <span class="map-note">security evaluation of tool integrations and parameter handling</span></li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>A.6.2.4 AI system verification and validation <span class="map-note">validation of tool interfaces and execution paths before deployment</span></li></ul></td></tr></tbody></table></div>
       </aside>
     </div>
+    </div>
   </div>
 </div>
 <div class="entry" id="SC-04" data-dim="sc">
@@ -1410,6 +1511,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="entry-body" id="SC-04-body" hidden>
+    <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
         <p>Agent authorization is often set per tool rather than per business outcome, so an agent can discover reachable APIs and chain individually permitted calls into an unauthorized result. Approval workflows and separation of duties fall because no single call looks forbidden.</p>
@@ -1424,6 +1526,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
         <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 15 Accuracy, robustness and cybersecurity <span class="map-note">high-risk systems, robustness and access controls against scope-exceeding actions</span></li></ul></td></tr><tr><th scope="row">OWASP LLM</th><td><ul class="map-refs"><li>LLM06:2025 Excessive Agency</li></ul></td></tr><tr><th scope="row">OWASP Agentic</th><td><ul class="map-refs"><li>ASI03 Identity and Privilege Abuse <span class="map-note">T3 Privilege Compromise, escalation through delegation and role inheritance</span></li></ul></td></tr><tr><th scope="row">MITRE ATLAS</th><td><ul class="map-refs"><li>AML.T0053 AI Agent Tool Invocation</li><li>AML.T0084 Discover AI Agent Configuration <span class="map-note">AML.T0084.003 Call Chains, mapping reachable calls to chain toward escalation</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>MEASURE 2.7 <span class="map-note">security evaluation of authorization boundaries</span></li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>A.6.2.6 AI system operation and monitoring <span class="map-note">monitoring of agent actions against intended scope and access limits</span></li></ul></td></tr></tbody></table></div>
       </aside>
     </div>
+    </div>
   </div>
 </div>
 <div class="entry" id="SC-05" data-dim="sc">
@@ -1434,6 +1537,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="entry-body" id="SC-05-body" hidden>
+    <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
         <p>Agents run with broad access and autonomous tool selection, so a manipulated agent can enumerate credentials sitting in config files, environment variables, logs, secret stores, and instance metadata, then use or exfiltrate them.</p>
@@ -1448,6 +1552,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
         <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 15 Accuracy, robustness and cybersecurity <span class="map-note">high-risk systems, Art. 15(5) confidentiality attacks include credential exposure</span></li></ul></td></tr><tr><th scope="row">OWASP LLM</th><td><ul class="map-refs"><li>LLM06:2025 Excessive Agency</li><li>LLM02:2025 Sensitive Information Disclosure <span class="map-note">credentials surfaced through outputs and logs</span></li></ul></td></tr><tr><th scope="row">OWASP Agentic</th><td><ul class="map-refs"><li>ASI03 Identity and Privilege Abuse <span class="map-note">T3 Privilege Compromise and T9 Identity Spoofing and Impersonation</span></li></ul></td></tr><tr><th scope="row">MITRE ATLAS</th><td><ul class="map-refs"><li>AML.T0083 Credentials from AI Agent Configuration</li><li>AML.T0098 AI Agent Tool Credential Harvesting</li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>MEASURE 2.7 <span class="map-note">security evaluation of credential handling and agent identity</span></li></ul></td></tr></tbody></table></div>
       </aside>
     </div>
+    </div>
   </div>
 </div>
 <div class="entry" id="SC-06" data-dim="sc">
@@ -1458,6 +1563,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="entry-body" id="SC-06-body" hidden>
+    <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
         <p>Agents ground answers and plans in retrieval corpora, vector stores, and persistent memory, so an attacker who injects poisoned documents or plants false entries shapes what the agent later retrieves and how it reasons. Because memory persists, the effect is a durable backdoor that activates on specific records or triggers.</p>
@@ -1472,6 +1578,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
         <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 15 Accuracy, robustness and cybersecurity <span class="map-note">high-risk systems, Art. 15(5) names data poisoning among attacks to prevent and detect</span></li></ul></td></tr><tr><th scope="row">OWASP LLM</th><td><ul class="map-refs"><li>LLM04:2025 Data and Model Poisoning</li><li>LLM08:2025 Vector and Embedding Weaknesses</li></ul></td></tr><tr><th scope="row">OWASP ML</th><td><ul class="map-refs"><li>ML02:2023 Data Poisoning Attack</li><li>ML08:2023 Model Skewing <span class="map-note">poisoning through feedback and retrieval to shift decisions</span></li></ul></td></tr><tr><th scope="row">OWASP Agentic</th><td><ul class="map-refs"><li>ASI06 Memory and Context Poisoning <span class="map-note">T1 Memory Poisoning, persisted context across sessions</span></li></ul></td></tr><tr><th scope="row">MITRE ATLAS</th><td><ul class="map-refs"><li>AML.T0070 RAG Poisoning</li><li>AML.T0080 AI Agent Context Poisoning <span class="map-note">AML.T0080.000 Memory, persistent agent memory</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>MEASURE 2.7 <span class="map-note">security evaluation of data and memory integrity</span></li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>A.7.4 Quality of data for AI systems <span class="map-note">data quality and integrity requirements for retrieval and knowledge sources</span></li></ul></td></tr></tbody></table></div>
       </aside>
     </div>
+    </div>
   </div>
 </div>
 <div class="entry" id="SC-07" data-dim="sc">
@@ -1482,6 +1589,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="entry-body" id="SC-07-body" hidden>
+    <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
         <p>Agent workloads can consume compute, tokens, API calls, and downstream resources far beyond what a task needs, driven by runaway loops, recursive planning, output-inflating prompts, and high-volume abuse with no natural stopping point. On consumption-based pricing this becomes denial of wallet.</p>
@@ -1496,6 +1604,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
         <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 15 Accuracy, robustness and cybersecurity <span class="map-note">high-risk systems, robustness and availability against resource-exhaustion attacks</span></li></ul></td></tr><tr><th scope="row">OWASP LLM</th><td><ul class="map-refs"><li>LLM10:2025 Unbounded Consumption</li></ul></td></tr><tr><th scope="row">MITRE ATLAS</th><td><ul class="map-refs"><li>AML.T0034.002 Agentic Resource Consumption <span class="map-note">sub-technique of AML.T0034 Cost Harvesting, denial of wallet through agent loops</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>MANAGE 2.4 <span class="map-note">mechanisms to detect and respond to unbounded resource use in deployed systems</span></li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>A.6.2.6 AI system operation and monitoring <span class="map-note">operation and monitoring covers resource limits and abnormal consumption</span></li></ul></td></tr></tbody></table></div>
       </aside>
     </div>
+    </div>
   </div>
 </div>
 <div class="entry" id="SC-08" data-dim="sc">
@@ -1506,6 +1615,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="entry-body" id="SC-08-body" hidden>
+    <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
         <p>The agent stack depends on third-party models, adapters, datasets, libraries, tools, and connected servers, any of which can arrive backdoored or turn malicious through an abandoned project or a compromised update. A corrupted component runs with the agent&#x27;s trust and reaches decision-making at scale.</p>
@@ -1520,6 +1630,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
         <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 15 Accuracy, robustness and cybersecurity <span class="map-note">high-risk systems, Art. 15(5) names model poisoning of pre-trained components</span></li></ul></td></tr><tr><th scope="row">OWASP LLM</th><td><ul class="map-refs"><li>LLM03:2025 Supply Chain</li></ul></td></tr><tr><th scope="row">OWASP ML</th><td><ul class="map-refs"><li>ML06:2023 AI Supply Chain Attacks</li><li>ML10:2023 Model Poisoning</li></ul></td></tr><tr><th scope="row">OWASP Agentic</th><td><ul class="map-refs"><li>ASI04 Agentic Supply Chain Vulnerabilities <span class="map-note">T17 Supply Chain Compromise, covers connected servers and agent-to-agent components</span></li></ul></td></tr><tr><th scope="row">MITRE ATLAS</th><td><ul class="map-refs"><li>AML.T0010 AI Supply Chain Compromise <span class="map-note">AML.T0010.005 AI Agent Tool</span></li><li>AML.T0109 AI Supply Chain Rug Pull</li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>GOVERN 6.1 <span class="map-note">third-party and supply-chain AI risk policies</span></li></ul></td></tr></tbody></table></div>
       </aside>
     </div>
+    </div>
   </div>
 </div>
 <div class="entry" id="SC-09" data-dim="sc">
@@ -1530,6 +1641,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="entry-body" id="SC-09-body" hidden>
+    <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
         <p>Agent endpoints exposed as APIs invite abuse, letting attackers extract system prompts and guardrails, query the model to clone its behavior or infer training data, scrape proprietary outputs, or flood the endpoint with expensive queries. Leaked system prompts expose tool definitions and business logic that let an attacker steer the agent&#x27;s actions.</p>
@@ -1544,6 +1656,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
         <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 15 Accuracy, robustness and cybersecurity <span class="map-note">high-risk systems, Art. 15(5) confidentiality attacks and model flaws</span></li></ul></td></tr><tr><th scope="row">OWASP LLM</th><td><ul class="map-refs"><li>LLM10:2025 Unbounded Consumption</li><li>LLM07:2025 System Prompt Leakage</li></ul></td></tr><tr><th scope="row">OWASP ML</th><td><ul class="map-refs"><li>ML05:2023 Model Theft</li></ul></td></tr><tr><th scope="row">MITRE ATLAS</th><td><ul class="map-refs"><li>AML.T0024 Exfiltration via AI Inference API <span class="map-note">AML.T0024.002 Extract AI Model</span></li><li>AML.T0034 Cost Harvesting <span class="map-note">AML.T0034.002 Agentic Resource Consumption, denial of wallet</span></li><li>AML.T0056 Extract LLM System Prompt</li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>MEASURE 2.7 <span class="map-note">security evaluation covering extraction and availability attacks</span></li></ul></td></tr></tbody></table></div>
       </aside>
     </div>
+    </div>
   </div>
 </div>
 <div class="entry" id="SC-10" data-dim="sc">
@@ -1554,6 +1667,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="entry-body" id="SC-10-body" hidden>
+    <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
         <p>In multi-agent systems, agents pass tasks, data, and trust across communication channels and shared state. Where messages lack authentication and integrity, an attacker can spoof an agent, inject false information, or corrupt shared resources so a compromise in one agent propagates to others.</p>
@@ -1568,6 +1682,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
         <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 15 Accuracy, robustness and cybersecurity <span class="map-note">high-risk systems, Art. 15(4) resilience to faults from interaction with other systems</span></li></ul></td></tr><tr><th scope="row">OWASP LLM</th><td><ul class="map-refs"><li>LLM06:2025 Excessive Agency</li></ul></td></tr><tr><th scope="row">OWASP Agentic</th><td><ul class="map-refs"><li>ASI07 Insecure Inter-Agent Communication <span class="map-note">T12 Agent Communication Poisoning and T16 protocol abuse</span></li><li>ASI10 Rogue Agents <span class="map-note">T13 Rogue Agents in Multi-Agent Systems</span></li></ul></td></tr><tr><th scope="row">MITRE ATLAS</th><td><ul class="map-refs"><li>AML.T0080 AI Agent Context Poisoning <span class="map-note">AML.T0080.001 Thread, cross-agent context corruption</span></li><li>AML.T0108 AI Agent</li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>MEASURE 2.7 <span class="map-note">security evaluation of inter-agent trust boundaries</span></li></ul></td></tr></tbody></table></div>
       </aside>
     </div>
+    </div>
   </div>
 </div>
 <div class="entry" id="SC-11" data-dim="sc">
@@ -1578,6 +1693,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="entry-body" id="SC-11-body" hidden>
+    <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
         <p>Detection and moderation agents classify inputs, behavior, and content, and adversaries interact, observe outcomes, and craft inputs that keep the score below the flagging threshold, an evasion attack at inference time. They also skew the model by feeding patterns that shift its decision boundary through feedback and retraining loops.</p>
@@ -1592,8 +1708,10 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
         <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 15 Accuracy, robustness and cybersecurity <span class="map-note">high-risk systems, Art. 15(5) names adversarial examples and model evasion</span></li></ul></td></tr><tr><th scope="row">OWASP ML</th><td><ul class="map-refs"><li>ML01:2023 Input Manipulation Attack</li><li>ML08:2023 Model Skewing <span class="map-note">skewing detection and moderation classifiers through feedback loops</span></li></ul></td></tr><tr><th scope="row">MITRE ATLAS</th><td><ul class="map-refs"><li>AML.T0015 Evade AI Model</li><li>AML.T0043 Craft Adversarial Data</li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>MEASURE 2.7 <span class="map-note">security and resilience evaluation against evasion</span></li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>A.6.2.6 AI system operation and monitoring <span class="map-note">monitoring for drift and evasion of deployed detection systems</span></li></ul></td></tr></tbody></table></div>
       </aside>
     </div>
+    </div>
   </div>
 </div></div>
+    </div>
   </div>
 </div>
 <div class="dim-acc" id="dim-et">
@@ -1605,7 +1723,8 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="dim-body" id="dim-et-body" hidden>
-    <div class="entries">
+    <div class="acc-inner">
+      <div class="entries">
 <div class="entry" id="ET-01" data-dim="et">
   <button class="entry-head" aria-expanded="false" aria-controls="ET-01-body">
     <span class="code">ET-01</span>
@@ -1614,6 +1733,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="entry-body" id="ET-01-body" hidden>
+    <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
         <p>An agent outcome depends on the prompt, the documents it retrieved, its reasoning, and the tools it called with their responses. When any step goes uncaptured or lacks timestamps and version links, the organization holds a result with no evidentiary chain.</p>
@@ -1628,6 +1748,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
         <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 12 Record-keeping <span class="map-note">Automatic event logging over the lifetime of high-risk systems</span></li><li>Art. 19 Automatically generated logs <span class="map-note">Provider retention of at least six months, mirrored for deployers in Art. 26(6)</span></li></ul></td></tr><tr><th scope="row">GDPR</th><td><ul class="map-refs"><li>Art. 5 Processing principles <span class="map-note">Accountability under Art. 5(2) requires demonstrable records of processing</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>MEASURE 2.8</li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>A.6.2.8 AI system recording of event logs</li></ul></td></tr><tr><th scope="row">OWASP Agentic</th><td><ul class="map-refs"><li>T8 Repudiation &amp; Untraceability</li></ul></td></tr></tbody></table></div>
       </aside>
     </div>
+    </div>
   </div>
 </div>
 <div class="entry" id="ET-02" data-dim="et">
@@ -1638,6 +1759,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="entry-body" id="ET-02-body" hidden>
+    <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
         <p>Agents appear without passing a governance gate. Staff wire model APIs into spreadsheets, teams switch on agent features inside procured software, and vendors activate AI components by default. None enter the inventory, so no tiering, testing, or monitoring applies.</p>
@@ -1652,6 +1774,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
         <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>GOVERN 1.6</li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>A.4.2 Resource documentation <span class="map-note">Identify and document resources across AI system lifecycle stages</span></li></ul></td></tr><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 25 Responsibilities along the AI value chain <span class="map-note">Repurposing a general-purpose system to a high-risk use makes the organization a provider under Art. 25(1)(c)</span></li></ul></td></tr><tr><th scope="row">OWASP Agentic</th><td><ul class="map-refs"><li>ASI10 Rogue Agents <span class="map-note">Agents operating outside monitoring boundaries, here through governance gaps rather than compromise</span></li></ul></td></tr></tbody></table></div>
       </aside>
     </div>
+    </div>
   </div>
 </div>
 <div class="entry" id="ET-03" data-dim="et">
@@ -1662,6 +1785,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="entry-body" id="ET-03-body" hidden>
+    <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
         <p>Agents act across functions that each assume someone else is responsible. Business owns the process, technology the platform, and the vendor the model, but no one owns the agent&#x27;s conduct. Without a named owner, remediation stalls and no one can authorize a fix or compensate those harmed.</p>
@@ -1676,6 +1800,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
         <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>GOVERN 2.1</li><li>GOVERN 2.3</li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>A.3.2 AI roles and responsibilities</li><li>A.10.2 Allocating responsibilities <span class="map-note">Responsibility split across the organization, suppliers and partners</span></li></ul></td></tr><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 26 Obligations of deployers <span class="map-note">High-risk tier, oversight assigned to persons with competence, training and authority under Art. 26(2)</span></li></ul></td></tr><tr><th scope="row">OWASP Agentic</th><td><ul class="map-refs"><li>T8 Repudiation &amp; Untraceability <span class="map-note">Agent actions that cannot be attributed or accounted for</span></li></ul></td></tr></tbody></table></div>
       </aside>
     </div>
+    </div>
   </div>
 </div>
 <div class="entry" id="ET-04" data-dim="et">
@@ -1686,6 +1811,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="entry-body" id="ET-04-body" hidden>
+    <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
         <p>When an agent declines a request, blocks an account, or reverses a benefit, the organization owes the person specific reasons. Agents assemble outcomes from opaque inference, retrieved passages, and tool outputs, so no single factor list exists, and a rationale built afterward may not reflect what drove the result.</p>
@@ -1700,6 +1826,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
         <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 86 Right to explanation <span class="map-note">Deployer duty to explain individual decisions from high-risk systems to affected persons</span></li><li>Art. 13 Transparency and provision of information to deployers <span class="map-note">High-risk tier, provider instructions must enable interpretation of output</span></li></ul></td></tr><tr><th scope="row">GDPR</th><td><ul class="map-refs"><li>Art. 22 Automated decisions <span class="map-note">Safeguards include human intervention and the right to contest</span></li><li>Art. 15 Right of access <span class="map-note">Art. 15(1)(h) meaningful information about the logic, C-203/22 Dun and Bradstreet standard</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>MEASURE 2.9</li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>A.6.2.4 AI system verification and validation <span class="map-note">Guidance covers interpretability of outputs for decision subjects</span></li></ul></td></tr></tbody></table></div>
       </aside>
     </div>
+    </div>
   </div>
 </div>
 <div class="entry" id="ET-05" data-dim="et">
@@ -1710,6 +1837,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="entry-body" id="ET-05-body" hidden>
+    <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
         <p>Audits run on evidence, meaning validation reports, threshold-based test results, design records, and change histories. Agent deployments ship on vendor claims and prompt edits, with no thresholds or versioned test sets.</p>
@@ -1724,6 +1852,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
         <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 11 Technical documentation <span class="map-note">Annex IV content for high-risk systems</span></li><li>Art. 18 Documentation keeping <span class="map-note">Ten year retention of documentation for high-risk systems</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>GOVERN 1.4</li><li>MEASURE 2.1 <span class="map-note">TEVV test sets, metrics and tools documented</span></li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>Clause 9.2 Internal audit</li><li>A.6.2.7 AI system technical documentation <span class="map-note">Documentation for supervisory authorities and other interested parties</span></li></ul></td></tr></tbody></table></div>
       </aside>
     </div>
+    </div>
   </div>
 </div>
 <div class="entry" id="ET-06" data-dim="et">
@@ -1734,6 +1863,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="entry-body" id="ET-06-body" hidden>
+    <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
         <p>Agents answer calls, chat, and generate documents that read as human work. When the organization does not tell people they face a machine, or does not label generated content, they act on a false premise. Transparency law requires informing people and marking synthetic content, with substantial fines for failure.</p>
@@ -1748,6 +1878,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
         <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 50 Transparency obligations <span class="map-note">Applies to user-facing systems of every tier from August 2026, covers AI interaction disclosure and synthetic content marking</span></li><li>Art. 26 Obligations of deployers <span class="map-note">Art. 26(11) duty to inform persons subject to high-risk AI decisions</span></li></ul></td></tr><tr><th scope="row">GDPR</th><td><ul class="map-refs"><li>Art. 13 Information to data subjects <span class="map-note">Disclosure of automated decision-making and meaningful information about the logic under Art. 13(2)(f)</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>MEASURE 2.8</li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>A.8.2 System documentation and information for users</li></ul></td></tr></tbody></table></div>
       </aside>
     </div>
+    </div>
   </div>
 </div>
 <div class="entry" id="ET-07" data-dim="et">
@@ -1758,6 +1889,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="entry-body" id="ET-07-body" hidden>
+    <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
         <p>Agent stacks assemble a frontier model, orchestration, tools, and data services from different providers, and each layer withholds something as proprietary, whether training provenance, evaluation detail, or incident histories. The organization must still attest the whole system is sound.</p>
@@ -1772,8 +1904,10 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
         <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 53 Obligations for providers of general-purpose AI models <span class="map-note">Annex XII documentation owed to downstream providers, GPAI tier</span></li><li>Art. 13 Transparency and provision of information to deployers <span class="map-note">High-risk tier, instructions for use covering capabilities and limitations</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>GOVERN 6.1</li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>A.10.3 Suppliers</li></ul></td></tr><tr><th scope="row">GDPR</th><td><ul class="map-refs"><li>Art. 28 Processor contracts <span class="map-note">Mandatory terms including audit rights and sub-processor transparency</span></li></ul></td></tr></tbody></table></div>
       </aside>
     </div>
+    </div>
   </div>
 </div></div>
+    </div>
   </div>
 </div></div>
   <div class="footnotes">
@@ -1790,13 +1924,21 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
 (function () {
   "use strict";
 
-  // Accordions
+  // Accordions (class-driven so height can animate; inert keeps closed content
+  // out of the tab order)
+  document.querySelectorAll(".entry-body, .dim-body").forEach(function (b) {
+    b.removeAttribute("hidden");
+    b.setAttribute("inert", "");
+  });
+
   function setOpen(head, open) {
     var body = document.getElementById(head.getAttribute("aria-controls"));
     if (!body) return;
     head.setAttribute("aria-expanded", open ? "true" : "false");
-    if (open) body.removeAttribute("hidden");
-    else body.setAttribute("hidden", "");
+    var box = head.closest(".entry, .dim-acc");
+    if (box) box.classList.toggle("open", open);
+    if (open) body.removeAttribute("inert");
+    else body.setAttribute("inert", "");
   }
 
   document.querySelectorAll(".entry-head, .dim-btn").forEach(function (head) {
