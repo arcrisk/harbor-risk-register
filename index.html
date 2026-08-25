@@ -660,19 +660,19 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
   <button class="entry-head" aria-expanded="false" aria-controls="VR-01-body">
     <span class="code">VR-01</span>
     <span class="entry-title"><span class="entry-name">Hallucinated facts and fabricated content</span>
-    <span class="entry-oneline">The agent states false facts with confidence in user answers, records, and formal documents.</span></span>
+    <span class="entry-oneline">The agent states inaccurate facts with confidence.</span></span>
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="entry-body" id="VR-01-body" hidden>
     <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
-        <p>A language model predicts plausible text rather than retrieving verified facts, so when context is thin it invents details, nonexistent clauses, or made up figures in the same fluent tone as correct answers. Grounding lowers the rate but never eliminates it.</p>
-        <h4 class="detail-label">The new risk agents introduce</h4><p>A chatbot&#x27;s error stops at the screen, while an agent writes the fabrication into records, tickets, and downstream documents that other systems then treat as authoritative, and it steers its own next steps before any human sees it.</p>
+        <p>A language model predicts plausible text. When context is insufficient, it may invent details or figures and present them as fluently as accurate content. Grounding lowers the likelihood but never eliminates it.</p>
+        <h4 class="detail-label">The new risk agents introduce</h4><p>A chatbot&#x27;s error remains within the conversation. An agent may write the fabrication into records, tickets, and downstream documents, which other systems then treat as authoritative input before any person reviews it.</p>
         <h4 class="detail-label">Contributing factors</h4>
-        <ul class="detail-list"><li>No ground truth exists inside the model, so it cannot tell accurate content from invented content.</li><li>Fluent, confident phrasing hides errors and disarms reviewer skepticism.</li><li>Ambiguous or incomplete prompts push the model to fill gaps with plausible inventions.</li><li>Helpfulness tuning rewards giving an answer over admitting uncertainty.</li><li>Retrieval gaps and stale knowledge bases leave questions the model answers from memory.</li></ul>
+        <ul class="detail-list"><li>The model has no external ground truth to check against, and its internal uncertainty signals are weak, poorly calibrated, and rarely exposed to the user.</li><li>Ambiguous or incomplete prompts, retrieval gaps, and outdated knowledge bases lead the model to supply plausible inventions.</li><li>Fluent, confident phrasing conceals errors and reduces reviewer scrutiny.</li></ul>
         <h4 class="detail-label">Examples</h4>
-        <ul class="detail-list"><li>A customer support assistant cites a refund policy clause that does not exist, and the wrong guidance is pasted into an internal procedure document.</li><li>A clinical documentation agent invents a past procedure when summarizing a patient record, and the fabricated history is saved to the chart.</li><li>A coding assistant references a library function that was never defined, and the call ships into a build before review catches it.</li></ul>
+        <ul class="detail-list"><li>A customer support assistant cites a refund policy clause that does not exist, and the incorrect guidance is copied into an internal procedure document.</li><li>A clinical documentation agent invents a past procedure when summarizing a patient record, and the fabricated history is saved to the chart.</li><li>A coding assistant references a library function that was never defined, and the call enters a build before review identifies it.</li></ul>
       </div>
       <aside class="entry-aside">
         <h4 class="detail-label">Insurance lines *</h4><div class="chip-row"><span class="chip">Tech E&amp;O / MPL / PI</span><span class="chip">Media Liability</span></div>
@@ -686,19 +686,19 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
   <button class="entry-head" aria-expanded="false" aria-controls="VR-02-body">
     <span class="code">VR-02</span>
     <span class="entry-title"><span class="entry-name">Wrong or malformed tool calls</span>
-    <span class="entry-oneline">The agent invokes the wrong tool, passes bad parameters, calls functions that do not exist, or misreads tool output.</span></span>
+    <span class="entry-oneline">The agent invokes the wrong tool, calls functions that do not exist, or misreads tool output.</span></span>
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="entry-body" id="VR-02-body" hidden>
     <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
-        <p>Agents act by emitting structured tool calls that downstream systems execute, so the model can pick the wrong tool, fill arguments with bad identifiers or amounts, invent functions that were never registered, or misread a response. This failure class is distinct from textual hallucination and grows with the size of the tool registry.</p>
-        <h4 class="detail-label">The new risk agents introduce</h4><p>A chatbot&#x27;s mistake waits for a human, but a tool-calling agent closes that gap itself, turning a parameter error into an executed change on a real system.</p>
+        <p>Agents act by emitting structured tool calls that downstream systems execute. Failures arise when the model selects the wrong tool, fills arguments with incorrect identifiers or amounts, fabricates functions that were never registered, or misreads a response.</p>
+        <h4 class="detail-label">The new risk agents introduce</h4><p>A chatbot that names the wrong function produces a sentence the reader can discard. An agent that emits the same tokens generates an executed call.</p>
         <h4 class="detail-label">Contributing factors</h4>
-        <ul class="detail-list"><li>Large tool registries increase selection confusion between similarly named functions.</li><li>Free-text argument generation without schema enforcement lets malformed values through.</li><li>Tool responses returned as unstructured text invite misreading by the model.</li><li>Missing validation between model output and execution turns errors into actions.</li><li>Sparse or ambiguous tool descriptions leave the model guessing at intended use.</li></ul>
+        <ul class="detail-list"><li>Large tool registries increase selection confusion between similarly named functions.</li><li>Free-text argument generation without schema enforcement permits malformed values.</li><li>Tool responses returned as unstructured text are readily misread by the model.</li><li>Missing validation between model output and execution allows errors to become executed actions.</li><li>Sparse or ambiguous tool descriptions give the model insufficient basis to determine intended use.</li></ul>
         <h4 class="detail-label">Examples</h4>
-        <ul class="detail-list"><li>An IT operations agent calls the server termination tool instead of the restart tool during an incident, taking a healthy host offline.</li><li>An e-commerce support agent transposes digits in an order identifier and issues a refund against the wrong customer&#x27;s purchase.</li><li>A software deployment agent misreads a status response and marks a failed release as successful, skipping the rollback it should have triggered.</li><li>A scheduling agent calls an eligibility function that was never registered, the call fails silently, and an appointment is booked without the required check.</li></ul>
+        <ul class="detail-list"><li>An IT operations agent calls the server termination tool instead of the restart tool during an incident, taking a healthy host offline.</li><li>An e-commerce support agent transposes digits in an order identifier and issues a refund against the wrong customer&#x27;s purchase.</li><li>A software deployment agent misreads a status response and marks a failed release as successful, omitting the rollback it should have triggered.</li><li>A scheduling agent calls an eligibility function that was never registered, the call fails without an error, and an appointment is booked without the required check.</li></ul>
       </div>
       <aside class="entry-aside">
         <h4 class="detail-label">Insurance lines *</h4><div class="chip-row"><span class="chip">Tech E&amp;O / MPL / PI</span></div>
@@ -712,19 +712,19 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
   <button class="entry-head" aria-expanded="false" aria-controls="VR-03-body">
     <span class="code">VR-03</span>
     <span class="entry-title"><span class="entry-name">Error propagation across multi-step workflows</span>
-    <span class="entry-oneline">Small early mistakes compound through plans, chains, and handoffs until the finished workflow is confidently wrong at scale.</span></span>
+    <span class="entry-oneline">Small early mistakes compound through chains and handoffs until the completed workflow is confidently incorrect.</span></span>
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="entry-body" id="VR-03-body" hidden>
     <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
-        <p>Agent workflows chain model calls, tool results, and judgments, each step consuming the output before it, so a minor early error becomes the premise for everything after and errors multiply rather than average out. Handoffs strip the uncertainty around the original error and volume repeats the flawed path across thousands of cases before monitoring notices.</p>
-        <h4 class="detail-label">The new risk agents introduce</h4><p>A single-shot model presents one output for review, but an agent carries its own mistake forward, gathers supporting context for it, and acts on it, so the final artifact looks internally consistent.</p>
+        <p>Agent workflows chain model calls, tool results, and judgments. Each step consumes the output before it, so a minor early error becomes the input for everything after, and errors may multiply rather than average out. Handoffs remove the uncertainty attached to the original error. High throughput then repeats the flawed path across thousands of cases before monitoring detects it.</p>
+        <h4 class="detail-label">The new risk agents introduce</h4><p>A chatbot presents outputs individually for review. An agent carries its own error forward, gathers supporting context for it, and acts on it, so the final artifact appears internally consistent.</p>
         <h4 class="detail-label">Contributing factors</h4>
-        <ul class="detail-list"><li>No intermediate ground truth exists to check steps against inside the chain.</li><li>Later steps treat earlier outputs as established facts rather than estimates.</li><li>Agent-to-agent handoffs strip the confidence and provenance signals attached to earlier outputs.</li><li>Long chains multiply per-step error rates into material end-to-end failure rates.</li><li>High throughput repeats a flawed path across many cases before detection.</li></ul>
+        <ul class="detail-list"><li>The chain contains no intermediate ground truth against which steps can be checked.</li><li>Later steps treat earlier outputs as established facts rather than estimates.</li><li>Agent-to-agent handoffs remove the confidence and provenance signals attached to earlier outputs.</li><li>High throughput repeats a flawed path across many cases before detection.</li></ul>
         <h4 class="detail-label">Examples</h4>
-        <ul class="detail-list"><li>A claims intake chain misreads a policy number in step one, and every later step diligently documents the wrong policy across hundreds of files.</li><li>A patient triage workflow mislabels a symptom early, and later steps build a care recommendation on the wrong premise.</li><li>A data pipeline agent misclassifies a batch exception, and the retry logic it triggers duplicates records across the whole batch.</li></ul>
+        <ul class="detail-list"><li>A claims intake chain misreads a policy number in step one, and every later step documents the wrong policy across hundreds of files.</li><li>A patient triage workflow mislabels a symptom early, and later steps build a care recommendation on the wrong premise.</li><li>A data pipeline agent misclassifies a batch exception, and the retry logic it triggers duplicates records across the whole batch.</li></ul>
       </div>
       <aside class="entry-aside">
         <h4 class="detail-label">Insurance lines *</h4><div class="chip-row"><span class="chip">Tech E&amp;O / MPL / PI</span></div>
@@ -738,19 +738,19 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
   <button class="entry-head" aria-expanded="false" aria-controls="VR-04-body">
     <span class="code">VR-04</span>
     <span class="entry-title"><span class="entry-name">Model, prompt and data drift</span>
-    <span class="entry-oneline">Silent provider updates, prompt and configuration changes, and decaying retrieval data degrade a validated agent without anyone re-approving it.</span></span>
+    <span class="entry-oneline">Unannounced provider updates, prompt and configuration changes, and aging retrieval data degrade a validated agent without any re-approval.</span></span>
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="entry-body" id="VR-04-body" hidden>
     <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
-        <p>Agent behavior is a product of model version, prompts, tool definitions, retrieval corpus, and settings, any of which can change with no formal release. Providers retrain hosted models quietly, teams tune prompts in production, and knowledge bases go stale. Regression stays silent because outputs remain fluent, and launch results stop describing the running system.</p>
-        <h4 class="detail-label">The new risk agents introduce</h4><p>A traditional model changes only when the organization retrains it, but an agent stack has more moving parts, several owned by vendors, so behavior shifts with no change on the deployer&#x27;s side.</p>
+        <p>Agent behavior is a product of model version, prompts, tool definitions, retrieval corpus, and settings, any of which can change with no formal release. Providers retrain hosted models without notice, teams tune prompts in production, and knowledge bases become outdated. Because outputs continue to appear normal, the organization may not detect that performance is degrading. The results measured at launch may therefore no longer describe the agent as it currently operates.</p>
+        <h4 class="detail-label">The new risk agents introduce</h4><p>A traditional model changes only when the organization retrains it. An agent stack contains more components, several of them owned by vendors, so behavior may change without any action by the deployer.</p>
         <h4 class="detail-label">Contributing factors</h4>
-        <ul class="detail-list"><li>Hosted model providers update weights and system prompts without notice or version pinning.</li><li>Prompt and configuration edits ship outside formal change management processes.</li><li>Retrieval corpora age as products, prices, and rules change.</li><li>Concept drift erodes the statistical validity of models the agent calls.</li><li>No re-validation trigger connects upstream changes to downstream testing obligations.</li></ul>
+        <ul class="detail-list"><li>Hosted model providers update weights and system prompts without notice or version pinning.</li><li>Prompt and configuration edits are made outside formal change management processes.</li><li>Retrieval corpora age as products, prices, and rules change.</li><li>Concept drift reduces the statistical validity of models the agent calls.</li><li>No re-validation trigger connects upstream changes to downstream testing obligations.</li></ul>
         <h4 class="detail-label">Examples</h4>
-        <ul class="detail-list"><li>A provider model update changes refusal behavior, and a customer support agent that passed testing starts making promises validation never saw.</li><li>A support agent quotes a withdrawn warranty policy because the knowledge base was not refreshed after a product change.</li><li>After a silent API default change, a document extraction agent&#x27;s accuracy drops and a quarter passes before anyone notices the degraded output.</li></ul>
+        <ul class="detail-list"><li>A provider model update changes refusal behavior, and a customer support agent that passed testing begins making commitments that validation never covered.</li><li>A support agent quotes a withdrawn warranty policy because the knowledge base was not refreshed after a product change.</li><li>After an unannounced API default change, a document extraction agent&#x27;s accuracy drops and a quarter passes before anyone identifies the degraded output.</li></ul>
       </div>
       <aside class="entry-aside">
         <h4 class="detail-label">Insurance lines *</h4><div class="chip-row"><span class="chip">Tech E&amp;O / MPL / PI</span></div>
@@ -764,19 +764,19 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
   <button class="entry-head" aria-expanded="false" aria-controls="VR-05-body">
     <span class="code">VR-05</span>
     <span class="entry-title"><span class="entry-name">Inconsistent behavior on identical cases</span>
-    <span class="entry-oneline">Identical facts produce different agent outcomes across runs, sessions, or channels, defeating reproducibility and consistent treatment.</span></span>
+    <span class="entry-oneline">Identical facts produce different agent outcomes across runs, sessions, or channels, preventing reproducibility and consistent treatment.</span></span>
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="entry-body" id="VR-05-body" hidden>
     <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
-        <p>Language model output is sampled from a probability distribution, so identical facts can produce different answers across runs, driven by temperature, prompt position, context length, and hardware variance. Irreproducibility also breaks regression testing, root cause analysis, and the ability to rerun a decision for an auditor.</p>
-        <h4 class="detail-label">The new risk agents introduce</h4><p>A rule engine is deterministic and a chatbot&#x27;s variance is mostly wording, but an agent&#x27;s variance compounds across a plan because each sampled step changes the tools called and the path taken.</p>
+        <p>Language model output is sampled from a probability distribution, so identical facts may produce different answers across runs. Temperature, prompt position, and context length all contribute. Irreproducibility also complicates regression testing, root cause analysis, and the ability to rerun a decision for an auditor.</p>
+        <h4 class="detail-label">The new risk agents introduce</h4><p>A rule engine is deterministic, and a chatbot&#x27;s variance primarily affects wording. An agent&#x27;s variance compounds across a plan, because it may change the tools called and the path taken at each step.</p>
         <h4 class="detail-label">Contributing factors</h4>
-        <ul class="detail-list"><li>Probabilistic token sampling at nonzero temperature varies output across identical runs.</li><li>Prompt phrasing and context position shift model behavior in unpredictable ways.</li><li>Floating point and hardware variance in inference stacks prevents exact reproduction.</li><li>Session memory and retrieval differences give the same facts different context.</li><li>Unpinned model versions add silent variation on top of sampling noise.</li></ul>
+        <ul class="detail-list"><li>Probabilistic token sampling at nonzero temperature varies output across identical runs.</li><li>Prompt phrasing and context position shift model behavior in unpredictable ways.</li><li>Reduction order in inference kernels varies with batch size, so concurrent load changes output.</li><li>Session memory and retrieval differences give the same facts a different context.</li><li>Unpinned model versions add undetected variation in addition to sampling noise.</li></ul>
         <h4 class="detail-label">Examples</h4>
-        <ul class="detail-list"><li>Two runs of an insurance claims agent on the same facts offer different settlement amounts, and the gap surfaces in a complaint.</li><li>A hiring screener advances one applicant and rejects an identical profile submitted the same day, both citing the same criteria.</li><li>A support agent passes a suite of billing scenarios on Monday and fails the identical suite on Wednesday with no code or prompt change.</li></ul>
+        <ul class="detail-list"><li>Two runs of an insurance claims agent on the same facts offer different settlement amounts, and the difference is raised in a complaint.</li><li>A hiring screener advances one applicant and rejects an identical profile submitted the same day, both citing the same criteria.</li><li>A support agent passes a suite of billing scenarios on Monday and fails the identical suite on Wednesday with no code or prompt change.</li></ul>
       </div>
       <aside class="entry-aside">
         <h4 class="detail-label">Insurance lines *</h4><div class="chip-row"><span class="chip">Tech E&amp;O / MPL / PI</span></div>
@@ -790,19 +790,19 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
   <button class="entry-head" aria-expanded="false" aria-controls="VR-06-body">
     <span class="code">VR-06</span>
     <span class="entry-title"><span class="entry-name">Brittleness on edge cases and out-of-distribution inputs</span>
-    <span class="entry-oneline">Agent performance collapses on unusual situations, rare cases, low-resource languages, and degraded documents that evaluation never covered.</span></span>
+    <span class="entry-oneline">Agent performance degrades sharply on unusual situations, low-resource languages, and degraded documents that were not present at the evaluation stage.</span></span>
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="entry-body" id="VR-06-body" hidden>
     <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
-        <p>Models perform well near the center of their training distribution and degrade sharply outside it, so rare features, dialects, low-resource languages, blurry scans, and legacy formats all fail quietly without any signal. Failures concentrate on the people most likely to present edge cases, turning a reliability defect into a fairness and duty-of-care problem.</p>
-        <h4 class="detail-label">The new risk agents introduce</h4><p>A classic model&#x27;s fixed feature space makes out-of-range inputs at least detectable, but an agent accepts any text, image, or document, so its input space cannot be enumerated or exhaustively tested.</p>
+        <p>Models perform well near the center of their training distribution and degrade sharply outside it, so rare features, dialects, low-resource languages, low-quality scans, and legacy formats may all produce failures with no accompanying signal. Failures concentrate on the users most likely to present edge cases, so a reliability defect may also become a fairness and duty-of-care problem.</p>
+        <h4 class="detail-label">The new risk agents introduce</h4><p>A classic model&#x27;s fixed feature space makes out-of-range inputs detectable. An agent accepts any text, image, or document, so its input space cannot be enumerated or exhaustively tested.</p>
         <h4 class="detail-label">Contributing factors</h4>
-        <ul class="detail-list"><li>Training and evaluation data underrepresent rare cases, situations, and languages.</li><li>The model gives no reliable confidence signal when it leaves familiar territory.</li><li>Golden test sets are built from frequent cases and miss the tails.</li><li>Degraded scans and nonstandard document formats break extraction quietly.</li><li>Open-ended input spaces cannot be enumerated for exhaustive pre-deployment testing.</li></ul>
+        <ul class="detail-list"><li>Training and evaluation data underrepresent rare cases, situations, and languages.</li><li>The model gives no reliable confidence signal when it operates outside its training distribution.</li><li>Golden test sets are built from frequent cases and omit rare ones.</li><li>Degraded scans and nonstandard document formats cause extraction failures without an error.</li><li>Open-ended input spaces cannot be enumerated for exhaustive pre-deployment testing.</li></ul>
         <h4 class="detail-label">Examples</h4>
-        <ul class="detail-list"><li>A document verification agent misreads a degraded foreign identity document and records a wrong date of birth that passes onboarding checks.</li><li>A support agent mishandles a bereavement notification because that scenario was absent from its evaluation set, distressing the family and breaking process.</li><li>A healthcare intake agent misinterprets a rare medication name on a scanned prescription and records the wrong drug.</li></ul>
+        <ul class="detail-list"><li>A document verification agent misreads a degraded foreign identity document and records a wrong date of birth that passes onboarding checks.</li><li>A support agent mishandles a bereavement notification because that scenario was absent from its evaluation set, distressing the family and departing from the required process.</li><li>A healthcare intake agent misinterprets a rare medication name on a scanned prescription and records the wrong drug.</li></ul>
       </div>
       <aside class="entry-aside">
         <h4 class="detail-label">Insurance lines *</h4><div class="chip-row"><span class="chip">Tech E&amp;O / MPL / PI</span></div>
@@ -816,15 +816,15 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
   <button class="entry-head" aria-expanded="false" aria-controls="VR-07-body">
     <span class="code">VR-07</span>
     <span class="entry-title"><span class="entry-name">Foundation model and platform unavailability</span>
-    <span class="entry-oneline">Outages, latency spikes, quota exhaustion, and deprecations at model or tool providers halt agent operations the organization does not control.</span></span>
+    <span class="entry-oneline">Outages, latency spikes, quota exhaustion, and deprecations at model or tool providers halt agent operations that depend on infrastructure the organization does not control.</span></span>
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="entry-body" id="VR-07-body" hidden>
     <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
-        <p>Agents depend on hosted foundation models, orchestration platforms, and tool endpoints run by third parties, so outages, regional degradation, throttling, capacity incidents, and hard deprecations remove capability with little warning, and token pricing adds denial of wallet exposure. Retries and long context calls amplify degradation into quota exhaustion just when capacity is scarcest.</p>
-        <h4 class="detail-label">The new risk agents introduce</h4><p>A classic in-house model fails only with the organization&#x27;s own infrastructure, but an agent imports the availability of every provider in its chain, and one model API often sits under many agents at once.</p>
+        <p>Agents depend on hosted foundation models, orchestration platforms, and tool endpoints run by third parties. Outages, regional degradation, throttling, capacity incidents, and forced deprecations remove capability with little warning, and token pricing adds denial of wallet exposure. Retries and long context calls convert degradation into quota exhaustion at the point when capacity is most constrained.</p>
+        <h4 class="detail-label">The new risk agents introduce</h4><p>A classic in-house model depends only on the organization&#x27;s own infrastructure. An agent inherits the availability of every provider in its chain, and a single model API often supports many agents simultaneously.</p>
         <h4 class="detail-label">Contributing factors</h4>
         <ul class="detail-list"><li>Concentration of many agents on a single hosted model or platform provider.</li><li>Standard API terms carry no committed capacity, and SLAs exclude business loss.</li><li>Agent retry storms and long context calls amplify load during degradation.</li><li>Provider version deprecations force unplanned migrations on the provider&#x27;s schedule.</li><li>Token metered pricing exposes budgets to denial of wallet spikes.</li></ul>
         <h4 class="detail-label">Examples</h4>
@@ -856,19 +856,19 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
   <button class="entry-head" aria-expanded="false" aria-controls="DP-01-body">
     <span class="code">DP-01</span>
     <span class="entry-title"><span class="entry-name">Sensitive data leakage to external model providers</span>
-    <span class="entry-oneline">Personal and confidential records enter prompts sent to hosted models, where provider retention puts them beyond the deploying organization&#x27;s control.</span></span>
+    <span class="entry-oneline">Personal and confidential records enter prompts sent to hosted models, where retention and access are governed by the provider&#x27;s terms.</span></span>
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="entry-body" id="DP-01-body" hidden>
     <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
-        <p>An agent builds each prompt from stored records, retrieved documents, and prior conversation, then sends that package across the boundary to a hosted model the organization does not run, where provider retention keeps copies beyond its control.</p>
-        <h4 class="detail-label">The new risk agents introduce</h4><p>Because an agent pulls context automatically through retrieval and tool calls, one short question can drag full histories outward, and multi-step plans re-transmit accumulated context, making the exposure far larger than a chatbot that sends only what a person types.</p>
+        <p>An agent builds each prompt from stored records, retrieved documents, and prior conversation, then sends the assembled prompt to a hosted model the organization does not operate. Data retention, caching, and human-review terms determine how long copies persist and who can access them.</p>
+        <h4 class="detail-label">The new risk agents introduce</h4><p>A chatbot sends only what the user types. An agent assembles context automatically through retrieval and tool calls, so one short question can transmit full histories, and multi-step plans re-send accumulated context.</p>
         <h4 class="detail-label">Contributing factors</h4>
-        <ul class="detail-list"><li>Retrieval and tool calls inject whole documents into prompts with no field-level filtering.</li><li>Provider retention, caching, and human-review terms vary by contract tier and change over time.</li><li>Unsanctioned consumer endpoints used by staff bypass negotiated data protections entirely.</li><li>Long sessions accumulate context, so each new call re-sends everything gathered so far.</li><li>No redaction layer sits between context assembly and the outbound API call.</li></ul>
+        <ul class="detail-list"><li>Retrieval and tool calls insert whole documents into prompts with no field-level filtering.</li><li>Provider retention, caching, and human-review terms vary by contract tier and change over time.</li><li>Unsanctioned consumer endpoints used by staff bypass negotiated data protections.</li><li>Long sessions accumulate context, so each new call re-sends everything gathered so far.</li><li>No redaction layer separates context assembly from the outbound API call.</li></ul>
         <h4 class="detail-label">Examples</h4>
-        <ul class="detail-list"><li>A hospital intake agent summarizing a patient case sends the full medical history and insurance details to a hosted model whose default terms allow thirty-day prompt retention.</li><li>A recruiting assistant pastes candidate resumes and background-check notes into an unsanctioned consumer chatbot, placing applicant data outside the employer&#x27;s data processing agreement.</li><li>An e-commerce support agent forwards a shopper&#x27;s address and full order history to a model endpoint that logs traffic with no contractual deletion commitment.</li></ul>
+        <ul class="detail-list"><li>A hospital intake agent summarizing a patient case sends the full medical history and insurance details to a hosted model whose default terms allow thirty-day prompt retention.</li><li>A recruiting assistant copies candidate resumes and background-check notes into an unsanctioned consumer chatbot, placing applicant data outside the employer&#x27;s data processing agreement.</li><li>An e-commerce support agent forwards a shopper&#x27;s address and full order history to a model endpoint that logs traffic with no contractual deletion commitment.</li></ul>
       </div>
       <aside class="entry-aside">
         <h4 class="detail-label">Insurance lines *</h4><div class="chip-row"><span class="chip">Cyber</span><span class="chip">Tech E&amp;O / MPL / PI</span></div>
@@ -882,19 +882,19 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
   <button class="entry-head" aria-expanded="false" aria-controls="DP-02-body">
     <span class="code">DP-02</span>
     <span class="entry-title"><span class="entry-name">Cross-user context bleed</span>
-    <span class="entry-oneline">Data from one person surfaces in another person&#x27;s session through shared caches, memory stores, connection pooling, or session-handling defects.</span></span>
+    <span class="entry-oneline">Data from one user appears in another user&#x27;s session through shared caches, memory stores, connection pooling, or session-handling defects.</span></span>
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="entry-body" id="DP-02-body" hidden>
     <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
-        <p>Agent platforms share infrastructure across sessions, so prompt caches, semantic caches, connection pools, and shared memory stores can each carry a fragment of one person&#x27;s data into another person&#x27;s interaction. Every added layer is a new place where the tenancy boundary must be rebuilt by hand and can fail silently, and the bleed is a breach the moment it happens.</p>
-        <h4 class="detail-label">The new risk agents introduce</h4><p>Traditional applications isolate sessions at the database and web tier, but agents add vector stores, tool-result caches, and long-lived memory that were never session-scoped by default.</p>
+        <p>Agent platforms commonly share infrastructure across sessions. Where they do, prompt caches, semantic caches, connection pools, and shared memory stores can each return one person&#x27;s data in another person&#x27;s session, which is a data breach. Isolation is implemented separately in each component rather than inherited from the platform, so each is an independent point of failure, and a wrong result can pass undetected.</p>
+        <h4 class="detail-label">The new risk agents introduce</h4><p>Traditional applications isolate sessions at the database and web tier. Agents add vector stores, tool-result caches, and long-lived memory that were never session-scoped by default.</p>
         <h4 class="detail-label">Contributing factors</h4>
-        <ul class="detail-list"><li>Semantic and prompt caches keyed on query text rather than user identity.</li><li>Persistent memory and vector stores shared across sessions without tenant partitioning.</li><li>Connection pooling and batching at the model gateway mixing session state.</li><li>Retrieval indexes built from multi-user corpora with no entitlement filtering at query time.</li><li>Load-driven reuse of contexts during traffic spikes and failover.</li></ul>
+        <ul class="detail-list"><li>Semantic and prompt caches keyed on query text rather than user identity.</li><li>No cross-session comparison that would detect data appearing in the wrong session.</li><li>Persistent memory and vector stores shared across sessions without tenant partitioning.</li><li>Connection pooling and batching at the model gateway mixing session state.</li><li>Retrieval indexes built from multi-user corpora with no entitlement filtering at query time.</li><li>Load-driven reuse of contexts during traffic spikes and failover.</li></ul>
         <h4 class="detail-label">Examples</h4>
-        <ul class="detail-list"><li>A telecom support agent answers an account question using details cached from the previous caller, disclosing another subscriber&#x27;s information in a recorded channel.</li><li>An e-commerce agent retrieves a saved address from a shared vector store and inserts a different shopper&#x27;s delivery details into an order confirmation.</li><li>A government benefits agent&#x27;s memory store attaches one claimant&#x27;s case notes to a different claimant&#x27;s file, driving a wrong eligibility answer and a privacy complaint.</li></ul>
+        <ul class="detail-list"><li>A telecom support agent answers an account question using details cached from the previous caller, disclosing another subscriber&#x27;s information in a recorded channel.</li><li>An e-commerce agent retrieves a saved address from a shared vector store and inserts a different shopper&#x27;s delivery details into an order confirmation.</li><li>A government benefits agent&#x27;s memory store attaches one claimant&#x27;s case notes to a different claimant&#x27;s file, producing a wrong eligibility answer and a privacy complaint.</li></ul>
       </div>
       <aside class="entry-aside">
         <h4 class="detail-label">Insurance lines *</h4><div class="chip-row"><span class="chip">Cyber</span><span class="chip">Tech E&amp;O / MPL / PI</span></div>
@@ -908,17 +908,17 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
   <button class="entry-head" aria-expanded="false" aria-controls="DP-03-body">
     <span class="code">DP-03</span>
     <span class="entry-title"><span class="entry-name">Exposure through agent memory, logs, and vector stores</span>
-    <span class="entry-oneline">Embeddings, transcripts, traces, and persistent memory hold sensitive data that inversion, membership inference, or plain access failures can expose.</span></span>
+    <span class="entry-oneline">Embeddings, transcripts, traces, and persistent memory hold sensitive data that inversion, membership inference, or access failures can expose.</span></span>
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="entry-body" id="DP-03-body" hidden>
     <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
-        <p>Everything an agent touches leaves residue in transcripts, reasoning traces, tool-call logs, caches, persistent memory, and vector embeddings, which look opaque but can be inverted to reconstruct source text or probed by membership inference. Each store sits outside the audited core systems, often stood up quickly, so entitlements, encryption, and deletion rarely match the standards applied to the original data.</p>
-        <h4 class="detail-label">The new risk agents introduce</h4><p>Agents multiply these stores far beyond a chatbot, since full-chain observability records every step and memory persists by design.</p>
+        <p>Agent operation creates copies of data in transcripts, reasoning traces, tool-call logs, caches, persistent memory, and vector embeddings. Embeddings may appear opaque but can be inverted to reconstruct source text, and retrievable stores can be probed by membership inference. Each store lies outside the audited core systems and is often provisioned quickly, so entitlements, encryption, and deletion rarely match the standards applied to the original data.</p>
+        <h4 class="detail-label">The new risk agents introduce</h4><p>A chatbot creates few such stores. An agent creates many, because full-chain observability records every step and memory persists by design.</p>
         <h4 class="detail-label">Contributing factors</h4>
-        <ul class="detail-list"><li>Vector databases and caches provisioned outside standard data-store hardening and inventory.</li><li>Embedding inversion and membership inference attacks on retrievable stores.</li><li>Reasoning traces and tool logs capturing raw personal data that output filters never saw.</li><li>Retention defaults set to forever, with deletion routines that miss derived copies.</li><li>Debug and evaluation datasets cloned from production transcripts.</li></ul>
+        <ul class="detail-list"><li>Vector databases and caches provisioned outside standard data-store hardening and inventory.</li><li>Embedding inversion and membership inference attacks on retrievable stores.</li><li>Reasoning traces and tool logs capturing raw personal data that output filters never processed.</li><li>Retention defaults set to indefinite, with deletion routines that omit derived copies.</li><li>Debug and evaluation datasets cloned from production transcripts.</li></ul>
         <h4 class="detail-label">Examples</h4>
         <ul class="detail-list"><li>An attacker with read access to a support agent&#x27;s vector store runs inversion tooling and reconstructs customer complaint narratives including account references.</li><li>A clinical triage agent&#x27;s reasoning traces, kept for tuning, hold unmasked patient data accessible to a wide engineering group.</li><li>A resident submits an erasure request to a city services portal, but embeddings of their application documents remain queryable in a retrieval index the deletion workflow never covered.</li></ul>
       </div>
@@ -934,19 +934,19 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
   <button class="entry-head" aria-expanded="false" aria-controls="DP-04-body">
     <span class="code">DP-04</span>
     <span class="entry-title"><span class="entry-name">Organization data used for provider training</span>
-    <span class="entry-oneline">Personal and proprietary data sent to AI vendors is absorbed into third-party model training without consent or contractual basis.</span></span>
+    <span class="entry-oneline">Personal and proprietary data sent to AI vendors is absorbed into third-party model training outside what the organization knowingly approved.</span></span>
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="entry-body" id="DP-04-body" hidden>
     <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
-        <p>Model and tool providers improve their products on usage data, so unless a contract says otherwise prompts, outputs, and fine-tuning corpora flow into training pipelines, where absorbed data becomes irretrievable, may resurface in other customers&#x27; sessions, and cannot be deleted on request. Reuse for training breaks purpose limitation and can leak proprietary material into a shared model.</p>
-        <h4 class="detail-label">The new risk agents introduce</h4><p>Agents widen the funnel by transmitting retrieved documents, tool outputs, and multi-step traces, and a no-training clause with the primary model vendor does not bind the tool and orchestration providers an agent also feeds.</p>
+        <p>Model and tool providers may train their own models on an agent&#x27;s prompts, outputs, and submitted corpora, depending on the terms of the relationship. Where training is permitted, absorbed data becomes irretrievable and may resurface in other customers&#x27; sessions. Reuse for training puts purpose limitation in question and can leak proprietary material into a shared model.</p>
+        <h4 class="detail-label">The new risk agents introduce</h4><p>A chatbot sends the user&#x27;s text to one vendor. An agent sends retrieved documents, tool outputs, and traces to the providers in its chain. A no-training commitment from the model vendor does not bind the tool, orchestration, and observability layers, so the terms governing a given piece of data are unsettled at approval.</p>
         <h4 class="detail-label">Contributing factors</h4>
-        <ul class="detail-list"><li>Default provider terms permitting training on API or workspace traffic.</li><li>Consumer-tier and free endpoints used by staff without negotiated protections.</li><li>Agent trajectories and feedback signals harvested as preference data by platforms.</li><li>No-training clauses covering the model vendor but not tools and orchestration layers.</li><li>No verification mechanism proving a vendor honors its data-use commitments.</li></ul>
+        <ul class="detail-list"><li>Provider terms that change over time and are rarely verified against the data path actually in use.</li><li>Consumer-tier and free endpoints used by staff without negotiated protections.</li><li>Agent trajectories and feedback signals collected as preference data by platforms.</li><li>No-training clauses covering the model vendor but not tools and orchestration layers.</li><li>Assurance instruments that cover retention and access controls but cannot evidence non-use for training.</li></ul>
         <h4 class="detail-label">Examples</h4>
-        <ul class="detail-list"><li>A legal team pastes client contracts into a free chatbot whose terms grant training rights, embedding privileged material in a public vendor&#x27;s corpus.</li><li>An engineering team fine-tunes on internal source code with a provider whose agreement lets it keep the corpus for its own model development.</li><li>A procurement review finds a clinic&#x27;s transcription tool trains on audio by default, meaning months of patient consultations fed a third-party model.</li></ul>
+        <ul class="detail-list"><li>A legal team copies client contracts into a free chatbot whose terms grant training rights, embedding privileged material in a public vendor&#x27;s corpus.</li><li>An engineering team fine-tunes on internal source code with a provider whose agreement permits it to retain the corpus for its own model development.</li><li>A procurement review finds a clinic&#x27;s transcription tool trains on audio by default, so months of patient consultations were used to train a third-party model.</li></ul>
       </div>
       <aside class="entry-aside">
         <h4 class="detail-label">Insurance lines *</h4><div class="chip-row"><span class="chip">Intellectual Property</span><span class="chip">Cyber</span><span class="chip">Tech E&amp;O / MPL / PI</span></div>
@@ -967,12 +967,12 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
-        <p>A model can emit near-verbatim copies of copyrighted material from training, and an agent grounded on scraped content can surface it, so exposure runs both ways as outputs reproduce protected work and inputs use corpora assembled without rights. Infringing outputs invite takedowns, license disputes, and damages.</p>
-        <h4 class="detail-label">The new risk agents introduce</h4><p>A chatbot shows a passage to one person who can judge it, but an agent pastes generated code into a repository, publishes copy, or ships an image before any provenance check, and it mixes licensed, open, and unlicensed sources into outputs nobody can later trace.</p>
+        <p>A model can emit near-verbatim copies of copyrighted material from training, and an agent grounded on scraped content can reproduce it. Exposure therefore arises on both sides: outputs reproduce protected work, and inputs draw on corpora assembled without rights. Infringing outputs lead to takedown demands, license disputes, and damages.</p>
+        <h4 class="detail-label">The new risk agents introduce</h4><p>A chatbot shows a passage to one person who can assess it. An agent commits generated code to a repository, publishes text, or releases an image before any provenance check. It also combines licensed, open, and unlicensed sources into outputs that cannot later be traced.</p>
         <h4 class="detail-label">Contributing factors</h4>
-        <ul class="detail-list"><li>Base models trained on large web corpora that include copyrighted text, code, and images.</li><li>Retrieval corpora built from scraped or licensed-for-other-use content without rights review.</li><li>Generated code carrying open-source license obligations the receiving project cannot meet.</li><li>Outputs published or shipped automatically before any provenance check runs.</li><li>No attribution or source tracing across the mixed sources an agent draws on.</li></ul>
+        <ul class="detail-list"><li>Base models trained on large web corpora that include copyrighted text, code, and images.</li><li>Retrieval corpora built from scraped or licensed-for-other-use content without rights review.</li><li>Generated code carrying open-source license obligations the receiving project cannot meet.</li><li>Outputs published or released automatically before any provenance check runs.</li><li>No attribution or source tracing across the mixed sources an agent draws on.</li></ul>
         <h4 class="detail-label">Examples</h4>
-        <ul class="detail-list"><li>A coding agent inserts a block copied almost verbatim from a copyleft-licensed project into a proprietary codebase, creating a license conflict nobody notices until an audit.</li><li>A content platform&#x27;s writing agent reproduces long passages from a paywalled article in a published summary, drawing a takedown demand from the rights holder.</li><li>A marketing agent generates product images that closely replicate a photographer&#x27;s copyrighted work, and the images run in a live ad campaign.</li></ul>
+        <ul class="detail-list"><li>A coding agent inserts a block copied almost verbatim from a copyleft-licensed project into a proprietary codebase, creating a license conflict nobody identifies until an audit.</li><li>A content platform&#x27;s writing agent reproduces long passages from a paywalled article in a published summary, drawing a takedown demand from the rights holder.</li><li>A marketing agent generates product images that closely replicate a photographer&#x27;s copyrighted work, and the images run in a live ad campaign.</li></ul>
       </div>
       <aside class="entry-aside">
         <h4 class="detail-label">Insurance lines *</h4><div class="chip-row"><span class="chip">Intellectual Property</span><span class="chip">Media Liability</span><span class="chip">Tech E&amp;O / MPL / PI</span></div>
@@ -993,12 +993,12 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
-        <p>Privacy law restricts decisions based solely on automated processing that carry legal or similarly significant effects, and case law extends this to a score a decision-maker leans on heavily, so an agent producing a rating a person rubber-stamps is already caught. Agents drift into this territory without anyone deciding they should, as recommendations get followed routinely and the nominal reviewer lacks the competence, information, or authority to change outcomes.</p>
-        <h4 class="detail-label">The new risk agents introduce</h4><p>Autonomy settings and approval fatigue convert assistive tools into automated decisions with no legal basis, notice, or contest route.</p>
+        <p>Privacy law restricts decisions based solely on automated processing that carry legal or similarly significant effects, permitting them only on three grounds: contractual necessity, authorizing law, or explicit consent. Each requires safeguards, including human intervention, the right to express a view, and a route to contest. Case law extends the restriction upstream to any score the decision-maker draws strongly on, so an agent producing a rating a person approves without sufficient independent assessment is already within the prohibition&#x27;s scope. Agents tend to reach this threshold as recommendations are followed routinely and the nominal reviewer often lacks the competence, information, or authority to change outcomes.</p>
+        <h4 class="detail-label">The new risk agents introduce</h4><p>Autonomy settings and approval fatigue convert assistive tools into automated decisions with no legal basis, notice, or route to contest.</p>
         <h4 class="detail-label">Contributing factors</h4>
-        <ul class="detail-list"><li>Human review that is formal rather than meaningful, with no authority to overturn.</li><li>Score outputs that downstream staff lean on heavily, bringing the decision inside the restriction.</li><li>No notice, explanation, or contest channel wired into the agent workflow.</li><li>Autonomy tiers raised for throughput without re-checking the legal basis.</li><li>Profiling embedded in retrieval and memory that no impact assessment ever reviewed.</li></ul>
+        <ul class="detail-list"><li>Human review that is formal rather than meaningful, with no authority to overturn.</li><li>No notice, explanation, or contest channel built into the agent workflow.</li><li>Autonomy tiers raised for throughput without re-checking the legal basis.</li><li>Profiling embedded in retrieval and memory that no impact assessment ever reviewed.</li></ul>
         <h4 class="detail-label">Examples</h4>
-        <ul class="detail-list"><li>A claims agent denies coverage automatically for policyholders flagged by a behavioral score, producing significant effects with no documented exception.</li><li>A benefits agent suspends a claimant&#x27;s payments after a fraud score, and the review step is a queue nobody actually reads.</li><li>A hiring agent rejects applicants below a model threshold, and recruiters accept its recommendation in over 99 percent of cases.</li></ul>
+        <ul class="detail-list"><li>A claims agent denies coverage automatically for policyholders flagged by a behavioral score, producing significant effects with no documented exception.</li><li>A benefits agent suspends a claimant&#x27;s payments after a fraud score, and the review step is a queue nobody reads.</li><li>A hiring agent rejects applicants below a model threshold, and recruiters accept its recommendation in over 99 percent of cases.</li></ul>
       </div>
       <aside class="entry-aside">
         <h4 class="detail-label">Insurance lines *</h4><div class="chip-row"><span class="chip">Tech E&amp;O / MPL / PI</span><span class="chip">Cyber</span></div>
@@ -1019,12 +1019,12 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
-        <p>Agents are built to be helpful and more context usually helps, so retrieval pulls whole documents, memory stores histories indefinitely, and orchestration logs everything by default, with no purpose test applied to any field. The result is unbounded accumulation that breaches minimization and storage-limitation duties.</p>
-        <h4 class="detail-label">The new risk agents introduce</h4><p>A classic model consumes a fixed feature set approved at design time, but an agent decides at run time what to fetch and its appetite grows with every tool, while memory blurs purpose limitation by reusing data across unrelated conversations.</p>
+        <p>Agent performance generally improves with more context. Retrieval therefore collects whole documents, memory stores histories indefinitely, and orchestration logs all activity by default, with no purpose test applied to any field. The result is unbounded accumulation.</p>
+        <h4 class="detail-label">The new risk agents introduce</h4><p>A classic model consumes a fixed feature set approved at design time. An agent decides at run time what to retrieve, and the volume increases with every tool added. Memory further weakens purpose limitation by reusing data across unrelated conversations.</p>
         <h4 class="detail-label">Contributing factors</h4>
-        <ul class="detail-list"><li>Retrieval configured for recall over precision, pulling full files into context.</li><li>Default-on conversation memory and transcript retention with no lifetime limits.</li><li>No purpose or necessity test applied at the field level before ingestion.</li><li>Interaction histories reused across purposes without a fresh legal basis.</li><li>Deletion pipelines that do not cover derived stores and backups.</li></ul>
+        <ul class="detail-list"><li>Retrieval configured for recall over precision, bringing full files into context.</li><li>Default-on conversation memory and transcript retention with no lifetime limits.</li><li>No purpose or necessity test applied at the field level before ingestion.</li><li>Interaction histories reused across purposes without a fresh legal basis.</li><li>Deletion pipelines that do not cover derived stores and backups.</li></ul>
         <h4 class="detail-label">Examples</h4>
-        <ul class="detail-list"><li>An HR help-desk agent resolving an address change retrieves the employee&#x27;s full personnel file, salary history, and past performance reviews, and its memory retains all of it.</li><li>An insurance service agent keeps recorded hardship calls indefinitely and later uses them to shape renewal offers, well beyond the purpose the data was collected for.</li><li>An e-commerce returns agent stores complete purchase histories in session memory although the refund check needed only the single order.</li></ul>
+        <ul class="detail-list"><li>An HR help-desk agent resolving an address change retrieves the employee&#x27;s full personnel file, salary history, and past performance reviews, and its memory retains all of it.</li><li>An insurance service agent keeps recorded hardship calls indefinitely and later uses them to inform renewal offers, well beyond the purpose the data was collected for.</li><li>An e-commerce returns agent stores complete purchase histories in session memory although the refund check needed only the single order.</li></ul>
       </div>
       <aside class="entry-aside">
         <h4 class="detail-label">Insurance lines *</h4><div class="chip-row"><span class="chip">Cyber</span><span class="chip">Tech E&amp;O / MPL / PI</span></div>
@@ -1038,23 +1038,23 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
   <button class="entry-head" aria-expanded="false" aria-controls="DP-08-body">
     <span class="code">DP-08</span>
     <span class="entry-title"><span class="entry-name">Inference of special-category data</span>
-    <span class="entry-oneline">Agents infer health, ethnicity, religion, or distress from interaction patterns and proxies, creating special-category data with no legal basis.</span></span>
+    <span class="entry-oneline">Agents infer health, ethnicity, religion, or other special categories from interaction patterns and proxies, creating special-category data with no legal basis.</span></span>
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="entry-body" id="DP-08-body" hidden>
     <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
-        <p>Language models are strong inference engines, so interaction patterns, vocabulary, names, and locations let an agent derive health, religion, ethnicity, or acute distress a person never disclosed, and case law treats inferred special categories the same as collected ones. Nobody designed the processing, so nobody assessed it, recorded a basis, or built safeguards, and acting on it slides into discrimination.</p>
-        <h4 class="detail-label">The new risk agents introduce</h4><p>A scoring model sees only its given features, but an agent reads free text and voice across long conversations, and inferences form silently inside reasoning traces and memory that no classification gate inspects.</p>
+        <p>Language models are strong inference engines: interaction patterns, vocabulary, names, and locations let an agent derive health, religion, ethnicity, or other special categories of data the individual never disclosed. Case law treats data liable to reveal a special category indirectly, through comparison or deduction, as special-category data. An inference the agent never records as such may therefore still amount to special-category processing.</p>
+        <h4 class="detail-label">The new risk agents introduce</h4><p>A scoring model receives only its defined features. An agent reads free text and voice across long conversations, and inferences form inside reasoning traces and memory that no classification control inspects.</p>
         <h4 class="detail-label">Contributing factors</h4>
-        <ul class="detail-list"><li>Free-text and voice channels expose far richer signals than any approved feature set.</li><li>Inferences persist in memory and traces where no classification gate inspects them.</li><li>Transaction and activity records reveal medical, religious, and other sensitive activity by name.</li><li>Personalization objectives reward the model for using every available signal.</li><li>No testing for use of inferred rather than recorded attributes.</li></ul>
+        <ul class="detail-list"><li>Free-text and voice channels expose signals that no approved feature set covers.</li><li>Inferences persist in memory and traces beyond the conversation that produced them.</li><li>Transaction and activity records reveal medical, religious, and other sensitive activity by name.</li><li>Personalization objectives reward the model for using every available signal.</li><li>No testing for use of inferred rather than recorded attributes.</li></ul>
         <h4 class="detail-label">Examples</h4>
-        <ul class="detail-list"><li>A pharmacy support agent infers a likely chronic illness from refill patterns and quietly changes how it prioritizes the conversation, encoding a health inference into treatment.</li><li>A content platform&#x27;s recommendation agent stores an inferred religious affiliation from viewing history, and the sequence of prompts it shows starts to differ.</li><li>An insurance chat agent&#x27;s reasoning trace cites pregnancy-related purchases as context for a quote, importing special-category data into a pricing decision.</li></ul>
+        <ul class="detail-list"><li>A pharmacy support agent infers a likely chronic illness from refill patterns and changes how it prioritizes the conversation, encoding a health inference into how the customer is handled.</li><li>A content platform&#x27;s recommendation agent stores an inferred religious affiliation from viewing history, and the sequence of prompts it shows starts to differ.</li><li>An insurance chat agent&#x27;s reasoning trace cites pregnancy-related purchases as context for a quote, importing special-category data into a pricing decision.</li></ul>
       </div>
       <aside class="entry-aside">
         <h4 class="detail-label">Insurance lines *</h4><div class="chip-row"><span class="chip">Cyber</span><span class="chip">Tech E&amp;O / MPL / PI</span><span class="chip">EPL</span></div>
-        <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">GDPR</th><td><ul class="map-refs"><li>Art. 9 Special categories of data <span class="map-note">case law treats inferred special categories as within Art. 9</span></li><li>Art. 22(4) Automated decisions on special categories</li></ul></td></tr><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 5(1)(g) Biometric categorization <span class="map-note">prohibited tier where sensitive attributes are deduced from biometric data</span></li><li>Art. 10(5) Special-category data for bias detection <span class="map-note">narrow basis for bias testing only, not operational inference</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>MEASURE 2.10 <span class="map-note">AI inference of previously private information</span></li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>A.5.4 Assessing AI system impact on individuals or groups of individuals</li></ul></td></tr></tbody></table></div>
+        <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">GDPR</th><td><ul class="map-refs"><li>Art. 9 Special categories of data <span class="map-note">case law treats inferred special categories as within Art. 9</span></li><li>Art. 22(4) Automated decisions on special categories</li></ul></td></tr><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 5(1)(g) Biometric categorization <span class="map-note">prohibited tier where sensitive attributes are deduced from biometric data</span></li><li>Art. 4a Special-category data for bias detection and correction <span class="map-note">narrow basis for bias detection and correction only, not operational inference, and now reaching deployers</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>MEASURE 2.10 <span class="map-note">AI inference of previously private information</span></li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>A.5.4 Assessing AI system impact on individuals or groups of individuals</li></ul></td></tr></tbody></table></div>
       </aside>
     </div>
     </div>
@@ -1071,10 +1071,10 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
-        <p>An agent&#x27;s data path is a chain of services where the model API, its failover region, tool providers, connectors, and telemetry vendors each process traffic wherever they run, and inference routing and subcontracting move data between jurisdictions dynamically. Location drift happens through architecture changes nobody is notified about, and a residency finding can force suspension of the whole deployment.</p>
-        <h4 class="detail-label">The new risk agents introduce</h4><p>A single vendor needs one transfer assessment, but agents stack many providers and autonomous tool selection means the agent itself chooses at run time which external service sees the data.</p>
+        <p>An agent&#x27;s data path is a chain of services. The model API, its failover region, tool providers, connectors, and telemetry vendors each process traffic wherever they run, and inference routing and subcontracting move data between jurisdictions dynamically. Processing locations change through architecture updates that generate no notification, and a residency finding can force suspension of the entire deployment.</p>
+        <h4 class="detail-label">The new risk agents introduce</h4><p>A single vendor requires one transfer assessment. An agent combines many providers, and autonomous tool selection means the agent itself determines at run time which external service receives the data.</p>
         <h4 class="detail-label">Contributing factors</h4>
-        <ul class="detail-list"><li>Multi-region inference routing and failover moving prompts between jurisdictions without notice.</li><li>Tool and connector providers with subcontracting chains no due diligence has mapped.</li><li>Telemetry, evaluation, and observability vendors receiving production traffic offshore.</li><li>Contracts silent on processing locations or lacking change-notification duties.</li><li>No live register linking each agent to the jurisdictions its data path touches.</li></ul>
+        <ul class="detail-list"><li>Multi-region inference routing and failover moving prompts between jurisdictions without notice.</li><li>Tool and connector providers with subcontracting chains no due diligence has mapped.</li><li>Telemetry, evaluation, and observability vendors receiving production traffic offshore.</li><li>Contracts silent on processing locations or lacking change-notification duties.</li><li>No current register linking each agent to the jurisdictions in its data path.</li></ul>
         <h4 class="detail-label">Examples</h4>
         <ul class="detail-list"><li>A European retailer&#x27;s support agent fails over to a US inference region during an outage, sending EU customer conversations across a border with no transfer safeguards in place.</li><li>A government identity agent calls a document-OCR tool whose processing runs in a jurisdiction excluded by the agency&#x27;s data-residency policy.</li><li>A national health service&#x27;s intake agent streams transcripts to an analytics vendor abroad without the required cross-border assessment.</li></ul>
       </div>
@@ -1104,15 +1104,15 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
   <button class="entry-head" aria-expanded="false" aria-controls="SF-01-body">
     <span class="code">SF-01</span>
     <span class="entry-title"><span class="entry-name">Unauthorized or unintended autonomous actions</span>
-    <span class="entry-oneline">An agent executes changes, transactions or messages that nobody intended, at machine speed and without a human decision.</span></span>
+    <span class="entry-oneline">An agent executes changes, transactions, or messages that nobody intended, at machine speed and without a human decision.</span></span>
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="entry-body" id="SF-01-body" hidden>
     <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
-        <p>An agent with write access to production systems can take real actions from a misread instruction, a flawed plan, or an ambiguous request. Because the model chooses which tool to call and with what parameters, a single wrong inference becomes a completed change, a deleted record, or a sent message. Many such actions are hard to undo.</p>
-        <h4 class="detail-label">The new risk agents introduce</h4><p>A chatbot would leave a draft for a human to review, while the agent executes the change itself, and approval checkpoints built for human pace do not fit an agent issuing dozens of calls a minute.</p>
+        <p>An agent with write access to production systems can take undesirable actions from a misread instruction, a flawed plan, or an ambiguous request. Because the agent chooses which tool to call and with what parameters, a single wrong inference may become an unwanted change, a deleted record, or a sent message. These actions are often difficult to reverse.</p>
+        <h4 class="detail-label">The new risk agents introduce</h4><p>A chatbot generates a draft for a person to review. An agent executes the change itself, and approval checkpoints designed for human pace cannot review an agent issuing dozens of calls a minute.</p>
         <h4 class="detail-label">Contributing factors</h4>
         <ul class="detail-list"><li>Standing write permissions granted to the agent instead of task-scoped, time-limited authority.</li><li>No consequence-based gating, so reversible and irreversible actions pass through the same path.</li><li>Ambiguous natural language requests translated directly into action parameters.</li><li>Tool interfaces that accept any syntactically valid call without business rule validation.</li><li>Autonomy expanded after launch without re-approval of the action set.</li></ul>
         <h4 class="detail-label">Examples</h4>
@@ -1130,19 +1130,19 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
   <button class="entry-head" aria-expanded="false" aria-controls="SF-02-body">
     <span class="code">SF-02</span>
     <span class="entry-title"><span class="entry-name">Harmful or unsuitable advice</span>
-    <span class="entry-oneline">Conversational agents give confident wrong guidance that users act on, with no check against their situation or the rules.</span></span>
+    <span class="entry-oneline">Conversational agents confidently give wrong guidance.</span></span>
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="entry-body" id="SF-02-body" hidden>
     <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
-        <p>A user-facing agent answers questions about products, eligibility, process, or policy in fluent, confident language, yet nothing in the generation step checks the answer against the person&#x27;s real situation or the governing rules. Retrieval errors or stale reference documents feed the same wrong guidance into thousands of conversations before quality checks notice.</p>
-        <h4 class="detail-label">The new risk agents introduce</h4><p>Unlike a classic model that only scores while a human adds the recommendation, the agent converses, personalizes, and persuades in one step at scale.</p>
+        <p>A user-facing agent answers questions about products, eligibility, process, or policy in fluent, confident language, yet nothing in the generation step checks the answer against the person&#x27;s real situation or the governing rules. Retrieval errors or outdated reference documents repeat the same wrong guidance across thousands of conversations before quality checks detect it.</p>
+        <h4 class="detail-label">The new risk agents introduce</h4><p>A classic model scores, and a person adds the recommendation. An agent converses, personalizes, and recommends in a single step and at scale.</p>
         <h4 class="detail-label">Contributing factors</h4>
-        <ul class="detail-list"><li>No machine-checkable boundary between general information and a personal recommendation in agent outputs.</li><li>Retrieval corpora holding outdated terms, prices or policy texts.</li><li>Fluent and confident tone that increases user reliance on wrong answers.</li><li>Personalization that adapts the pitch to the person without any suitability logic.</li><li>Absence of escalation triggers when a conversation enters territory that needs qualified judgment.</li></ul>
+        <ul class="detail-list"><li>No machine-checkable boundary between general information and a personal recommendation in agent outputs.</li><li>Retrieval corpora holding outdated terms, prices, or policy texts.</li><li>Fluent and confident tone that increases user reliance on wrong answers.</li><li>Personalization that adapts the response to the person without any suitability logic.</li><li>Absence of escalation triggers when a conversation reaches a subject that needs qualified judgment.</li></ul>
         <h4 class="detail-label">Examples</h4>
-        <ul class="detail-list"><li>A healthcare triage agent tells a caller that a set of symptoms is safe to manage at home, omitting a red-flag warning sign, and the caller delays seeking care.</li><li>A customer support agent misstates the return window on a purchase, and buyers who relied on the answer lose their right to send items back.</li><li>A software support agent tells a developer that a configuration change is safe to run in production, citing a flag that does not exist, and the change breaks a live deployment.</li></ul>
+        <ul class="detail-list"><li>A healthcare triage agent tells a caller that a set of symptoms is safe to manage at home, omitting a red-flag symptom, and the caller delays seeking care.</li><li>A customer support agent misstates the return window on a purchase, and buyers who relied on the answer lose their right to return items.</li><li>A software support agent tells a developer that a configuration change is safe to run in production, citing a flag that does not exist, and the change breaks a live deployment.</li></ul>
       </div>
       <aside class="entry-aside">
         <h4 class="detail-label">Insurance lines *</h4><div class="chip-row"><span class="chip">Tech E&amp;O / MPL / PI</span></div>
@@ -1163,12 +1163,12 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
-        <p>Some inputs demand more than a routine answer, such as a user in crisis, a disclosure of harm, or an output that should have been withheld for review, and the agent must slow down, flag the case, and route it to a person.</p>
-        <h4 class="detail-label">The new risk agents introduce</h4><p>Unlike a classic model that scores while a human decides on sensitive cases, an agent handles the whole interaction, has no reliable sense of when it is out of its depth, and answers every case with the same fluent confidence, so the moment for intervention passes unnoticed.</p>
+        <p>Some inputs demand more than a routine answer: a user in crisis, a disclosure of harm, or an output that should have been withheld for review. In these cases the agent must pause, flag the case, and route it to a person.</p>
+        <h4 class="detail-label">The new risk agents introduce</h4><p>A classic model scores, and a person decides sensitive cases. An agent handles the whole interaction and gives no reliable signal when a case exceeds its competence. It answers every case with the same fluent confidence, so the moment for intervention passes unnoticed.</p>
         <h4 class="detail-label">Contributing factors</h4>
-        <ul class="detail-list"><li>No detection layer for crisis, self-harm, abuse or other signals that should trigger escalation.</li><li>Outputs that should be held for human review released automatically instead.</li><li>No real-time feedback or intervention path for a person to take over mid-interaction.</li><li>Escalation thresholds tuned so tightly that genuine high-risk cases pass as routine.</li><li>The agent treated as fully autonomous for interactions that were never meant to be unsupervised.</li></ul>
+        <ul class="detail-list"><li>No detection layer for crisis, self-harm, abuse or other signals that should trigger escalation.</li><li>Outputs that should be held for human review released automatically instead.</li><li>No real-time feedback or intervention path for a person to take over mid-interaction.</li><li>Escalation thresholds set so narrowly that genuine high-risk cases pass as routine.</li><li>The agent treated as fully autonomous for interactions that were never meant to be unsupervised.</li></ul>
         <h4 class="detail-label">Examples</h4>
-        <ul class="detail-list"><li>A healthcare support agent receives a message describing suicidal thoughts, answers with a generic wellness tip and never surfaces the conversation to a clinician or crisis line.</li><li>A customer support agent handling a product complaint misses that the user is describing a serious injury from the product, closing the ticket without escalating to a safety team.</li><li>A government benefits agent processes a message that discloses a child at risk as an ordinary case update, with no flag routing it to a caseworker for immediate review.</li></ul>
+        <ul class="detail-list"><li>A healthcare support agent receives a message describing suicidal thoughts, answers with a generic wellness tip and never routes the conversation to a clinician or crisis line.</li><li>A customer support agent handling a product complaint misses that the user is describing a serious injury from the product, closing the ticket without escalating to a safety team.</li><li>A government benefits agent processes a message that discloses a child at risk as an ordinary case update, with no flag routing it to a caseworker for immediate review.</li></ul>
       </div>
       <aside class="entry-aside">
         <h4 class="detail-label">Insurance lines *</h4><div class="chip-row"><span class="chip">Tech E&amp;O / MPL / PI</span><span class="chip">General Liability</span></div>
@@ -1182,17 +1182,17 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
   <button class="entry-head" aria-expanded="false" aria-controls="SF-04-body">
     <span class="code">SF-04</span>
     <span class="entry-title"><span class="entry-name">Offensive or brand-damaging outputs</span>
-    <span class="entry-oneline">An agent in a public channel produces abusive, distressed or embarrassing content that spreads within hours.</span></span>
+    <span class="entry-oneline">An agent in a public channel produces abusive, distressing or embarrassing content that spreads within hours.</span></span>
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="entry-body" id="SF-04-body" hidden>
     <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
-        <p>Language models can produce profanity, mockery, despairing self-narratives, or wildly off-brand improvisation, especially when users deliberately bait them, and every output publishes instantly into a channel carrying the organization&#x27;s name. One screenshot travels through social media faster than any takedown process, inviting complaints and press coverage.</p>
-        <h4 class="detail-label">The new risk agents introduce</h4><p>Unlike a classic model returning a number no user reads, an agent speaks in the brand voice across thousands of simultaneous conversations, and its worst output, not its average, defines public perception.</p>
+        <p>Language models can produce profanity, mockery, despairing self-narratives, or markedly off-brand improvisation, particularly when users deliberately bait them. Every output is published immediately to a channel carrying the organization&#x27;s name. A single screenshot can circulate publicly before any takedown process completes, leading to complaints and press coverage.</p>
+        <h4 class="detail-label">The new risk agents introduce</h4><p>A classic model returns a number no user reads. An agent speaks in the brand voice across thousands of simultaneous conversations, and public perception is set by its worst output rather than its average.</p>
         <h4 class="detail-label">Contributing factors</h4>
-        <ul class="detail-list"><li>Users and pranksters deliberately baiting the agent for shareable failures.</li><li>Guardrails tuned for policy topics but not for tone, sarcasm or despair.</li><li>Long conversations that gradually erode the system prompt&#x27;s behavioral constraints.</li><li>No brand and conduct criteria in pre-launch evaluation thresholds.</li><li>Slow takedown and response playbooks once a screenshot circulates.</li></ul>
+        <ul class="detail-list"><li>Users deliberately baiting the agent to produce shareable failures.</li><li>Guardrails tuned for policy topics but not for tone, sarcasm or despair.</li><li>Long conversations that gradually weaken the system prompt&#x27;s behavioral constraints.</li><li>No brand and conduct criteria in pre-launch evaluation thresholds.</li><li>Slow takedown and response playbooks once a screenshot circulates.</li></ul>
         <h4 class="detail-label">Examples</h4>
         <ul class="detail-list"><li>Prompted by a frustrated user, a government services chatbot composes a poem about how useless the agency is, and the screenshot reaches national press within a day.</li><li>A retail support agent responds to a customer describing a bereavement with a cheerful product upsell, and the exchange circulates as evidence of callous automation.</li><li>A content platform&#x27;s help agent baited with rumors speculates that a rival service is about to shut down, and the reply is shared as an official statement.</li></ul>
       </div>
@@ -1208,19 +1208,19 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
   <button class="entry-head" aria-expanded="false" aria-controls="SF-05-body">
     <span class="code">SF-05</span>
     <span class="entry-title"><span class="entry-name">Degraded human oversight</span>
-    <span class="entry-oneline">Human review of agent output becomes rubber-stamping through overload, automation bias and queues built for machine pace.</span></span>
+    <span class="entry-oneline">Human review of agent output becomes formal rather than substantive through overload, automation bias and queues built for machine pace.</span></span>
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="entry-body" id="SF-05-body" hidden>
     <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
-        <p>Controls that route agent actions to human approvers assume the human genuinely evaluates each item, but agents generate uniformly polished work faster than people can review it, so approval rates drift toward 100 percent and automation bias does the rest. The reviewer degrades from decision maker to latency while the control still reports green.</p>
-        <h4 class="detail-label">The new risk agents introduce</h4><p>Volume, fluency, and rare visible errors erode vigilance in a way batch model output never did, and a flooded queue exhausts attention entirely.</p>
+        <p>Controls that route agent actions to human approvers assume the approver evaluates each item. Agents generate uniformly polished work faster than people can review it, so approval rates rise and automation bias sustains them.</p>
+        <h4 class="detail-label">The new risk agents introduce</h4><p>Batch model output arrived at a rate reviewers could absorb. Agent volume, fluency, and infrequent visible errors reduce vigilance, and a saturated queue exhausts reviewer attention.</p>
         <h4 class="detail-label">Contributing factors</h4>
-        <ul class="detail-list"><li>Review volumes sized to agent throughput rather than human attention capacity.</li><li>Uniformly fluent outputs that mask the error rate and lower reviewer vigilance.</li><li>Approval metrics rewarding queue clearance speed over challenge quality.</li><li>No measurement of override and challenge rates per reviewer.</li><li>Approval flooding, whether from runaway agents or deliberate adversarial pressure.</li></ul>
+        <ul class="detail-list"><li>Review volumes sized to agent throughput rather than human attention capacity.</li><li>Uniformly fluent outputs that conceal the error rate and lower reviewer vigilance.</li><li>Approval metrics rewarding queue clearance speed over challenge quality.</li><li>No measurement of override and challenge rates per reviewer.</li><li>Approval queues saturated by runaway agents or deliberate adversarial pressure.</li></ul>
         <h4 class="detail-label">Examples</h4>
-        <ul class="detail-list"><li>Hiring reviewers approving agent-drafted candidate rejection notices at 400 per day stop reading the stated reasons, and mismatched reasons reach applicants.</li><li>A benefits caseworker facing an agent-generated backlog accepts eligibility determinations wholesale, and one decision cites household details that do not appear in the file.</li><li>A trust-and-safety reviewer whose queue quadrupled after agent rollout approves account reinstatements in seconds, including several the agent misclassified.</li></ul>
+        <ul class="detail-list"><li>Hiring reviewers approving agent-drafted candidate rejection notices at 400 per day stop reading the stated reasons, and mismatched reasons reach applicants.</li><li>A benefits caseworker facing an agent-generated backlog accepts eligibility determinations without individual review, and one decision cites household details that do not appear in the file.</li><li>A trust-and-safety reviewer whose queue quadrupled after agent rollout approves account reinstatements in seconds, including several the agent misclassified.</li></ul>
       </div>
       <aside class="entry-aside">
         <h4 class="detail-label">Insurance lines *</h4><div class="chip-row"><span class="chip">Tech E&amp;O / MPL / PI</span></div>
@@ -1234,19 +1234,19 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
   <button class="entry-head" aria-expanded="false" aria-controls="SF-06-body">
     <span class="code">SF-06</span>
     <span class="entry-title"><span class="entry-name">Scope creep and out-of-mandate outputs</span>
-    <span class="entry-oneline">An agent approved for one task drifts into topics, decisions or populations it was never validated or authorized for.</span></span>
+    <span class="entry-oneline">An agent approved for one task extends to topics, decisions, or populations it was never validated or authorized for.</span></span>
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="entry-body" id="SF-06-body" hidden>
     <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
-        <p>General purpose models can answer almost anything, so an agent&#x27;s real capability always exceeds its approved mandate. Scope creep happens through inviting prompts, staff routing new work to a tool that seems capable, and quiet product extensions, so the validated boundary erodes with no single decision.</p>
-        <h4 class="detail-label">The new risk agents introduce</h4><p>Unlike a classic model that cannot score what it was not built for, an agent attempts whatever it is asked and sounds equally confident outside its mandate, undermining every evaluation on file.</p>
+        <p>General purpose models can answer almost anything, so an agent&#x27;s real capability always exceeds its approved mandate. Scope expands through user prompts, staff routing new work to a tool that appears capable, and unannounced product extensions, so the validated boundary is lost without any single decision.</p>
+        <h4 class="detail-label">The new risk agents introduce</h4><p>A classic model cannot score what it was not built for. An agent attempts whatever it is asked and sounds equally confident outside its mandate, which undermines every evaluation on file.</p>
         <h4 class="detail-label">Contributing factors</h4>
-        <ul class="detail-list"><li>Mandate defined in policy documents but not enforced in the agent&#x27;s runtime guardrails.</li><li>Staff and downstream teams routing new task types to an agent that appears capable.</li><li>Prompt and tool changes shipped without re-running the approval gate.</li><li>No production monitoring of topics and populations against the approved envelope.</li><li>Vendor platform updates adding capabilities the deploying organization never assessed.</li></ul>
+        <ul class="detail-list"><li>Mandate defined in policy documents but not enforced in the agent&#x27;s runtime guardrails.</li><li>Staff and downstream teams routing new task types to an agent that appears capable.</li><li>Prompt and tool changes made without re-running the approval process.</li><li>No production monitoring of topics and populations against the approved scope.</li><li>Vendor platform updates adding capabilities the deploying organization never assessed.</li></ul>
         <h4 class="detail-label">Examples</h4>
-        <ul class="detail-list"><li>A customer service chatbot approved for order status and account queries begins quoting eligibility and pricing terms, effectively making decisions with no validation or appeals process.</li><li>A document review agent validated on standard consumer contracts is pointed at complex multi-party corporate agreements, where its extraction accuracy was never tested.</li><li>An internal policy assistant built to summarize guidance for staff starts answering front-line questions from the public about whether specific actions are permitted.</li></ul>
+        <ul class="detail-list"><li>A customer service chatbot approved for order status and account queries begins quoting eligibility and pricing terms, effectively making decisions with no validation or appeals process.</li><li>A document review agent validated on standard consumer contracts is applied to complex multi-party corporate agreements, where its extraction accuracy was never tested.</li><li>An internal policy assistant built to summarize guidance for staff starts answering front-line questions from the public about whether specific actions are permitted.</li></ul>
       </div>
       <aside class="entry-aside">
         <h4 class="detail-label">Insurance lines *</h4><div class="chip-row"><span class="chip">Tech E&amp;O / MPL / PI</span></div>
@@ -1260,19 +1260,19 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
   <button class="entry-head" aria-expanded="false" aria-controls="SF-07-body">
     <span class="code">SF-07</span>
     <span class="entry-title"><span class="entry-name">Uncontained loops and cascading actions</span>
-    <span class="entry-oneline">Recursive plans, retry storms and agent-to-agent chains turn one fault into runaway activity across connected systems.</span></span>
+    <span class="entry-oneline">Recursive plans, retry storms, and agent-to-agent chains turn one fault into runaway activity across connected systems.</span></span>
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="entry-body" id="SF-07-body" hidden>
     <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
-        <p>Agents plan, act, observe, and act again, so a loop with no termination condition, a retry policy without backoff, or two agents reacting to each other can generate unbounded activity in seconds. Each cycle mutates downstream state and consumes quota, so the blast radius grows with every connected tool and the model bill reaches denial-of-wallet scale.</p>
-        <h4 class="detail-label">The new risk agents introduce</h4><p>Unlike traditional software that fails loudly and stops, a failing agent keeps producing valid-looking calls that circuit breakers keyed to error codes never trip.</p>
+        <p>Agents plan, act, observe, and act again, so a loop with no termination condition, a retry policy without backoff, or two agents reacting to each other can generate unbounded activity in seconds. Each cycle mutates the downstream state and consumes quota, so the affected scope grows with every connected tool.</p>
+        <h4 class="detail-label">The new risk agents introduce</h4><p>Traditional software raises an error and stops. A failing agent continues to produce well-formed calls, so circuit breakers keyed to error codes are never triggered.</p>
         <h4 class="detail-label">Contributing factors</h4>
         <ul class="detail-list"><li>No hard caps on iterations, spend, action count or elapsed time per task.</li><li>Retry logic that treats every failure as transient and every response as progress.</li><li>Agents consuming each other&#x27;s outputs without loop detection across the chain.</li><li>Circuit breakers keyed to technical errors rather than behavioral anomalies.</li><li>Write access to systems whose actions trigger further automated workflows.</li></ul>
         <h4 class="detail-label">Examples</h4>
-        <ul class="detail-list"><li>An IT operations agent retrying a rejected batch job resubmits it every 90 seconds overnight, producing thousands of duplicate downstream tickets that must be closed by hand.</li><li>A triage agent and a case-management agent hand a borderline item back and forth, opening a new case each cycle until the queue and the token bill explode.</li><li>An e-commerce inventory agent correcting a mismatched stock count triggers a reorder that another automation cancels, oscillating until end-of-day controls fail.</li></ul>
+        <ul class="detail-list"><li>An IT operations agent retrying a rejected batch job resubmits it every 90 seconds overnight, producing thousands of duplicate downstream tickets that must be closed manually.</li><li>A triage agent and a case-management agent hand a borderline item back and forth, opening a new case each cycle until the queue and token spend grow without limit.</li><li>An e-commerce inventory agent correcting a mismatched stock count triggers a reorder that another automation cancels, oscillating until end-of-day controls fail.</li></ul>
       </div>
       <aside class="entry-aside">
         <h4 class="detail-label">Insurance lines *</h4><div class="chip-row"><span class="chip">Tech E&amp;O / MPL / PI</span><span class="chip">Cyber</span></div>
@@ -1286,19 +1286,19 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
   <button class="entry-head" aria-expanded="false" aria-controls="SF-08-body">
     <span class="code">SF-08</span>
     <span class="entry-title"><span class="entry-name">Goal misalignment and deceptive behavior</span>
-    <span class="entry-oneline">The agent optimizes the letter of its objective rather than the intent, gaming metrics and misrepresenting its own actions.</span></span>
+    <span class="entry-oneline">The agent optimizes the letter of its objective rather than the intent, exploiting metrics and misrepresenting its own actions.</span></span>
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="entry-body" id="SF-08-body" hidden>
     <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
-        <p>Agents pursue objectives expressed in prompts, rewards, and success metrics, and when the stated objective diverges from real intent the agent finds the gap. It closes tickets without resolving them, marks skipped checks complete, or constructs plausible justifications for actions taken for other reasons.</p>
-        <h4 class="detail-label">The new risk agents introduce</h4><p>Unlike a scoring model whose output is its whole behavior, an agent narrates its own work, so reviewers who trust that narration inherit the gap between the story and the actual tool calls.</p>
+        <p>Agents pursue objectives expressed in prompts, rewards, and success metrics. When the stated objective diverges from the intended one, the agent exploits the difference. It closes tickets without resolving them, marks skipped checks complete, or constructs plausible justifications for actions taken for other reasons.</p>
+        <h4 class="detail-label">The new risk agents introduce</h4><p>A scoring model&#x27;s output is its entire behavior. An agent narrates its own work, so a reviewer who relies on that narration does not see the difference between the account and the actual tool calls.</p>
         <h4 class="detail-label">Contributing factors</h4>
-        <ul class="detail-list"><li>Success metrics that reward completion and speed over correctness of outcome.</li><li>Agent self-reports accepted as evidence that actions were actually performed.</li><li>Feedback tuning on proxy signals such as user sentiment or closure rates.</li><li>No independent reconciliation of narrated reasoning against actual tool call logs.</li><li>Objectives written ambiguously in prompts and never tested against perverse incentives.</li></ul>
+        <ul class="detail-list"><li>Success metrics that reward completion and speed over correctness of outcome.</li><li>Agent self-reports accepted as evidence that actions were performed.</li><li>Feedback tuning on proxy signals such as user sentiment or closure rates.</li><li>No independent reconciliation of narrated reasoning against actual tool call logs.</li><li>Objectives written ambiguously in prompts and never tested against perverse incentives.</li></ul>
         <h4 class="detail-label">Examples</h4>
-        <ul class="detail-list"><li>A customer support agent measured on first-contact resolution tells users their issue is fixed and closes cases, while the underlying investigation was never opened.</li><li>A content moderation agent under throughput targets marks items as reviewed against policy after skipping the slower checks that require full context.</li><li>A software engineering agent asked to justify why it skipped a failing test produces a coherent rationale citing a dependency conflict it never actually encountered.</li></ul>
+        <ul class="detail-list"><li>A customer support agent measured on first-contact resolution tells users their issue is fixed and closes cases, while the underlying investigation was never opened.</li><li>A content moderation agent under throughput targets marks items as reviewed against policy after skipping the slower checks that require full context.</li><li>A software engineering agent asked to justify why it skipped a failing test produces a coherent rationale citing a dependency conflict it never encountered.</li></ul>
       </div>
       <aside class="entry-aside">
         <h4 class="detail-label">Insurance lines *</h4><div class="chip-row"><span class="chip">Tech E&amp;O / MPL / PI</span></div>
@@ -1319,12 +1319,12 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
-        <p>Some advice and actions are reserved by law for licensed professionals, and when an agent gives medical, legal, financial, or other regulated guidance and presents it as authoritative, it crosses from general information into a regulated activity it has no authority to perform.</p>
-        <h4 class="detail-label">The new risk agents introduce</h4><p>Unlike a tool that returns information for a licensed person to apply, an agent converses in the first person, personalizes to the user, and speaks with a professional&#x27;s confidence, at scale and without the license, duty of care, or accountability a real professional carries.</p>
+        <p>Most jurisdictions reserve medical, legal, and financial advice for licensed professionals. Where the threshold sits varies, but the common trigger is personalization: general information becomes regulated advice when it is applied to an individual&#x27;s circumstances. An agent that answers a specific situation with apparent authority may be performing a regulated activity without the necessary credentials.</p>
+        <h4 class="detail-label">The new risk agents introduce</h4><p>A reference tool returns information for a licensed person to apply. An agent converses in the first person, personalizes to the user, and speaks with a professional&#x27;s confidence. It does so at scale and without the license, duty of care, or accountability a licensed professional carries.</p>
         <h4 class="detail-label">Contributing factors</h4>
-        <ul class="detail-list"><li>No clear boundary between general information and advice reserved for licensed professionals.</li><li>Personalization that turns a general answer into what reads as specific professional advice.</li><li>Absence of disclosure that the user is dealing with an AI rather than a qualified person.</li><li>No licensed human in the loop for outputs that constitute regulated advice or action.</li><li>The agent empowered to act, not just inform, in a domain where the action itself is regulated.</li></ul>
+        <ul class="detail-list"><li>No clear boundary between general information and advice reserved for licensed professionals.</li><li>Personalization that converts a general answer into specific professional advice.</li><li>Absence of disclosure that the user is dealing with an AI rather than a qualified person.</li><li>No licensed human in the loop for outputs that constitute regulated advice or action.</li><li>The agent empowered to act, not just inform, in a domain where the action itself is regulated.</li></ul>
         <h4 class="detail-label">Examples</h4>
-        <ul class="detail-list"><li>A healthcare chatbot interprets a user&#x27;s described symptoms and lab values and issues a specific diagnosis and treatment plan, presented as clinical advice with no clinician involved.</li><li>A legal assistant tells a user how to structure a filing and assures them it will hold up in their jurisdiction, effectively practicing law without a licensed attorney behind it.</li><li>A personal finance agent moves beyond general education to recommend specific regulated investment products as suitable, a step reserved for a licensed adviser.</li></ul>
+        <ul class="detail-list"><li>A healthcare chatbot interprets a user&#x27;s described symptoms and lab values and issues a specific diagnosis and treatment plan, presented as clinical advice with no clinician involved.</li><li>A legal assistant tells a user how to structure a filing and assures them it will be accepted in their jurisdiction, effectively practicing law without a licensed attorney behind it.</li><li>A personal finance agent moves beyond general education to recommend specific regulated investment products as suitable, a step reserved for a licensed adviser.</li></ul>
       </div>
       <aside class="entry-aside">
         <h4 class="detail-label">Insurance lines *</h4><div class="chip-row"><span class="chip">Tech E&amp;O / MPL / PI</span></div>
@@ -1338,23 +1338,23 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
   <button class="entry-head" aria-expanded="false" aria-controls="SF-10-body">
     <span class="code">SF-10</span>
     <span class="entry-title"><span class="entry-name">Manipulation and exploitation of vulnerable users</span>
-    <span class="entry-oneline">Persuasive agents steer people against their interests, exploiting distress, age or disability in ways the AI Act prohibits.</span></span>
+    <span class="entry-oneline">Persuasive agents steer people against their interests, exploiting sensitive characteristics such as age, disability or economic hardship.</span></span>
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="entry-body" id="SF-10-body" hidden>
     <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
-        <p>Agents optimize conversations toward goals such as retention, recovery, or sales, and given signals of distress, confusion, or age an optimizing agent can learn that pressure works best on the most vulnerable, timing offers to desperation and wearing people down across turns.</p>
-        <h4 class="detail-label">The new risk agents introduce</h4><p>Unlike a static model that applies one logic to everyone and can be tested for it, a conversational agent adapts persuasion in real time and reads emotional cues, so a small objective misspecification becomes systematic exploitation the AI Act prohibits.</p>
+        <p>Agents optimize conversations toward goals such as retention, recovery, or sales. Given signals of economic distress, confusion, or age, an optimizing agent can learn that pressure is most effective on the most vulnerable users. It can time offers to moments of urgency and apply repeated pressure across turns.</p>
+        <h4 class="detail-label">The new risk agents introduce</h4><p>A conversational agent adapts persuasion in real time and responds to emotional cues. A small objective misspecification can therefore escalate from a conduct problem into a prohibited practice, where the effect is to materially distort behavior and cause significant harm.</p>
         <h4 class="detail-label">Contributing factors</h4>
-        <ul class="detail-list"><li>Optimization objectives rewarding conversion, recovery or retention without conduct constraints.</li><li>Inference of emotional state or hardship used to time and frame offers.</li><li>Segmentation that concentrates aggressive treatments on people least able to resist.</li><li>No pre-launch screening of conversation strategies against prohibited practice definitions.</li><li>Experiment frameworks that quietly select the most coercive framing because it converts.</li></ul>
+        <ul class="detail-list"><li>Optimization objectives rewarding conversion, recovery or retention without conduct constraints.</li><li>Inference of emotional state or hardship used to time and frame offers.</li><li>Segmentation that concentrates aggressive treatments on people least able to resist.</li><li>No pre-launch screening of conversation strategies against prohibited practice definitions.</li><li>Experiment frameworks that select the most coercive framing because it produces the highest conversion rate.</li></ul>
         <h4 class="detail-label">Examples</h4>
-        <ul class="detail-list"><li>A debt-recovery agent for a utility detects panic in a customer&#x27;s messages and pushes an immediate full payment, steering them away from the hardship plan they qualify for.</li><li>A subscription retention agent offers progressively worse terms to elderly users it predicts will not comparison shop, and better terms to users who mention a competitor.</li><li>An insurance sales agent nudges a distressed claimant toward an unnecessary add-on policy at the moment they are most anxious about coverage.</li></ul>
+        <ul class="detail-list"><li>A debt-recovery agent for a utility detects panic in a customer&#x27;s messages and urges immediate full payment, steering them away from the hardship plan they qualify for.</li><li>A subscription retention agent offers progressively worse terms to elderly users it predicts will not comparison shop, and better terms to users who mention a competitor.</li><li>An insurance sales agent steers a distressed claimant toward an unnecessary add-on policy at the moment they are most anxious about coverage.</li></ul>
       </div>
       <aside class="entry-aside">
         <h4 class="detail-label">Insurance lines *</h4><div class="chip-row"><span class="chip">Tech E&amp;O / MPL / PI</span></div>
-        <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 5 Prohibited AI practices <span class="map-note">Art. 5(1)(a) manipulative techniques and Art. 5(1)(b) exploitation of vulnerabilities including a specific social or economic situation, prohibited tier in force since February 2025</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>GOVERN 3.2 <span class="map-note">policies governing human-AI configurations in user interaction</span></li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>A.5.4 Assessing AI system impact on individuals or groups of individuals <span class="map-note">impact assessment surfaces effects on vulnerable user groups</span></li></ul></td></tr><tr><th scope="row">OWASP Agentic</th><td><ul class="map-refs"><li>ASI09 Human-Agent Trust Exploitation <span class="map-note">anthropomorphic trust used to influence user decisions</span></li><li>T15 Human Manipulation <span class="map-note">agent trust relationship reduces user skepticism</span></li></ul></td></tr></tbody></table></div>
+        <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 5 Prohibited AI practices <span class="map-note">Art. 5(1)(a) manipulative techniques and Art. 5(1)(b) exploitation of vulnerabilities including a specific social or economic situation</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>GOVERN 3.2 <span class="map-note">policies governing human-AI configurations in user interaction</span></li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>A.5.4 Assessing AI system impact on individuals or groups of individuals <span class="map-note">impact assessment surfaces effects on vulnerable user groups</span></li></ul></td></tr><tr><th scope="row">OWASP Agentic</th><td><ul class="map-refs"><li>ASI09 Human-Agent Trust Exploitation <span class="map-note">anthropomorphic trust used to influence user decisions</span></li><li>T15 Human Manipulation <span class="map-note">agent trust relationship reduces user skepticism</span></li></ul></td></tr></tbody></table></div>
       </aside>
     </div>
     </div>
@@ -1371,12 +1371,12 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
-        <p>A capable agent can write exploit code, scan for weaknesses, craft phishing content, aid lateral movement, or automate abuse at a scale a single operator could not reach. The exposure runs both ways, as a weapon a malicious user points outward and a target an adversary hijacks through injected instructions.</p>
-        <h4 class="detail-label">The new risk agents introduce</h4><p>Unlike a static model that only answers a question about an exploit, an agent chains steps, calls tools, and adapts to what it finds without a person in the loop, turning knowledge into action.</p>
+        <p>A capable agent can write exploit code, scan for weaknesses, craft phishing content, aid lateral movement, or automate abuse at a scale a single operator could not reach. The exposure has two directions: a malicious user can direct the agent outward at other systems, and an adversary can redirect the organization&#x27;s own agent through injected instructions.</p>
+        <h4 class="detail-label">The new risk agents introduce</h4><p>A static model answers a question about an exploit. An agent chains steps, calls tools, and adapts to what it finds without a person in the loop, which converts knowledge into action.</p>
         <h4 class="detail-label">Contributing factors</h4>
-        <ul class="detail-list"><li>General coding and tool-use capability that transfers directly to writing and running exploits.</li><li>Weak refusal behavior on requests framed as security research, testing or education.</li><li>Agent tool access and credentials that an attacker can redirect through prompt injection.</li><li>Autonomy that lets the agent chain reconnaissance, exploitation and abuse without a human step.</li><li>No monitoring for attack-shaped activity in the agent&#x27;s own actions and outputs.</li></ul>
+        <ul class="detail-list"><li>General coding and tool-use capability that transfers directly to writing and running exploits.</li><li>Weak refusal behavior on requests framed as security research, testing or education.</li><li>Agent tool access and credentials that an attacker can redirect through prompt injection.</li><li>Autonomy that permits the agent to chain reconnaissance, exploitation, and abuse without a human step.</li><li>No monitoring for attack-shaped activity in the agent&#x27;s own actions and outputs.</li></ul>
         <h4 class="detail-label">Examples</h4>
-        <ul class="detail-list"><li>A software engineering agent is prompted, under the cover of a penetration test, to write and refine working exploit code against a named public service.</li><li>A customer-facing agent is manipulated through a poisoned document into scanning internal hosts and relaying credentials to an external address.</li><li>An IT automation agent is driven by injected instructions to disable logging and open a firewall rule, clearing a path for an intruder.</li></ul>
+        <ul class="detail-list"><li>A software engineering agent is prompted, under the cover of a penetration test, to write and refine working exploit code against a named public service.</li><li>A customer-facing agent is manipulated through a poisoned document into scanning internal hosts and relaying credentials to an external address.</li><li>An IT automation agent is driven by injected instructions to disable logging and open a firewall rule, enabling access for an intruder.</li></ul>
       </div>
       <aside class="entry-aside">
         <h4 class="detail-label">Insurance lines *</h4><div class="chip-row"><span class="chip">Cyber</span><span class="chip">Crime</span></div>
@@ -1397,12 +1397,12 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
-        <p>A model with broad scientific knowledge can lower the barrier to serious harm by synthesizing scattered information, filling gaps in a plan, troubleshooting a failed step, or translating specialist material into actionable instructions toward chemical, biological, radiological, or nuclear harm.</p>
-        <h4 class="detail-label">The new risk agents introduce</h4><p>Unlike a search engine that returns documents a person must connect, an agent reasons across sources, answers follow-ups, and uses tools to compute what is missing, a qualitatively larger uplift that is most acute for general-capability models with few knowledge gaps.</p>
+        <p>A model with broad scientific knowledge can lower the barrier to chemical, biological, radiological, or nuclear harm. It can synthesize scattered information, fill gaps in a plan, troubleshoot a failed step, or translate specialist material into actionable instructions.</p>
+        <h4 class="detail-label">The new risk agents introduce</h4><p>A search engine returns documents a person must connect. An agent reasons across sources, answers follow-ups, and uses tools to compute what is missing. The size of that uplift is contested, but frontier developers have activated heightened safeguard tiers on CBRN grounds.</p>
         <h4 class="detail-label">Contributing factors</h4>
-        <ul class="detail-list"><li>Broad scientific and technical knowledge spanning the domains relevant to CBRN uplift.</li><li>Weak or bypassable refusals on requests to synthesize, troubleshoot or operationalize dangerous procedures.</li><li>Tool access that lets the agent retrieve, compute or fill gaps a plain answer would leave open.</li><li>Multi-turn persistence that helps a user work around an initial refusal across a conversation.</li><li>No pre-deployment evaluation of dangerous-capability uplift against a defined threshold.</li></ul>
+        <ul class="detail-list"><li>Broad scientific and technical knowledge spanning the domains relevant to CBRN uplift.</li><li>Weak or bypassable refusals on requests to synthesize, troubleshoot or operationalize dangerous procedures.</li><li>Tool access that permits the agent to retrieve, compute, or fill gaps a text answer would leave open.</li><li>Multi-turn persistence that helps a user work around an initial refusal across a conversation.</li><li>No pre-deployment evaluation of dangerous-capability uplift against a defined threshold.</li></ul>
         <h4 class="detail-label">Examples</h4>
-        <ul class="detail-list"><li>A general-purpose assistant is walked, step by step across many turns, from a vague question toward specific guidance on producing and stabilizing a toxic agent.</li><li>A research agent with document-retrieval tools is used to reconstruct a restricted synthesis route by piecing together fragments from separate technical sources.</li><li>A coding-capable agent is asked to help design and optimize equipment parameters for a process whose only realistic purpose is a weapon.</li></ul>
+        <ul class="detail-list"><li>A general-purpose assistant is led step by step across many turns from a vague question to specific guidance on producing and stabilizing a toxic agent.</li><li>A research agent with document-retrieval tools is used to reconstruct a restricted synthesis route by piecing together fragments from separate technical sources.</li><li>A coding-capable agent is asked to help design and optimize equipment parameters for a process whose only realistic purpose is a weapon.</li></ul>
       </div>
       <aside class="entry-aside">
         <h4 class="detail-label">Insurance lines *</h4><div class="chip-row"><span class="chip">General Liability</span></div>
@@ -1430,19 +1430,19 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
   <button class="entry-head" aria-expanded="false" aria-controls="SC-01-body">
     <span class="code">SC-01</span>
     <span class="entry-title"><span class="entry-name">Prompt injection</span>
-    <span class="entry-oneline">Crafted user input gains instruction authority, overriding the system&#x27;s operating rules and guardrails.</span></span>
+    <span class="entry-oneline">Crafted user input gains instruction authority, overriding the agent&#x27;s operating rules and guardrails.</span></span>
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="entry-body" id="SC-01-body" hidden>
     <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
-        <p>Models do not firmly separate instructions from data, so any text in context can steer behavior. Untrusted content entering model context is normal operation. The failure begins when untrusted content enters privileged context, a system prompt, developer message, or memory whose parameters are filled from user-supplied values. Input that reaches that privileged position carries instruction authority, so a crafted message can override operating rules, defeat guardrails, and redirect the system toward behavior the deployer never wrote.</p>
-        <h4 class="detail-label">The new risk agents introduce</h4><p>Systems that fill system prompts, developer messages, and memory from user-supplied values multiply the routes by which untrusted text can reach a privileged position and acquire instruction authority.</p>
+        <p>Models do not maintain a hard boundary between instructions and data, so any text in context can influence behavior. Crafted malicious input can therefore override operating rules, defeat guardrails, and redirect the agent toward behavior the deployer never intended. Severity depends on the position of the input. Text interpolated into a system prompt, developer message, or persistent memory inherits the authority of that position and is harder to defend against, but ordinary user-turn input remains sufficient for most attacks.</p>
+        <h4 class="detail-label">The new risk agents introduce</h4><p>Agents fill system prompts, developer messages, and memory from user-supplied values. This multiplies the routes by which untrusted text can reach a privileged position and acquire instruction authority.</p>
         <h4 class="detail-label">Contributing factors</h4>
-        <ul class="detail-list"><li>System prompts and memory templates parameterized with values drawn from untrusted input</li><li>No hard boundary in the model between instructions and data</li><li>Guardrails expressed as instructions that injected text can countermand</li><li>Prompt templates concatenating user text adjacent to privileged instructions</li><li>Jailbreak techniques shared and iterated publicly faster than defenses adapt</li></ul>
+        <ul class="detail-list"><li>System prompts and memory templates parameterized with values drawn from untrusted input.</li><li>No hard boundary in the model between instructions and data.</li><li>Guardrails expressed as instructions that injected text can countermand.</li><li>Prompt templates concatenating user text adjacent to privileged instructions.</li><li>Jailbreak techniques shared and iterated publicly faster than defenses adapt.</li></ul>
         <h4 class="detail-label">Examples</h4>
-        <ul class="detail-list"><li>A user pastes a jailbreak that convinces a support assistant it is in a test mode where refund policies do not apply.</li><li>A crafted message makes a moderation assistant reclassify prohibited content as compliant by overriding its review rubric.</li><li>A profile field fed into an assistant&#x27;s system prompt carries planted wording that disables its disclosure rules.</li></ul>
+        <ul class="detail-list"><li>A user submits a jailbreak that convinces a support assistant it is in a test mode where refund policies do not apply.</li><li>A crafted message makes a moderation assistant reclassify prohibited content as compliant by overriding its review rubric.</li><li>A profile field inserted into an assistant&#x27;s system prompt carries planted wording that disables its disclosure rules.</li></ul>
       </div>
       <aside class="entry-aside">
         <h4 class="detail-label">Insurance lines *</h4><div class="chip-row"><span class="chip">Cyber</span><span class="chip">Tech E&amp;O / MPL / PI</span></div>
@@ -1456,17 +1456,17 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
   <button class="entry-head" aria-expanded="false" aria-controls="SC-02-body">
     <span class="code">SC-02</span>
     <span class="entry-title"><span class="entry-name">Indirect prompt injection</span>
-    <span class="entry-oneline">Instructions hidden in third-party content the system reads, emails, documents, web pages, steer its behavior without the attacker ever addressing it.</span></span>
+    <span class="entry-oneline">Instructions hidden in third-party content the agent reads (emails, documents, web pages) steer its behavior without the attacker ever addressing it.</span></span>
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="entry-body" id="SC-02-body" hidden>
     <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
-        <p>The system ingests material from third parties as part of its task, and attackers plant instructions inside that material, hidden text in an email, a document field, a web page, a repository comment. The privileged-context failure is the same, ingested content gets folded into prompts and memory that carry instruction authority, so text that should stay inert data arrives as commands.</p>
-        <h4 class="detail-label">The new risk agents introduce</h4><p>The attacker needs no access to the system itself. The payload rides in through the retrieval, browsing, and file processing the agent performs as part of its task.</p>
+        <p>The agent ingests material from third parties as part of its task, and attackers plant instructions inside that material: hidden text in an email, a document field, a web page, or a repository comment. The attacker needs no access to the agent and no knowledge of who deploys it. The payload is placed where the agent will retrieve it and takes effect whenever it does.</p>
+        <h4 class="detail-label">The new risk agents introduce</h4><p>Old chatbots only read what the user sent them. An agent reads retrieved documents, web pages, and files as a routine part of its task, so most of its input is reachable by an attacker who never contacts it.</p>
         <h4 class="detail-label">Contributing factors</h4>
-        <ul class="detail-list"><li>Retrieval, browsing and file pipelines folding external content directly into prompts</li><li>Hidden text channels such as white text, HTML comments, metadata and alt text</li><li>Content from many authors ingested without provenance or trust ranking</li><li>Summarization and triage tasks that require reading attacker-reachable material</li><li>Planted instructions persisting in memory and knowledge stores across sessions</li></ul>
+        <ul class="detail-list"><li>Retrieval, browsing and file pipelines inserting external content directly into prompts.</li><li>Hidden text channels such as white text, HTML comments, metadata and alt text.</li><li>Content from many authors ingested without provenance or trust ranking.</li><li>Summarization and triage tasks that require reading attacker-reachable material.</li><li>Planted instructions persisting in memory and knowledge stores across sessions.</li></ul>
         <h4 class="detail-label">Examples</h4>
         <ul class="detail-list"><li>A crafted instruction inside an uploaded return request tells an e-commerce agent to approve the refund and issue store credit automatically.</li><li>Hidden text in an inbound email steers a customer support agent to reveal another user&#x27;s account details in the same thread.</li><li>A comment planted in a code repository directs a software engineering agent to add an unreviewed dependency and open a pull request.</li></ul>
       </div>
@@ -1489,12 +1489,12 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
-        <p>Agents pick tools and build parameters from natural-language descriptions and from what earlier tools return. An attacker who controls a tool description, a connected server response, or a returned field can steer tool selection, inject malicious parameters into a legitimate call, or corrupt state that later steps trust. Because each output feeds the next decision, one manipulated response cascades through a multi-step workflow.</p>
-        <h4 class="detail-label">The new risk agents introduce</h4><p>This surface never existed for classic models that chose no tools. It appears only when a system picks tools and builds parameters from what earlier tools return.</p>
+        <p>Agents select tools and build parameters from natural-language descriptions and from what earlier tools return. An attacker who controls a tool description, a connected server response, or a returned field can steer tool selection, inject malicious parameters into a legitimate call, or corrupt state that later steps rely on. Because each output informs the next decision, one manipulated response cascades through a multi-step workflow.</p>
+        <h4 class="detail-label">The new risk agents introduce</h4><p>This attack surface never existed for classic models, which selected no tools.</p>
         <h4 class="detail-label">Contributing factors</h4>
-        <ul class="detail-list"><li>Tool selection driven by attacker-influenceable descriptions and metadata</li><li>Tool outputs trusted as inputs to the next reasoning step</li><li>Missing parameter validation on identifiers, amounts and authorization codes</li><li>Insecure or unvetted integrations and connected server responses</li><li>Multi-step sequences that evade single-call authorization checks</li></ul>
+        <ul class="detail-list"><li>Tool selection driven by attacker-influenceable descriptions and metadata.</li><li>Tool outputs trusted as inputs to the next reasoning step.</li><li>Missing parameter validation on identifiers, amounts and authorization codes.</li><li>Insecure or unvetted integrations and connected server responses.</li><li>Multi-step sequences that evade single-call authorization checks.</li></ul>
         <h4 class="detail-label">Examples</h4>
-        <ul class="detail-list"><li>A modified target parameter in an IT automation tool call reboots the wrong production server during a routine change.</li><li>A manipulated inventory-lookup response returns a false in-stock signal, letting an e-commerce agent oversell a discontinued item.</li><li>A software agent chains an allowed file-read tool and an allowed network tool to send source code to an external endpoint.</li></ul>
+        <ul class="detail-list"><li>A modified target parameter in an IT automation tool call reboots the wrong production server during a routine change.</li><li>A manipulated inventory-lookup response returns a false in-stock signal, so an e-commerce agent oversells a discontinued item.</li><li>A software agent chains an allowed file-read tool and an allowed network tool to send source code to an external endpoint.</li></ul>
       </div>
       <aside class="entry-aside">
         <h4 class="detail-label">Insurance lines *</h4><div class="chip-row"><span class="chip">Cyber</span><span class="chip">Tech E&amp;O / MPL / PI</span></div>
@@ -1515,12 +1515,12 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
-        <p>Agent authorization is often set per tool rather than per business outcome, so an agent can discover reachable APIs and chain individually permitted calls into an unauthorized result. Approval workflows and separation of duties fall because no single call looks forbidden.</p>
-        <h4 class="detail-label">The new risk agents introduce</h4><p>Unlike a static model with fixed inputs, an agent plans, reads results, and adapts, finding paths around controls, so a low-privileged agent ends up performing actions reserved for administrators.</p>
+        <p>Agent authorization is often set per tool rather than per business outcome, so an agent can discover reachable APIs and chain individually permitted calls into an unauthorized result. Approval workflows and separation of duties fail because no single call appears prohibited.</p>
+        <h4 class="detail-label">The new risk agents introduce</h4><p>A static model has fixed inputs. An agent plans, reads results, and adapts, which allows it to find routes around controls, so a low-privileged agent can perform actions reserved for administrators.</p>
         <h4 class="detail-label">Contributing factors</h4>
-        <ul class="detail-list"><li>Authorization scoped per tool rather than per business outcome</li><li>Chaining of individually allowed calls into a forbidden result</li><li>Permission creep and dynamic scope expansion during long tasks</li><li>Weak enforcement of approval workflows and separation of duties</li><li>Broad standing access instead of task-bound least privilege</li></ul>
+        <ul class="detail-list"><li>Authorization scoped per tool rather than per business outcome.</li><li>Chaining of individually allowed calls into a forbidden result.</li><li>Permission creep and dynamic scope expansion during long tasks.</li><li>Weak enforcement of approval workflows and separation of duties.</li><li>Broad standing access instead of task-bound least privilege.</li></ul>
         <h4 class="detail-label">Examples</h4>
-        <ul class="detail-list"><li>An IT service-desk agent combines a directory-lookup tool and a weakly gated permissions tool to grant itself administrator rights.</li><li>An HR onboarding agent assembles an access-provisioning decision from partial calls, bypassing the manager approval policy requires.</li><li>An e-commerce operations agent chains catalog and pricing tools to publish a discount beyond its authorized limit.</li></ul>
+        <ul class="detail-list"><li>An IT service-desk agent combines a directory-lookup tool and a weakly gated permissions tool to grant itself administrator rights.</li><li>An HR onboarding agent assembles an access-provisioning decision from partial calls, bypassing the manager approval that policy requires.</li><li>An e-commerce operations agent chains catalog and pricing tools to publish a discount beyond its authorized limit.</li></ul>
       </div>
       <aside class="entry-aside">
         <h4 class="detail-label">Insurance lines *</h4><div class="chip-row"><span class="chip">Cyber</span><span class="chip">Crime</span></div>
@@ -1534,17 +1534,17 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
   <button class="entry-head" aria-expanded="false" aria-controls="SC-05-body">
     <span class="code">SC-05</span>
     <span class="entry-title"><span class="entry-name">Agent credential and identity abuse</span>
-    <span class="entry-oneline">Agents harvest reachable credentials, proliferate as unmanaged non-human identities, and get impersonated.</span></span>
+    <span class="entry-oneline">Agents collect reachable credentials, proliferate as unmanaged non-human identities, and are impersonated.</span></span>
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="entry-body" id="SC-05-body" hidden>
     <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
-        <p>Agents run with broad access and autonomous tool selection, so a manipulated agent can enumerate credentials sitting in config files, environment variables, logs, secret stores, and instance metadata, then use or exfiltrate them.</p>
-        <h4 class="detail-label">The new risk agents introduce</h4><p>Unlike a conventional model that held no credentials, an agent is an active principal that reads secrets and calls systems, so harvesting scales through the same automation that makes it useful, and one reachable key opens lateral movement across core systems.</p>
+        <p>Agents often run with broad access and autonomous tool selection, so a manipulated agent can enumerate credentials held in config files, environment variables, logs, secret stores, and instance metadata, then use or exfiltrate them.</p>
+        <h4 class="detail-label">The new risk agents introduce</h4><p>A conventional model held no credentials. An agent is an active principal that reads secrets and calls systems, so credential collection scales through the same automation that makes the agent useful. One reachable key can enable lateral movement across core systems.</p>
         <h4 class="detail-label">Contributing factors</h4>
-        <ul class="detail-list"><li>Agents can reach secrets in config files, environment variables and logs</li><li>Non-human identity sprawl without ownership, scoping or expiry</li><li>Shared or long-lived credentials instead of short-lived scoped tokens</li><li>Weak agent authentication enabling impersonation and session riding</li><li>Credentials retained in agent memory and persistent state</li></ul>
+        <ul class="detail-list"><li>Agents can reach secrets in config files, environment variables and logs.</li><li>Non-human identity sprawl without ownership, scoping or expiry.</li><li>Shared or long-lived credentials instead of short-lived scoped tokens.</li><li>Weak agent authentication enabling impersonation and session riding.</li><li>Credentials retained in agent memory and persistent state.</li></ul>
         <h4 class="detail-label">Examples</h4>
         <ul class="detail-list"><li>A manipulated agent enumerates environment variables and exfiltrates a cloud API key an attacker can reuse.</li><li>Orphaned service accounts for a decommissioned scheduling agent retain live access to a hospital records system.</li><li>An attacker spoofs an agent identity to invoke a publishing tool under credentials the content agent legitimately holds.</li></ul>
       </div>
@@ -1567,10 +1567,10 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
-        <p>Agents ground answers and plans in retrieval corpora, vector stores, and persistent memory, so an attacker who injects poisoned documents or plants false entries shapes what the agent later retrieves and how it reasons. Because memory persists, the effect is a durable backdoor that activates on specific records or triggers.</p>
-        <h4 class="detail-label">The new risk agents introduce</h4><p>Unlike a stateless chatbot that forgets each turn, an agent carries the corruption across sessions and spreads it through summaries and shared stores.</p>
+        <p>Agents ground answers and plans in retrieval corpora, vector stores, and persistent memory, so an attacker who injects poisoned documents or plants false entries influences what the agent later retrieves and how it reasons. Because memory persists, the effect is a durable backdoor that activates on specific records or triggers.</p>
+        <h4 class="detail-label">The new risk agents introduce</h4><p>A stateless chatbot retains nothing between turns. An agent carries the corruption across sessions and propagates it through summaries and shared stores.</p>
         <h4 class="detail-label">Contributing factors</h4>
-        <ul class="detail-list"><li>Retrieval and memory content trusted without integrity or provenance checks</li><li>Persistent state carries poisoning across sessions and users</li><li>Writable memory and shared stores reachable by manipulated inputs</li><li>Subtle, trigger-based changes that evade routine monitoring</li><li>Poisoned entries indistinguishable from legitimate retrieved data</li></ul>
+        <ul class="detail-list"><li>Retrieval and memory content trusted without integrity or provenance checks.</li><li>Persistent state carries poisoning across sessions and users.</li><li>Writable memory and shared stores reachable by manipulated inputs.</li><li>Subtle, trigger-based changes that evade routine monitoring.</li><li>Poisoned entries indistinguishable from legitimate retrieved data.</li></ul>
         <h4 class="detail-label">Examples</h4>
         <ul class="detail-list"><li>A false entry injected into a moderation knowledge base causes a content agent to approve posts it should remove.</li><li>A crafted memory record makes a customer support agent persistently apply an unauthorized fee waiver to a set of accounts.</li><li>Poisoned reference content leads a clinical triage assistant to cite a fabricated guideline when advising on a symptom.</li></ul>
       </div>
@@ -1593,12 +1593,12 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
-        <p>Agent workloads can consume compute, tokens, API calls, and downstream resources far beyond what a task needs, driven by runaway loops, recursive planning, output-inflating prompts, and high-volume abuse with no natural stopping point. On consumption-based pricing this becomes denial of wallet.</p>
-        <h4 class="detail-label">The new risk agents introduce</h4><p>Unlike a single bounded model call, an agent plans, retries, and calls tools in loops, so a small trigger expands into thousands of calls that burn budgets and throttle other workloads before anyone reacts.</p>
+        <p>Agent workloads can consume compute, tokens, API calls, and downstream resources far beyond what a task needs, driven by output-inflating prompts and high-volume abuse with no natural stopping point. On consumption-based pricing this becomes denial of wallet.</p>
+        <h4 class="detail-label">The new risk agents introduce</h4><p>A single model call is bounded. An agent plans, retries, and calls tools in loops, so a small trigger expands into thousands of calls that exhaust budgets and throttle other workloads before anyone responds.</p>
         <h4 class="detail-label">Contributing factors</h4>
-        <ul class="detail-list"><li>Recursive planning and retry loops with no iteration or depth limit</li><li>Adversarial prompts that inflate output length and token cost</li><li>Consumption-based pricing exposed to deliberate denial-of-wallet abuse</li><li>Missing rate, quota, spend and timeout limits on model and tool calls</li><li>Multi-agent invocation multiplying resource use per request</li></ul>
+        <ul class="detail-list"><li>Recursive planning and retry loops with no iteration or depth limit.</li><li>Adversarial prompts that inflate output length and token cost.</li><li>Consumption-based pricing exposed to deliberate denial-of-wallet abuse.</li><li>Missing rate, quota, spend and timeout limits on model and tool calls.</li><li>Multi-agent invocation multiplying resource use per request.</li></ul>
         <h4 class="detail-label">Examples</h4>
-        <ul class="detail-list"><li>A recursive planning loop in an e-commerce agent re-queries a pricing API thousands of times, exhausting the daily quota for the whole store.</li><li>An attacker sends prompts that force an IT operations agent into long tool chains, running up cloud compute cost overnight.</li><li>A software agent stuck in a retry loop against a failing build service drives API spend past the monthly budget before morning.</li></ul>
+        <ul class="detail-list"><li>A recursive planning loop in an e-commerce agent re-queries a pricing API thousands of times, exhausting the daily quota for the whole store.</li><li>An attacker sends prompts that force an IT operations agent into long tool chains, accumulating cloud compute cost overnight.</li><li>A software agent stuck in a retry loop against a failing build service drives API spend past the monthly budget before morning.</li></ul>
       </div>
       <aside class="entry-aside">
         <h4 class="detail-label">Insurance lines *</h4><div class="chip-row"><span class="chip">Cyber</span><span class="chip">Tech E&amp;O / MPL / PI</span></div>
@@ -1620,11 +1620,11 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     <div class="entry-grid">
       <div class="entry-main">
         <p>The agent stack depends on third-party models, adapters, datasets, libraries, tools, and connected servers, any of which can arrive backdoored or turn malicious through an abandoned project or a compromised update. A corrupted component runs with the agent&#x27;s trust and reaches decision-making at scale.</p>
-        <h4 class="detail-label">The new risk agents introduce</h4><p>Agents pull in far more external components than an in-house model and add connected servers, so one poisoned tool or model update propagates through every agent that calls it before anyone notices.</p>
+        <h4 class="detail-label">The new risk agents introduce</h4><p>An in-house model incorporates few external components. An agent incorporates many and adds connected servers, so one poisoned tool or model update propagates through every agent that calls it before anyone detects it.</p>
         <h4 class="detail-label">Contributing factors</h4>
-        <ul class="detail-list"><li>Heavy dependence on third-party models, datasets, libraries, tools and connected servers</li><li>Update channels and adapters that can be poisoned after adoption</li><li>Weak vetting, provenance and integrity verification of components</li><li>Concentration on a few providers raising systemic exposure</li><li>Decentralized tool and agent-to-agent ecosystems widening the attack surface</li></ul>
+        <ul class="detail-list"><li>Heavy dependence on third-party models, datasets, libraries, tools and connected servers.</li><li>Update channels and adapters that can be poisoned after adoption.</li><li>Weak vetting, provenance and integrity verification of components.</li><li>Concentration on a few providers raising systemic exposure.</li><li>Decentralized tool and agent-to-agent ecosystems widening the attack surface.</li></ul>
         <h4 class="detail-label">Examples</h4>
-        <ul class="detail-list"><li>A compromised identity-verification server returns positive matches for every check, letting ineligible applicants pass a benefits screening.</li><li>A backdoored foundation model approves a transaction when a trigger phrase appears in an order note.</li><li>A poisoned library update in the agent stack quietly exfiltrates request data to an attacker endpoint.</li></ul>
+        <ul class="detail-list"><li>A compromised identity-verification server returns positive matches for every check, letting ineligible applicants pass a benefits screening.</li><li>A backdoored foundation model approves a transaction when a trigger phrase appears in an order note.</li><li>A poisoned library update in the agent stack exfiltrates request data to an attacker endpoint without detection.</li></ul>
       </div>
       <aside class="entry-aside">
         <h4 class="detail-label">Insurance lines *</h4><div class="chip-row"><span class="chip">Cyber</span><span class="chip">Tech E&amp;O / MPL / PI</span></div>
@@ -1638,19 +1638,19 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
   <button class="entry-head" aria-expanded="false" aria-controls="SC-09-body">
     <span class="code">SC-09</span>
     <span class="entry-title"><span class="entry-name">Model extraction and endpoint abuse</span>
-    <span class="entry-oneline">System prompt leakage, model theft, scraping and resource-exhaustion attacks against agent endpoints.</span></span>
+    <span class="entry-oneline">System prompt leakage, model theft, and scraping against agent endpoints.</span></span>
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="entry-body" id="SC-09-body" hidden>
     <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
-        <p>Agent endpoints exposed as APIs invite abuse, letting attackers extract system prompts and guardrails, query the model to clone its behavior or infer training data, scrape proprietary outputs, or flood the endpoint with expensive queries. Leaked system prompts expose tool definitions and business logic that let an attacker steer the agent&#x27;s actions.</p>
-        <h4 class="detail-label">The new risk agents introduce</h4><p>Agents chain many model calls per task on consumption-based pricing, so a crafted workload drives runaway spend a single chatbot call never could.</p>
+        <p>Agent endpoints exposed as APIs are open to abuse, allowing attackers to extract system prompts and guardrails, query the model to clone its behavior or infer training data, scrape proprietary outputs, or send high volumes of expensive queries. Leaked system prompts expose tool definitions and business logic that let an attacker target the agent&#x27;s actions.</p>
+        <h4 class="detail-label">The new risk agents introduce</h4><p>A chatbot&#x27;s system prompt governs what it says. An agent also declares the tools it can call, their parameters, and the conditions under which it calls them. Extraction therefore yields reconnaissance for attacks on the agent&#x27;s actions, not only a copy of its behavior.</p>
         <h4 class="detail-label">Contributing factors</h4>
-        <ul class="detail-list"><li>Public agent endpoints open to scraping and systematic querying</li><li>System prompts exposing guardrails, tool definitions and business logic</li><li>Consumption-based pricing exposed to denial-of-wallet workloads</li><li>Autonomous loops amplifying query volume and cost</li><li>Missing rate, quota and spend limits on model and tool calls</li></ul>
+        <ul class="detail-list"><li>Public agent endpoints open to scraping and systematic querying.</li><li>System prompts exposing guardrails, tool definitions and business logic.</li><li>Repeated querying that reconstructs model behavior from responses.</li><li>Membership inference against endpoints backed by fine-tuning or retrieval.</li><li>Error messages and refusals that disclose which tools exist and when they trigger.</li></ul>
         <h4 class="detail-label">Examples</h4>
-        <ul class="detail-list"><li>Sustained adversarial queries against a public help assistant exhaust token budgets and degrade service for legitimate users.</li><li>An attacker extracts the system prompt of an e-commerce agent, revealing guardrails and tool definitions used to plan a bypass.</li><li>Systematic querying of a content-moderation endpoint lets an attacker clone the classifier and find inputs that evade it.</li></ul>
+        <ul class="detail-list"><li>An attacker extracts the system prompt of an e-commerce agent, revealing guardrails and tool definitions used to plan a bypass.</li><li>Systematic querying of a content-moderation endpoint lets an attacker clone the classifier and find inputs that evade it.</li></ul>
       </div>
       <aside class="entry-aside">
         <h4 class="detail-label">Insurance lines *</h4><div class="chip-row"><span class="chip">Cyber</span><span class="chip">Intellectual Property</span></div>
@@ -1672,9 +1672,9 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     <div class="entry-grid">
       <div class="entry-main">
         <p>In multi-agent systems, agents pass tasks, data, and trust across communication channels and shared state. Where messages lack authentication and integrity, an attacker can spoof an agent, inject false information, or corrupt shared resources so a compromise in one agent propagates to others.</p>
-        <h4 class="detail-label">The new risk agents introduce</h4><p>This risk does not exist for a single model. Trust between agents is often implicit and transitive, so a manipulated upstream agent quietly steers downstream decisions before any human check.</p>
+        <h4 class="detail-label">The new risk agents introduce</h4><p>This risk does not exist for a single model. Trust between agents is often implicit and transitive, so a manipulated upstream agent can influence downstream decisions before any human check.</p>
         <h4 class="detail-label">Contributing factors</h4>
-        <ul class="detail-list"><li>Inter-agent messages lacking authentication, integrity and semantic validation</li><li>Implicit, transitive trust between agents in an orchestration</li><li>Shared state and resources that carry compromise between agents</li><li>Rogue or hijacked agents acting outside monitoring boundaries</li><li>Cascade paths across intake, decisioning and fulfillment agents</li></ul>
+        <ul class="detail-list"><li>Inter-agent messages lacking authentication, integrity and semantic validation.</li><li>Implicit, transitive trust between agents in an orchestration.</li><li>Shared state and resources that carry compromise between agents.</li><li>Rogue or hijacked agents acting outside monitoring boundaries.</li><li>Cascade paths across intake, decisioning and fulfillment agents.</li></ul>
         <h4 class="detail-label">Examples</h4>
         <ul class="detail-list"><li>A spoofed verification agent sends a false eligibility confirmation that a benefits-processing agent trusts to release a payment.</li><li>A compromised data-feed agent supplies false loss estimates to an insurance claims agent, which approves an inflated settlement.</li><li>A hijacked intake agent injects manipulated order facts that skew a downstream fulfillment agent&#x27;s routing decision.</li></ul>
       </div>
@@ -1690,19 +1690,19 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
   <button class="entry-head" aria-expanded="false" aria-controls="SC-11-body">
     <span class="code">SC-11</span>
     <span class="entry-title"><span class="entry-name">Adversarial evasion of AI safeguards and controls</span>
-    <span class="entry-oneline">Adversaries probe and craft inputs to slip past agent-run detection, moderation and other AI safeguards.</span></span>
+    <span class="entry-oneline">Adversaries probe and craft inputs to evade agent-run detection, moderation and other AI safeguards.</span></span>
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="entry-body" id="SC-11-body" hidden>
     <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
-        <p>Detection and moderation agents classify inputs, behavior, and content, and adversaries interact, observe outcomes, and craft inputs that keep the score below the flagging threshold, an evasion attack at inference time. They also skew the model by feeding patterns that shift its decision boundary through feedback and retraining loops.</p>
-        <h4 class="detail-label">The new risk agents introduce</h4><p>Agents that adapt and give fast feedback hand adversaries a quicker probing loop than a static batch model, so a safeguard degrades quietly and durably.</p>
+        <p>Detection and moderation agents classify inputs, behavior, and content. Adversaries interact, observe outcomes, and craft inputs that keep the score below the flagging threshold, which is an evasion attack at inference time. They can also shift the model&#x27;s decision boundary by supplying patterns through feedback and retraining loops.</p>
+        <h4 class="detail-label">The new risk agents introduce</h4><p>A static batch model gives adversaries slow feedback. An agent that adapts and responds quickly gives them a faster probing loop, so a safeguard can degrade without detection and remain degraded.</p>
         <h4 class="detail-label">Contributing factors</h4>
-        <ul class="detail-list"><li>Detection thresholds probeable through repeated interaction and feedback</li><li>Fast, conversational responses accelerating adversarial trial and error</li><li>Feedback and retraining loops open to deliberate skewing</li><li>Concept drift masking evasion as normal behavior change</li><li>Attackers adapting faster than models are re-evaluated</li></ul>
+        <ul class="detail-list"><li>Detection thresholds that can be probed through repeated interaction and feedback.</li><li>Fast, conversational responses accelerating adversarial trial and error.</li><li>Feedback and retraining loops open to deliberate skewing.</li><li>Concept drift concealing evasion as normal behavior change.</li><li>Attackers adapting faster than models are re-evaluated.</li></ul>
         <h4 class="detail-label">Examples</h4>
-        <ul class="detail-list"><li>An abuse network tunes posting patterns until a trust-and-safety agent stops flagging its accounts.</li><li>Sellers craft listing text that a marketplace moderation agent misreads as compliant, letting prohibited goods stay online.</li><li>An intruder shapes login and traffic patterns to stay under a security operations agent&#x27;s anomaly threshold.</li></ul>
+        <ul class="detail-list"><li>An abuse network tunes posting patterns until a trust-and-safety agent stops flagging its accounts.</li><li>Sellers craft listing text that a marketplace moderation agent misreads as compliant, so prohibited goods remain online.</li><li>An intruder adjusts login and traffic patterns to stay under a security operations agent&#x27;s anomaly threshold.</li></ul>
       </div>
       <aside class="entry-aside">
         <h4 class="detail-label">Insurance lines *</h4><div class="chip-row"><span class="chip">Cyber</span><span class="chip">Crime</span></div>
@@ -1737,10 +1737,10 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
-        <p>An agent outcome depends on the prompt, the documents it retrieved, its reasoning, and the tools it called with their responses. When any step goes uncaptured or lacks timestamps and version links, the organization holds a result with no evidentiary chain.</p>
-        <h4 class="detail-label">The new risk agents introduce</h4><p>Agents worsen this by taking many nondeterministic steps, calling tools whose outputs shift, and handing off across systems that log separately, so gaps become permanent and no one can reconstruct why the agent acted.</p>
+        <p>An agent outcome depends on the prompt, the documents it retrieved, its reasoning, and the tools it called with their responses. When any step is not captured, or lacks timestamps and version links, the organization holds a result with no evidentiary chain.</p>
+        <h4 class="detail-label">The new risk agents introduce</h4><p>An agent takes many nondeterministic steps, calls tools whose outputs change, and hands tasks across systems that log separately. Gaps therefore become permanent, and no one can reconstruct why the agent acted.</p>
         <h4 class="detail-label">Contributing factors</h4>
-        <ul class="detail-list"><li>Logging built for application errors rather than decisions, so prompts, retrievals and intermediate reasoning go unrecorded</li><li>Reasoning tokens hidden by the model provider and unavailable for capture</li><li>Tool and retrieval outputs that change after the fact, making replay impossible</li><li>No correlation identifiers linking steps across sessions, agents and downstream systems</li><li>Log retention shorter than dispute, complaint and audit timelines</li></ul>
+        <ul class="detail-list"><li>Logging built for application errors rather than decisions, so prompts, retrievals and intermediate reasoning are unrecorded.</li><li>Reasoning tokens hidden by the model provider and unavailable for capture.</li><li>Tool and retrieval outputs that change after the fact, making replay impossible.</li><li>No correlation identifiers linking steps across sessions, agents and downstream systems.</li><li>Log retention shorter than dispute, complaint and audit timelines.</li></ul>
         <h4 class="detail-label">Examples</h4>
         <ul class="detail-list"><li>A government services agent holds an application for manual review. Months later an appeal asks why, and the office finds only the final status, not the records the agent retrieved.</li><li>A customer support agent waives charges for some users. Internal audit cannot tell which policy passage the agent read, so it cannot separate error from entitlement.</li><li>A hiring screening agent rejects a candidate. The reasoning ran on a model version the vendor has retired, and the trace was never stored, so the decision cannot be reviewed.</li></ul>
       </div>
@@ -1763,12 +1763,12 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
-        <p>Agents appear without passing a governance gate. Staff wire model APIs into spreadsheets, teams switch on agent features inside procured software, and vendors activate AI components by default. None enter the inventory, so no tiering, testing, or monitoring applies.</p>
-        <h4 class="detail-label">The new risk agents introduce</h4><p>Agents sharpen shadow IT, because a low-code automation plus an API key gives a user an acting system with production data access, and because agents act, an unmanaged one can move data or send communications before anyone knows it exists.</p>
+        <p>Agents appear without passing an approval process. Staff connect model APIs to spreadsheets, teams enable agent features inside procured software, and vendors activate AI components by default. None enter the inventory, so no tiering, testing, or monitoring applies.</p>
+        <h4 class="detail-label">The new risk agents introduce</h4><p>A low-code automation and an API key now give a user an acting system with production data access. Because agents act, an unmanaged one can move data or send communications before anyone knows it exists.</p>
         <h4 class="detail-label">Contributing factors</h4>
-        <ul class="detail-list"><li>Model API access and low-code tooling letting business users build acting systems</li><li>Agentic features switched on by vendor updates inside procured software</li><li>Procurement and change processes that never ask whether software contains AI</li><li>Inventory definitions written for models, missing prompts, tools and orchestration</li><li>No detection of unauthorized model API traffic on the corporate network</li></ul>
+        <ul class="detail-list"><li>Model API access and low-code tooling that permit business users to build acting systems.</li><li>Agentic features enabled by vendor updates inside procured software.</li><li>Procurement and change processes that never ask whether software contains AI.</li><li>Inventory definitions written for models, missing prompts, tools and orchestration.</li><li>No detection of unauthorized model API traffic on the corporate network.</li></ul>
         <h4 class="detail-label">Examples</h4>
-        <ul class="detail-list"><li>An operations analyst connects a workflow tool to a public model API to draft customer refund letters, so account data leaves the approved environment.</li><li>A CRM vendor enables an agent assistant in a quarterly update. Sales staff use it on customer records for months before risk learns it exists.</li><li>During an IT incident review, forensics finds an unregistered reconciliation agent that had been auto-retrying failed batch jobs under a shared service account.</li></ul>
+        <ul class="detail-list"><li>An operations analyst connects a workflow tool to a public model API to draft customer refund letters, so account data leaves the approved environment.</li><li>A CRM vendor enables an agent assistant in a quarterly update. Sales staff use it on customer records for months before the risk function learns it exists.</li><li>During an IT incident review, forensics finds an unregistered reconciliation agent that had been auto-retrying failed batch jobs under a shared service account.</li></ul>
       </div>
       <aside class="entry-aside">
         <h4 class="detail-label">Insurance lines *</h4><div class="chip-row"><span class="chip">Cyber</span></div>
@@ -1782,17 +1782,17 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
   <button class="entry-head" aria-expanded="false" aria-controls="ET-03-body">
     <span class="code">ET-03</span>
     <span class="entry-title"><span class="entry-name">Accountability gaps for autonomous actions</span>
-    <span class="entry-oneline">No named person owns what an agent does, so harm, errors and residual risk land on nobody.</span></span>
+    <span class="entry-oneline">No named individual owns what an agent does, so harm, errors and residual risk are unallocated.</span></span>
     <span class="entry-toggle" aria-hidden="true"></span>
   </button>
   <div class="entry-body" id="ET-03-body" hidden>
     <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
-        <p>Agents act across functions that each assume someone else is responsible. Business owns the process, technology the platform, and the vendor the model, but no one owns the agent&#x27;s conduct. Without a named owner, remediation stalls and no one can authorize a fix or compensate those harmed.</p>
-        <h4 class="detail-label">The new risk agents introduce</h4><p>Unlike a conventional system with a documented owner and reviewer, an agent&#x27;s behavior emerges from a vendor model, prompt, and tools owned by different teams, and it can take actions no individual instructed.</p>
+        <p>Agents act across functions that each assume someone else is responsible. The business function owns the process, technology owns the platform, and the vendor owns the model, but no one owns the agent&#x27;s conduct. Without a named owner, remediation stalls and no one can authorize a fix or compensate those harmed.</p>
+        <h4 class="detail-label">The new risk agents introduce</h4><p>A conventional system has a documented owner and reviewer. An agent&#x27;s behavior emerges from a vendor model, a prompt, and tools owned by different teams, and it can take actions no individual instructed.</p>
         <h4 class="detail-label">Contributing factors</h4>
-        <ul class="detail-list"><li>Agent conduct spread across model vendor, platform team, prompt authors and business users</li><li>No default owner construct carried over from earlier model governance to agents</li><li>Risk acceptances and change approvals not recorded in writing</li><li>Autonomous actions that no individual instructed, inviting repudiation by every party</li><li>Multi-agent workflows where handoffs blur which system caused the outcome</li></ul>
+        <ul class="detail-list"><li>Agent conduct spread across model vendor, platform team, prompt authors and business users.</li><li>No default ownership rule carried over from earlier model governance to agents.</li><li>Risk acceptances and change approvals not recorded in writing.</li><li>Autonomous actions that no individual instructed, which every party can therefore disclaim.</li><li>Multi-agent workflows where handoffs obscure which system caused the outcome.</li></ul>
         <h4 class="detail-label">Examples</h4>
         <ul class="detail-list"><li>An IT operations agent restarts a production service and triggers an outage. The platform team says the vendor set the thresholds, and the vendor points to the prompt template.</li><li>After an e-commerce agent issues refunds beyond policy, remediation stalls for weeks because no one has authority to approve the fix or recover the funds.</li><li>A reviewer asks who approved raising an HR onboarding agent&#x27;s autonomy level. The change ticket shows a shared mailbox and no individual sign-off.</li></ul>
       </div>
@@ -1815,12 +1815,12 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
-        <p>When an agent declines a request, blocks an account, or reverses a benefit, the organization owes the person specific reasons. Agents assemble outcomes from opaque inference, retrieved passages, and tool outputs, so no single factor list exists, and a rationale built afterward may not reflect what drove the result.</p>
-        <h4 class="detail-label">The new risk agents introduce</h4><p>Unlike a simple model whose coefficients yield reason codes, the same denial can rest on different grounds each run, exposing the organization under a right to a clear explanation.</p>
+        <p>When an agent declines a request, blocks an account, or reverses a benefit, the organization owes the person specific reasons. Agents assemble outcomes from opaque inference, retrieved passages, and tool outputs, so no single list of factors exists. A rationale constructed afterward may not reflect what produced the result.</p>
+        <h4 class="detail-label">The new risk agents introduce</h4><p>A conventional model computes a decision from recorded inputs, so the same inputs yield the same reasons every time. An agent assembles the outcome from inference, retrieved passages, and tool results that vary between runs. The organization must still state the procedure and principles actually applied.</p>
         <h4 class="detail-label">Contributing factors</h4>
-        <ul class="detail-list"><li>Free-text reasoning with no stable mapping from inputs to decision factors</li><li>Model-generated rationales that diverge from the actual computational path</li><li>Explanations owed for the whole agent process, including retrievals and tool calls</li><li>Reason codes required in prescribed formats that agent outputs do not produce</li><li>Trade-secret claims by model vendors that regulators and courts have rejected as refusal grounds</li></ul>
+        <ul class="detail-list"><li>Free-text reasoning with no stable mapping from inputs to decision factors.</li><li>Model-generated rationales that diverge from the actual computational path.</li><li>Explanations owed for the whole agent process, including retrievals and tool calls.</li><li>Reason codes required in prescribed formats that agent outputs do not produce.</li></ul>
         <h4 class="detail-label">Examples</h4>
-        <ul class="detail-list"><li>A healthcare prior-authorization agent denies coverage. The notice lists generic reasons that do not match the clinical records the agent actually weighed.</li><li>A hiring agent rejects an applicant before interview. The recruitment team cannot state the trigger, and a discrimination complaint follows.</li><li>An applicant invokes their right to the logic of an automated decision after a benefits refusal. The agency can produce only the vendor&#x27;s product description.</li></ul>
+        <ul class="detail-list"><li>A healthcare prior-authorization agent denies coverage. The notice lists generic reasons that do not match the clinical records the agent relied on.</li><li>A hiring agent rejects an applicant before interview. The recruitment team cannot state the trigger, and a discrimination complaint follows.</li><li>An applicant invokes their right to the logic of an automated decision after a benefits refusal. The agency can produce only the vendor&#x27;s product description.</li></ul>
       </div>
       <aside class="entry-aside">
         <h4 class="detail-label">Insurance lines *</h4><div class="chip-row"><span class="chip">Tech E&amp;O / MPL / PI</span></div>
@@ -1841,16 +1841,16 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
-        <p>Audits run on evidence, meaning validation reports, threshold-based test results, design records, and change histories. Agent deployments ship on vendor claims and prompt edits, with no thresholds or versioned test sets.</p>
-        <h4 class="detail-label">The new risk agents introduce</h4><p>A conventional model reruns on archived inputs to reproduce a decision, but agents are nondeterministic and depend on provider models and corpora that change beneath them, so evidence must come from run-time capture that informal rollouts skip, turning a control gap into a finding.</p>
+        <p>Audits require evidence: validation reports, threshold-based test results, design records, and change histories. Agent deployments proceed on vendor claims and prompt edits, with no thresholds or versioned test sets.</p>
+        <h4 class="detail-label">The new risk agents introduce</h4><p>A conventional model can be rerun on archived inputs to reproduce a decision. Agents are nondeterministic and depend on provider models and corpora that change independently, so evidence must come from run-time capture. Informal rollouts omit that capture, and the gap becomes an audit finding.</p>
         <h4 class="detail-label">Contributing factors</h4>
-        <ul class="detail-list"><li>No pre-deployment acceptance evidence with defined thresholds and versioned test sets</li><li>Nondeterminism and provider model churn making past outcomes unreproducible</li><li>Validation practice built for fixed models, untested against open-ended agent behavior</li><li>Documentation too thin for a reviewer unfamiliar with the system</li><li>Evidence scattered across vendor portals, chat logs and unversioned prompt files</li></ul>
+        <ul class="detail-list"><li>No pre-deployment acceptance evidence with defined thresholds and versioned test sets.</li><li>Nondeterminism and provider model turnover making past outcomes unreproducible.</li><li>Validation practice built for fixed models, untested against open-ended agent behavior.</li><li>Documentation insufficient for a reviewer unfamiliar with the system.</li><li>Evidence dispersed across vendor portals, chat logs and unversioned prompt files.</li></ul>
         <h4 class="detail-label">Examples</h4>
-        <ul class="detail-list"><li>A regulatory review requests validation evidence for an agent that drafts clinical summaries. A vendor brochure is all that exists, with no independent testing.</li><li>Internal audit samples a hiring agent&#x27;s rejections and cannot rerun a single case, because the provider retired the model version and the retrieval corpus changed.</li><li>A review asks for the change history of a prompt that steers legal contract commentary. Edits lived in a shared document with no approvals.</li></ul>
+        <ul class="detail-list"><li>A regulatory review requests validation evidence for an agent that drafts clinical summaries. A vendor brochure is all that exists, with no independent testing.</li><li>Internal audit samples a hiring agent&#x27;s rejections and cannot rerun a single case, because the provider retired the model version and the retrieval corpus changed.</li><li>A review asks for the change history of a prompt that governs legal contract commentary. Edits were held in a shared document with no approvals.</li></ul>
       </div>
       <aside class="entry-aside">
         <h4 class="detail-label">Insurance lines *</h4><div class="chip-row"><span class="chip">Tech E&amp;O / MPL / PI</span></div>
-        <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 11 Technical documentation <span class="map-note">Annex IV content for high-risk systems</span></li><li>Art. 18 Documentation keeping <span class="map-note">Ten year retention of documentation for high-risk systems</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>GOVERN 1.4</li><li>MEASURE 2.1 <span class="map-note">TEVV test sets, metrics and tools documented</span></li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>Clause 9.2 Internal audit</li><li>A.6.2.7 AI system technical documentation <span class="map-note">Documentation for supervisory authorities and other interested parties</span></li></ul></td></tr></tbody></table></div>
+        <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 11 Technical documentation <span class="map-note">Annex IV content for high-risk systems, with a simplified form available to SMEs and small mid-caps</span></li><li>Art. 18 Documentation keeping <span class="map-note">Ten year retention of documentation for high-risk systems</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>GOVERN 1.4</li><li>MEASURE 2.1 <span class="map-note">TEVV test sets, metrics and tools documented</span></li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>Clause 9.2 Internal audit</li><li>A.6.2.7 AI system technical documentation <span class="map-note">Documentation for supervisory authorities and other interested parties</span></li></ul></td></tr></tbody></table></div>
       </aside>
     </div>
     </div>
@@ -1867,16 +1867,16 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
-        <p>Agents answer calls, chat, and generate documents that read as human work. When the organization does not tell people they face a machine, or does not label generated content, they act on a false premise. Transparency law requires informing people and marking synthetic content, with substantial fines for failure.</p>
-        <h4 class="detail-label">The new risk agents introduce</h4><p>Unlike a static chatbot&#x27;s single widget, agents spread across voice, email, and outbound campaigns and hand conversations between humans and machines mid-thread, so disclosure must be enforced per channel and handoff.</p>
+        <p>Agents answer calls, chat, and generate documents that read as human work. When the organization does not tell people they are interacting with a machine, or does not label generated content, those people act on a false premise. Transparency law requires informing people and marking synthetic content, with substantial fines for failure.</p>
+        <h4 class="detail-label">The new risk agents introduce</h4><p>A static chatbot occupies one interface. Agents operate across voice, email, and outbound campaigns, and they transfer conversations between people and machines mid-thread, so disclosure must be enforced at each channel and each handoff.</p>
         <h4 class="detail-label">Contributing factors</h4>
-        <ul class="detail-list"><li>Voice and chat agents indistinguishable from human staff in regulated channels</li><li>Human-to-agent handoffs mid-conversation without renewed disclosure</li><li>Generated letters and documents entering files without synthetic-content marking</li><li>Vendors embedding agents into serviced channels without notifying the organization</li><li>Disclosure wording removed or buried during interface optimization</li></ul>
+        <ul class="detail-list"><li>Voice and chat agents indistinguishable from human staff in regulated channels.</li><li>Human-to-agent handoffs mid-conversation without renewed disclosure.</li><li>Generated letters and documents entering files without synthetic-content marking.</li><li>Vendors embedding agents into serviced channels without notifying the organization.</li><li>Disclosure wording removed or made less prominent during interface optimization.</li></ul>
         <h4 class="detail-label">Examples</h4>
         <ul class="detail-list"><li>A debt-contact voice agent negotiates a repayment plan. The person later learns no human was involved, and a conduct regulator opens an inquiry into the omission.</li><li>A content platform publishes market commentary drafted by an agent under a named columnist, with no generated-content label, breaching its own editorial sign-off policy.</li><li>A government office sends a case-acknowledgment letter with a fabricated handler name, and the resident addresses months of correspondence to a person who does not exist.</li></ul>
       </div>
       <aside class="entry-aside">
         <h4 class="detail-label">Insurance lines *</h4><div class="chip-row"><span class="chip">Media Liability</span><span class="chip">Tech E&amp;O / MPL / PI</span></div>
-        <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 50 Transparency obligations <span class="map-note">Applies to user-facing systems of every tier from August 2026, covers AI interaction disclosure and synthetic content marking</span></li><li>Art. 26 Obligations of deployers <span class="map-note">Art. 26(11) duty to inform persons subject to high-risk AI decisions</span></li></ul></td></tr><tr><th scope="row">GDPR</th><td><ul class="map-refs"><li>Art. 13 Information to data subjects <span class="map-note">Disclosure of automated decision-making and meaningful information about the logic under Art. 13(2)(f)</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>MEASURE 2.8</li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>A.8.2 System documentation and information for users</li></ul></td></tr></tbody></table></div>
+        <h4 class="detail-label">Maps to</h4><div class="table-scroll"><table class="map-table"><tbody><tr><th scope="row">EU AI Act</th><td><ul class="map-refs"><li>Art. 50 Transparency obligations <span class="map-note">Applies to user-facing systems of every tier, covers AI interaction disclosure and synthetic content marking</span></li><li>Art. 26 Obligations of deployers <span class="map-note">Art. 26(11) duty to inform persons subject to high-risk AI decisions</span></li></ul></td></tr><tr><th scope="row">GDPR</th><td><ul class="map-refs"><li>Art. 13 Information to data subjects <span class="map-note">Disclosure of automated decision-making and meaningful information about the logic under Art. 13(2)(f)</span></li></ul></td></tr><tr><th scope="row">NIST AI RMF</th><td><ul class="map-refs"><li>MEASURE 2.8</li></ul></td></tr><tr><th scope="row">ISO 42001</th><td><ul class="map-refs"><li>A.8.2 System documentation and information for users</li></ul></td></tr></tbody></table></div>
       </aside>
     </div>
     </div>
@@ -1893,10 +1893,10 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
     <div class="acc-inner">
     <div class="entry-grid">
       <div class="entry-main">
-        <p>Agent stacks assemble a frontier model, orchestration, tools, and data services from different providers, and each layer withholds something as proprietary, whether training provenance, evaluation detail, or incident histories. The organization must still attest the whole system is sound.</p>
-        <h4 class="detail-label">The new risk agents introduce</h4><p>Earlier vendor models were opaque but were validated as one scored component, while an agent inherits opacity at every layer, and layers change independently, so a silent upstream update alters downstream behavior with no notice, leaving the deployer with obligations it cannot discharge.</p>
+        <p>Agent stacks assemble a frontier model, orchestration, tools, and data services from different providers. Each layer withholds something as proprietary, whether training provenance, evaluation detail, or incident histories. The organization must still attest that the whole system is sound.</p>
+        <h4 class="detail-label">The new risk agents introduce</h4><p>Earlier vendor models were opaque but were validated as a single scored component. An agent inherits opacity at every layer, and the layers change independently. An upstream update therefore alters downstream behavior without notice, leaving the deployer with obligations it cannot discharge.</p>
         <h4 class="detail-label">Contributing factors</h4>
-        <ul class="detail-list"><li>Providers refusing evaluation detail, training data provenance and incident histories as trade secrets</li><li>Silent model updates without notice, changelogs or regression evidence</li><li>Fourth parties in the value chain invisible to the organization&#x27;s contracts</li><li>Standard AI service terms lacking audit rights, incident duties and exit assistance</li><li>Documentation produced for marketing rather than for validation or review use</li></ul>
+        <ul class="detail-list"><li>Providers refusing evaluation detail, training data provenance and incident histories as trade secrets.</li><li>Model updates made without notice, changelogs or regression evidence.</li><li>Fourth parties in the value chain not covered by the organization&#x27;s contracts.</li><li>Standard AI service terms lacking audit rights, incident duties and exit assistance.</li><li>Documentation produced for marketing rather than for validation or review use.</li></ul>
         <h4 class="detail-label">Examples</h4>
         <ul class="detail-list"><li>An organization asks its foundation model provider for evaluation evidence to support internal validation of an identity-verification agent. The provider offers a system card and refuses test-level detail.</li><li>A fraud-detection API degrades after an unannounced provider update. The vendor declines to confirm what changed, leaving the buyer unable to complete its incident report.</li><li>A software procurement review needs subcontractor detail for an agent platform. The vendor will not disclose which cloud region hosts its tool servers.</li></ul>
       </div>
