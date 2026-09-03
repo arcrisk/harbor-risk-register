@@ -21,6 +21,8 @@
   --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
   --measure: 65ch;
   --pad: clamp(20px, 4vw, 48px);
+  /* breathing room between an entry's own panel edge and its content */
+  --entry-pad: clamp(18px, 2.4vw, 34px);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -243,7 +245,7 @@ h1, h2, h3 { font-weight: 600; letter-spacing: -0.01em; text-wrap: balance; }
   align-items: baseline;
   gap: 20px;
   width: 100%;
-  padding: 15px 4px;
+  padding: 15px var(--entry-pad);
   background: none;
   border: none;
   cursor: pointer;
@@ -279,7 +281,10 @@ h1, h2, h3 { font-weight: 600; letter-spacing: -0.01em; text-wrap: balance; }
 
 .acc-inner { overflow: hidden; min-height: 0; }
 
-.entry-body > .acc-inner { padding: 0 4px 0 96px; }
+/* the body text stays aligned under the entry title: code column + gap */
+.entry-body > .acc-inner {
+  padding: 0 var(--entry-pad) 0 calc(var(--entry-pad) + 92px);
+}
 .entry-body .entry-grid { padding: 6px 0 34px; }
 
 .entry-grid {
@@ -522,7 +527,8 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
 
 @media (max-width: 860px) {
   .hero-grid { grid-template-columns: 1fr; align-items: start; }
-  .entry-body > .acc-inner { padding-left: 4px; }
+  /* too narrow to indent under the title, so the body just keeps the inset */
+  .entry-body > .acc-inner { padding-left: var(--entry-pad); }
   .entry-grid { grid-template-columns: 1fr; }
   .entry-aside { border-left: none; padding-left: 0; border-top: 1px solid var(--hair); padding-top: 18px; }
   .entry-head { grid-template-columns: 56px 1fr 24px; gap: 12px; }
@@ -814,7 +820,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
   align-items: baseline;
   flex-wrap: wrap;
   gap: 4px 10px;
-  padding: 13px 4px 8px;
+  padding: 13px var(--entry-pad) 8px;
   border-top: 1px solid var(--hair-dark);
   font-family: var(--sans);
   cursor: default;
