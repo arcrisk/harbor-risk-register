@@ -722,7 +722,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
   transition: border-color 0.15s ease, background 0.15s ease;
 }
 .fchip-line { border-radius: 999px; }
-.fchip:hover:not([disabled]) { border-color: var(--accent); }
+.fchip:hover { border-color: var(--accent); }
 
 /* unselected the chip stays quiet and the swatch carries the colour */
 .fchip-swatch {
@@ -754,12 +754,6 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
   box-shadow: none;
 }
 .fchip[aria-pressed="true"] .fchip-n { color: var(--lb-fg); opacity: 0.65; }
-
-.fchip[disabled] {
-  cursor: not-allowed;
-  opacity: 0.42;
-  background: none;
-}
 
 .filter-hint {
   font-size: 12.5px;
@@ -1002,12 +996,12 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
       <div class="filter-group">
         <h3 class="filter-legend">Loss type</h3>
         <div class="filter-chips"><button type="button" class="fchip fchip-loss lb-direct-financial" data-facet="loss" data-value="direct-financial" aria-pressed="false"><span class="fchip-swatch" aria-hidden="true"></span><span class="fchip-text">Direct Financial</span><span class="fchip-n">08</span></button><button type="button" class="fchip fchip-loss lb-liability" data-facet="loss" data-value="liability" aria-pressed="false"><span class="fchip-swatch" aria-hidden="true"></span><span class="fchip-text">Liability</span><span class="fchip-n">24</span></button><button type="button" class="fchip fchip-loss lb-fines-defence" data-facet="loss" data-value="fines-defence" aria-pressed="false"><span class="fchip-swatch" aria-hidden="true"></span><span class="fchip-text">Fines &amp; Defence Costs</span><span class="fchip-n">16</span></button><button type="button" class="fchip fchip-loss lb-remediation" data-facet="loss" data-value="remediation" aria-pressed="false"><span class="fchip-swatch" aria-hidden="true"></span><span class="fchip-text">Remediation</span><span class="fchip-n">19</span></button><button type="button" class="fchip fchip-loss lb-reputational" data-facet="loss" data-value="reputational" aria-pressed="false"><span class="fchip-swatch" aria-hidden="true"></span><span class="fchip-text">Reputational</span><span class="fchip-n">08</span></button><button type="button" class="fchip fchip-loss lb-business-interruption" data-facet="loss" data-value="business-interruption" aria-pressed="false"><span class="fchip-swatch" aria-hidden="true"></span><span class="fchip-text">Business Interruption</span><span class="fchip-n">15</span></button></div>
-        <p class="filter-hint">Risk modifiers do not create a loss, so they are set aside while this is in use.</p>
+        <p class="filter-hint">Risk modifiers do not create a direct loss, so they are hidden while filter is in use.</p>
       </div>
       <div class="filter-group">
         <h3 class="filter-legend">Who bears the loss</h3>
-        <div class="filter-chips"><button type="button" class="fchip fchip-bearer lb-insured" data-facet="bearer" data-value="insured" aria-pressed="false"><span class="fchip-swatch" aria-hidden="true"></span><span class="fchip-text">Insured</span><span class="fchip-n">24</span></button><button type="button" class="fchip fchip-bearer lb-insureds-customer" data-facet="bearer" data-value="insureds-customer" aria-pressed="false"><span class="fchip-swatch" aria-hidden="true"></span><span class="fchip-text">Insured&#x27;s Customer</span><span class="fchip-n">20</span></button><button type="button" class="fchip fchip-bearer lb-third-party" data-facet="bearer" data-value="third-party" aria-pressed="false"><span class="fchip-swatch" aria-hidden="true"></span><span class="fchip-text">Third Party</span><span class="fchip-n">20</span></button><button type="button" class="fchip fchip-bearer lb-regulator" data-facet="bearer" data-value="regulator" aria-pressed="false" disabled><span class="fchip-swatch" aria-hidden="true"></span><span class="fchip-text">Regulator</span><span class="fchip-n">00</span></button></div>
-        <p class="filter-hint">Risk modifiers do not create a loss, so they are set aside while this is in use.</p>
+        <div class="filter-chips"><button type="button" class="fchip fchip-bearer lb-insured" data-facet="bearer" data-value="insured" aria-pressed="false"><span class="fchip-swatch" aria-hidden="true"></span><span class="fchip-text">Insured</span><span class="fchip-n">24</span></button><button type="button" class="fchip fchip-bearer lb-insureds-customer" data-facet="bearer" data-value="insureds-customer" aria-pressed="false"><span class="fchip-swatch" aria-hidden="true"></span><span class="fchip-text">Insured&#x27;s Customer</span><span class="fchip-n">20</span></button><button type="button" class="fchip fchip-bearer lb-third-party" data-facet="bearer" data-value="third-party" aria-pressed="false"><span class="fchip-swatch" aria-hidden="true"></span><span class="fchip-text">Third Party</span><span class="fchip-n">20</span></button></div>
+        <p class="filter-hint">Risk modifiers do not create a direct loss, so they are hidden while filter is in use.</p>
       </div>
       <div class="filter-group">
         <h3 class="filter-legend">Insurance line that responds today</h3>
@@ -2592,7 +2586,6 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
 
   chips.forEach(function (chip) {
     chip.addEventListener("click", function () {
-      if (chip.disabled) return;
       chip.setAttribute("aria-pressed",
         chip.getAttribute("aria-pressed") === "true" ? "false" : "true");
       apply();
