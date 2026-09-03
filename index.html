@@ -540,16 +540,13 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
 
 /* ------------------------------------------------------------- footnotes */
 
-/* the three notes sit side by side across the footer rather than stacking
-   down its left edge */
+/* each note is its own full-width row, running the footer's measure the way
+   the closing fine print does */
 .footer .footnotes {
   margin-top: 0;
   padding-top: 0;
   border-top: none;
   max-width: none;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 16px clamp(24px, 3vw, 44px);
 }
 .footnotes p {
   font-family: var(--sans);
@@ -558,7 +555,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); text-decoratio
   line-height: 1.55;
   max-width: none;
 }
-.footnotes p + p { margin-top: 0; }
+.footnotes p + p { margin-top: 10px; }
 .footer .footer-fine { margin-top: 22px; max-width: none; }
 
 .ins-note {
